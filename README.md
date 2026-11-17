@@ -6,9 +6,9 @@
 
 ## 📱 Download APK Android
 
-Kamu bisa langsung mengunduh file APK versi terbaru (**v1.1.0 - Release APK**) melalui tautan berikut:
+Kamu bisa langsung mengunduh file APK versi terbaru (**v2.0.0 - Release APK**) melalui tautan berikut:
 
-👉 **[Download ShadowAssassin.apk (v1.1.0)](https://github.com/Ryn-debugging/assasin-vs-goblin/releases/latest/download/ShadowAssassin.apk)**
+👉 **[Download ShadowAssassin.apk (v2.0.0)](https://github.com/Ryn-debugging/assasin-vs-goblin/releases/latest/download/ShadowAssassin.apk)**
 
 atau lihat semua rilis di halaman **[GitHub Releases](https://github.com/Ryn-debugging/assasin-vs-goblin/releases/latest)**.
 
@@ -27,37 +27,38 @@ Game ini dirancang untuk dapat dimainkan di **Smartphone (Touchscreen)** maupun 
 
 | Aksi | Keyboard (PC) | Layar Sentuh (Android) |
 |---|---|---|
-| **Gerak Kiri / Kanan** | `A` / `D` atau `Panah Kiri` / `Kanan` | D-Pad `◀` / `▶` (Kiri Bawah, dukung geser jari) |
-| **Lompat / Double Jump** | `W` / `Panah Atas` | Tombol `LOMPAT` (Kanan Bawah) |
+| **Gerak Kiri / Kanan** | `A` / `D` atau `Panah Kiri` / `Kanan` | D-Pad `◀` / `▶` (Kiri Bawah, bebas geser jari) |
+| **Lompat / Double Jump** | `W` / `Panah Atas` | Tombol `LOMPAT` + indikator *pip* (Kanan Bawah) |
 | **Serang / Combo Pedang** | `J` / `Z` / `Spasi` | Tombol `SERANG` (Kanan Bawah) |
 | **Lempar Kunai Bayangan** | `L` / `C` | Tombol `KUNAI` (Kanan Bawah) |
 | **Dash (Menghindar Cepat)** | `K` / `X` / `Shift` | Tombol `DASH` (Kanan Bawah) |
+| **Badai Bayangan (ULTI)** | `Q` / `E` / `F` | Tombol `ULTI` saat Fury 100% (Kanan Bawah) |
 | **Buka Toko / Upgrade** | `B` atau klik tombol Toko | Sentuh tombol Toko (Kiri Atas) |
 | **Pause / Restart / Mute** | `P` / `Esc` atau HUD Atas | Tombol di HUD Atas |
 
 ---
 
-## ✨ Fitur Utama
+## ✨ Fitur Utama (v2.0.0)
 
-- **6 Stage Campaign (2 Babak Lengkap):**
-  - **Babak I (Benteng Grommash):** Stage 1 Hutan Gelap, Stage 2 Gua Goblin, Stage 3 Benteng Goblin (Boss: *Raja Goblin Grommash* — Phase 2).
-  - **Babak II (Menuju Matahari):** Stage 4 Jurang Kabut (*platform* bergerak & jurang), Stage 5 Kuil Obsidian, Stage 6 Puncak Fajar (Final Boss: *Kaisar Goblin Kraven* + *Summon Guards*).
-  - **Alur Cerita Antar-Stage** di Toko Bayangan & fitur **Pilih Stage Terbuka** di menu awal.
-- **Combat & Eksplorasi Mendalam:**
-  - **Serangan Belakang (`1.5x` Crit!)** & penghitung **Combo Streak**.
-  - **Kunai Bayangan (`L`/`C` & `KUNAI`):** proyektil jarak jauh yang juga dapat menangkis panah musuh!
-  - **Variasi Musuh Baru:** *Goblin Brute* (perisai depan, rentan diserang dari belakang), *Goblin Ninja* (sergap cepat), dan *Goblin Shaman* (bola sihir & penyembuh kawan).
-  - **Checkpoint Lentera Bayangan & Nyawa Bayangan** (1× bangkit otomatis di stage lanjut) serta **12 Peti Harta Tersembunyi** (2 per stage).
+- **8 Stage Campaign (3 Babak Penuh + Final Boss Baru):**
+  - **Babak I (Benteng Grommash):** Stage 1 Hutan Gelap, Stage 2 Gua Goblin, Stage 3 Benteng Goblin (Boss: *Raja Goblin Grommash*).
+  - **Babak II (Menuju Matahari):** Stage 4 Jurang Kabut (*platform* bergerak & jurang), Stage 5 Kuil Obsidian, Stage 6 Puncak Fajar (Boss: *Kaisar Goblin Kraven* + *Summon Guards*).
+  - **Babak III (Gerhana Abadi — Baru di v2.0.0!):** Stage 7 Jembatan Magma (jembatan gantung magma, **Batu Pegas Bayangan**, & *Goblin Pengebom*), Stage 8 Tahta Gerhana (Final Boss 3 Fase: *Overlord Goblin Malakor* + *Garda Gerhana*).
+  - **Alur Cerita Antar-Stage** di Toko Bayangan & fitur **Pilih Stage Terbuka (Stage 1–8)** di menu awal.
+- **Mekanik Combat & Arena Baru:**
+  - **Badai Bayangan (`Q`/`E`/`F` & `ULTI`):** Kumpulkan *Shadow Fury* (`0–100%`) dari serangan, backstab, parry, & kill untuk melepaskan badai AoE masif yang menembus tameng dan menyapu proyektil!
+  - **Belati Bayangan Lv.3+ (*Sabit Bayangan*):** Combo ke-3 meluncurkan gelombang sabit energi menembus banyak musuh + **Air Slash** jangkauan ekstra di udara.
+  - **Batu Pegas Bayangan:** Landasan pegas bercahaya untuk melontarkan Assassin ke platform tinggi sekaligus mereset kuota *Double Jump*.
+  - **Variasi Musuh Lengkap:** *Goblin Brute* (tameng depan vs *Backstab 1.5x Crit!*), *Goblin Ninja*, *Goblin Shaman* (bola sihir & penyembuh kawan), plus **Goblin Pengebom** (*bom parabola* yang bisa ditangkis belati/kunai!).
+  - **Checkpoint Lentera Bayangan & Nyawa Bayangan** (1× bangkit otomatis) serta **16 Peti Harta Tersembunyi** (2 per stage).
   - **Peringkat Kemenangan (`Rank S / A / B / C`)**, pencatat waktu tempuh, dan rekor tersimpan di `localStorage`.
-- **CG Ending Fajar Kedamaian:**
-  - Adegan epilog animasi sang Shadow Assassin menyaksikan matahari terbit setelah menumbangkan Kaisar Kraven, lengkap dengan fitur *Putar Ulang CG*.
-- **Sistem Toko & Upgrade Karakter:**
-  - Upgrade *Belati Bayangan* (Damage), *Jubah Pelindung* (Max HP), *Langkah Angin* (Kecepatan & Cooldown Dash), dan *Eliksir Darah*.
-- **Audio Sintetis (Web Audio API):**
-  - 6 pola BGM unik per stage serta efek suara tebasan, crit, kunai, parry, checkpoint, peti harta, bangkit bayangan, dan akord fajar tanpa file audio eksternal.
-- **100% Offline & Ringan (~3.2 MB):**
-  - Kompatibel dengan **Android 5.0 (Lollipop) hingga Android 15** (`minSdk 21`, signed v1+v2+v3).
-  - Menggunakan `WebViewAssetLoader` dan tampilan Fullscreen Immersive Mode (Landscape).
+- **Perbaikan Bug Tombol Lompat & Optimasi Zero-Lag:**
+  - Menghapus `setPointerCapture` contention & mutasi kelas DOM per-frame (diganti `data-active` / `data-jumps` cache) agar tombol `LOMPAT` dan D-Pad tidak pernah nyangkut, double-consume jump, atau memicu stutter WebView.
+  - Sinkronisasi *frame pacing* 60Hz, pembersihan node Web Audio API, dan indikator *2 Pip Double Jump* langsung pada tombol `LOMPAT`.
+- **CG Ending Fajar Kedamaian & Audio Sintetis:**
+  - Epilog animasi sang Shadow Assassin menyaksikan matahari terbit setelah menumbangkan Overlord Malakor, dengan fitur *Putar Ulang CG*.
+  - 8 pola BGM sintetis unik per stage + efek suara tebasan, crit, kunai, pegas, bom, badai bayangan, dan akord fajar 100% offline (~3.3 MB).
+  - Kompatibel dengan **Android 5.0 (Lollipop) hingga Android 15** (`minSdk 21`, signed v1+v2+v3) dalam WebView Fullscreen Immersive Mode (Landscape).
 
 ---
 
