@@ -6,9 +6,9 @@
 
 ## 📱 Download APK Android
 
-Kamu bisa langsung mengunduh file APK versi terbaru (**v1.0.2 - Release APK**) melalui tautan berikut:
+Kamu bisa langsung mengunduh file APK versi terbaru (**v1.0.3 - Release APK**) melalui tautan berikut:
 
-👉 **[Download ShadowAssassin.apk (v1.0.2)](https://github.com/Ryn-debugging/assasin-vs-goblin/releases/latest/download/ShadowAssassin.apk)**
+👉 **[Download ShadowAssassin.apk (v1.0.3)](https://github.com/Ryn-debugging/assasin-vs-goblin/releases/latest/download/ShadowAssassin.apk)**
 
 atau lihat semua rilis di halaman **[GitHub Releases](https://github.com/Ryn-debugging/assasin-vs-goblin/releases/latest)**.
 
