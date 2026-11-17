@@ -6,9 +6,9 @@
 
 ## 📱 Download APK Android
 
-Kamu bisa langsung mengunduh file APK versi terbaru (**v1.0.1 - Release APK**) melalui tautan berikut:
+Kamu bisa langsung mengunduh file APK versi terbaru (**v1.0.2 - Release APK**) melalui tautan berikut:
 
-👉 **[Download ShadowAssassin.apk (v1.0.1)](https://github.com/Ryn-debugging/assasin-vs-goblin/releases/latest/download/ShadowAssassin.apk)**
+👉 **[Download ShadowAssassin.apk (v1.0.2)](https://github.com/Ryn-debugging/assasin-vs-goblin/releases/latest/download/ShadowAssassin.apk)**
 
 atau lihat semua rilis di halaman **[GitHub Releases](https://github.com/Ryn-debugging/assasin-vs-goblin/releases/latest)**.
 
@@ -27,12 +27,12 @@ Game ini dirancang untuk dapat dimainkan di **Smartphone (Touchscreen)** maupun 
 
 | Aksi | Keyboard (PC) | Layar Sentuh (Android) |
 |---|---|---|
-| **Gerak Kiri / Kanan** | `A` / `D` atau `Panah Kiri` / `Kanan` | Tombol `◀` / `▶` (Kiri Bawah) |
+| **Gerak Kiri / Kanan** | `A` / `D` atau `Panah Kiri` / `Kanan` | D-Pad `◀` / `▶` (Kiri Bawah, dukung geser jari) |
 | **Lompat / Double Jump** | `W` / `Panah Atas` | Tombol `LOMPAT` (Kanan Bawah) |
 | **Dash (Menghindar Cepat)** | `K` / `X` / `Shift` | Tombol `DASH` (Kanan Bawah) |
 | **Serang / Combo Pedang** | `J` / `Z` / `Spasi` | Tombol `SERANG` (Kanan Bawah) |
 | **Buka Toko / Upgrade** | `B` atau klik tombol Toko | Sentuh tombol Toko (Kiri Atas) |
-| **Restart / Mute Audio** | Tombol di HUD Atas | Tombol di HUD Atas |
+| **Pause / Restart / Mute** | `P` / `Esc` atau HUD Atas | Tombol di HUD Atas |
 
 ---
 
@@ -40,14 +40,16 @@ Game ini dirancang untuk dapat dimainkan di **Smartphone (Touchscreen)** maupun 
 
 - **3 Stage Menantang:**
   - Stage 1: Hutan Gelap
-  - Stage 2: Reruntuhan Kuno
-  - Stage 3: Benteng Raja Goblin (Boss: Raja Goblin Grommash)
+  - Stage 2: Gua Goblin
+  - Stage 3: Benteng Goblin (Boss: Raja Goblin Grommash)
 - **Combat Mechanics:**
-  - Kombo tebasan pedang bayangan, Double Jump, dan Shadow Dash (kebal sesaat).
+  - Kombo 3-step belati bayangan, *Coyote Time* & *Double Jump*, *Parry* anak panah, dan *Shadow Dash* aktif (kebal sesaat + damage menembus musuh).
+- **CG Ending Fajar Kedamaian:**
+  - Adegan epilog animasi sang Shadow Assassin menyaksikan matahari terbit setelah menumbangkan Raja Goblin, lengkap dengan fitur *Putar Ulang CG* & rekor terbaik tersimpan (`localStorage`).
 - **Sistem Toko & Upgrade Karakter:**
   - Upgrade Attack Power, Max HP, Movement Speed, dan Eliksir Darah.
 - **Audio Sintetis (Web Audio API):**
-  - Efek suara tebasan, lompatan, dash, dan koin tanpa file audio eksternal.
+  - Efek suara tebasan, lompatan, dash, koin, hingga akord fajar ending tanpa file audio eksternal.
 - **100% Offline & Ringan (~3.2 MB):**
   - Kompatibel dengan **Android 5.0 (Lollipop) hingga Android 15** (`minSdk 21`, signed v1+v2+v3).
   - Menggunakan `WebViewAssetLoader` dan tampilan Fullscreen Immersive Mode (Landscape).

@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         if (webView != null) {
+            webView.evaluateJavascript("if (window.onAppPause) window.onAppPause();", null);
             webView.onPause();
         }
         super.onPause();

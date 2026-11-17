@@ -57,12 +57,23 @@
             border: 2px solid rgba(148, 163, 184, 0.35);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             transition: transform 0.08s ease, background-color 0.1s ease, border-color 0.1s ease;
-            touch-action: manipulation;
+            touch-action: none;
         }
         .touch-btn:active, .touch-btn.active {
             transform: scale(0.92);
             background: rgba(139, 92, 246, 0.45);
             border-color: #a855f7;
+        }
+        #dpad-zone {
+            touch-action: none;
+        }
+        body.is-touch .pc-only {
+            display: none !important;
+        }
+        @media (pointer: coarse) {
+            .pc-only {
+                display: none !important;
+            }
         }
         .shop-card {
             transition: all 0.2s ease;
@@ -80,8 +91,47 @@
             animation: pulseGlow 2s infinite;
         }
         @media (max-height: 480px) {
+            #hud {
+                padding: 0.45rem 0.65rem !important;
+                gap: 0.35rem !important;
+            }
+            #hud-top-row {
+                flex-wrap: nowrap !important;
+                gap: 0.4rem !important;
+            }
+            .hud-card {
+                padding: 0.38rem 0.55rem !important;
+                gap: 0.45rem !important;
+                border-radius: 0.65rem !important;
+            }
+            #hud-avatar {
+                width: 2.25rem !important;
+                height: 2.25rem !important;
+            }
+            #hud-avatar i {
+                font-size: 1.1rem !important;
+            }
+            #hud-stats-col {
+                min-width: 118px !important;
+                gap: 0.15rem !important;
+            }
+            #hud-gold-pill {
+                padding: 0.25rem 0.5rem !important;
+            }
+            .hud-icon-btn {
+                width: 2rem !important;
+                height: 2rem !important;
+            }
+            #btn-open-shop {
+                padding: 0.35rem 0.6rem !important;
+            }
+            #cg-subtitle {
+                font-size: 0.76rem !important;
+                line-height: 1.25 !important;
+            }
             #start-modal .modal-card,
-            #end-modal .modal-card {
+            #end-modal .modal-card,
+            #pause-modal .modal-card {
                 padding: 0.9rem 1.25rem !important;
                 max-width: 34rem !important;
             }
@@ -128,18 +178,18 @@
 
     <!-- HUD ATAS -->
     <div id="hud" class="absolute top-0 left-0 right-0 p-2 sm:p-4 pointer-events-none flex flex-col gap-2 z-10">
-        <div class="flex flex-wrap items-center justify-between gap-2 max-w-7xl mx-auto w-full">
+        <div id="hud-top-row" class="flex flex-wrap items-center justify-between gap-2 max-w-7xl mx-auto w-full">
             
             <!-- Status Karakter (HP & Dash) -->
-            <div class="glass-panel rounded-xl p-2.5 sm:p-3 flex items-center gap-3 sm:gap-4 pointer-events-auto">
+            <div class="hud-card glass-panel rounded-xl p-2.5 sm:p-3 flex items-center gap-3 sm:gap-4 pointer-events-auto">
                 <!-- Avatar Assassin -->
-                <div class="relative w-11 h-11 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-purple-900 to-slate-900 border border-purple-500/50 flex items-center justify-center shadow-inner shrink-0">
+                <div id="hud-avatar" class="relative w-11 h-11 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-purple-900 to-slate-900 border border-purple-500/50 flex items-center justify-center shadow-inner shrink-0">
                     <i class="fa-solid fa-user-ninja text-xl sm:text-2xl text-purple-300"></i>
                     <span id="hud-levelBadge" class="absolute -bottom-1 -right-1 bg-purple-600 text-[10px] font-bold px-1.5 py-0.2 rounded text-white border border-purple-300">LV 1</span>
                 </div>
 
                 <!-- HP Bar & Dash Bar -->
-                <div class="flex flex-col gap-1.5 min-w-[140px] sm:min-w-[200px]">
+                <div id="hud-stats-col" class="flex flex-col gap-1.5 min-w-[140px] sm:min-w-[200px]">
                     <div class="flex justify-between items-center text-xs font-bold">
                         <span class="text-rose-400 flex items-center gap-1"><i class="fa-solid fa-heart"></i> DARAH</span>
                         <span id="hud-hp-text" class="text-slate-200">100 / 100</span>
@@ -150,8 +200,8 @@
 
                     <!-- Shadow Dash Cooldown -->
                     <div class="flex justify-between items-center text-[11px] font-semibold mt-0.5">
-                        <span class="text-cyan-400 flex items-center gap-1"><i class="fa-solid fa-bolt"></i> SHADOW DASH</span>
-                        <span id="hud-dash-text" class="text-cyan-300">SIAP [K/Shift]</span>
+                        <span class="text-cyan-400 flex items-center gap-1"><i class="fa-solid fa-bolt"></i> DASH</span>
+                        <span id="hud-dash-text" class="text-cyan-300">SIAP</span>
                     </div>
                     <div class="w-full h-1.5 bg-slate-900/90 rounded-full overflow-hidden">
                         <div id="hud-dash-bar" class="h-full bg-gradient-to-r from-purple-500 to-cyan-400 rounded-full transition-all duration-75" style="width: 100%;"></div>
@@ -160,31 +210,31 @@
             </div>
 
             <!-- Info Stage & Sisa Musuh -->
-            <div class="glass-panel rounded-xl px-3.5 py-2 sm:px-5 sm:py-2.5 flex items-center gap-4 sm:gap-6 pointer-events-auto">
+            <div class="hud-card glass-panel rounded-xl px-3.5 py-2 sm:px-5 sm:py-2.5 flex items-center gap-4 sm:gap-6 pointer-events-auto">
                 <div class="text-center">
                     <div class="text-[10px] sm:text-xs uppercase tracking-wider text-purple-300 font-bold" id="hud-stage-num">STAGE 1 / 3</div>
                     <div class="text-xs sm:text-base font-extrabold text-white font-cinzel tracking-wide" id="hud-stage-name">Hutan Gelap</div>
                 </div>
                 <div class="h-8 w-[1px] bg-slate-700"></div>
-                <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-emerald-950/90 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-950/90 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0">
                         <i class="fa-solid fa-skull"></i>
                     </div>
                     <div>
-                        <div class="text-[10px] uppercase text-slate-400 font-semibold">Sisa Goblin</div>
-                        <div class="text-sm sm:text-base font-extrabold text-emerald-400" id="hud-enemy-count">8 Musuh</div>
+                        <div class="text-[10px] uppercase text-slate-400 font-semibold leading-none">Sisa Goblin</div>
+                        <div class="text-xs sm:text-base font-extrabold text-emerald-400 leading-tight" id="hud-enemy-count">9 Musuh</div>
                     </div>
                 </div>
             </div>
 
             <!-- Gold & Tombol Aksi Cepat -->
-            <div class="glass-panel rounded-xl p-2 sm:p-2.5 flex items-center gap-2 sm:gap-3 pointer-events-auto">
+            <div class="hud-card glass-panel rounded-xl p-2 sm:p-2.5 flex items-center gap-1.5 sm:gap-2.5 pointer-events-auto">
                 <!-- Gold Counter -->
-                <div class="flex items-center gap-2 bg-amber-950/60 border border-amber-500/40 rounded-lg px-3 py-1.5">
-                    <i class="fa-solid fa-coins text-amber-400 text-base sm:text-lg animate-bounce"></i>
+                <div id="hud-gold-pill" class="flex items-center gap-1.5 sm:gap-2 bg-amber-950/60 border border-amber-500/40 rounded-lg px-2.5 sm:px-3 py-1.5">
+                    <i class="fa-solid fa-coins text-amber-400 text-sm sm:text-lg animate-bounce"></i>
                     <div>
                         <div class="text-[9px] uppercase text-amber-300/80 font-bold leading-none">Emas</div>
-                        <div id="hud-gold" class="text-sm sm:text-base font-extrabold text-amber-300 leading-tight">0</div>
+                        <div id="hud-gold" class="text-xs sm:text-base font-extrabold text-amber-300 leading-tight">0</div>
                     </div>
                 </div>
 
@@ -192,17 +242,22 @@
                 <button id="btn-open-shop" class="relative bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold px-3 py-2 rounded-lg text-xs sm:text-sm flex items-center gap-1.5 shadow-lg border border-purple-400/40 transition active:scale-95">
                     <i class="fa-solid fa-store"></i>
                     <span class="hidden sm:inline">Upgrade</span>
-                    <span class="bg-black/40 px-1.5 py-0.5 rounded text-[10px] text-purple-200">[B]</span>
+                    <span class="pc-only bg-black/40 px-1.5 py-0.5 rounded text-[10px] text-purple-200">[B]</span>
                     <span id="shop-notif" class="hidden absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-amber-400 rounded-full border-2 border-slate-900"></span>
                 </button>
 
                 <!-- Tombol Suara -->
-                <button id="btn-sound" class="bg-slate-800/90 hover:bg-slate-700 text-slate-200 w-9 h-9 rounded-lg flex items-center justify-center border border-slate-600/50 transition" title="Suara On/Off">
+                <button id="btn-sound" class="hud-icon-btn bg-slate-800/90 hover:bg-slate-700 text-slate-200 w-9 h-9 rounded-lg flex items-center justify-center border border-slate-600/50 transition" title="Suara On/Off">
                     <i id="icon-sound" class="fa-solid fa-volume-high text-sm"></i>
                 </button>
 
+                <!-- Tombol Pause -->
+                <button id="btn-pause" class="hud-icon-btn bg-slate-800/90 hover:bg-slate-700 text-slate-200 w-9 h-9 rounded-lg flex items-center justify-center border border-slate-600/50 transition" title="Jeda Permainan">
+                    <i class="fa-solid fa-pause text-sm"></i>
+                </button>
+
                 <!-- Tombol Ulang Stage -->
-                <button id="btn-restart" class="bg-slate-800/90 hover:bg-rose-900/70 text-slate-200 w-9 h-9 rounded-lg flex items-center justify-center border border-slate-600/50 transition" title="Ulangi Stage">
+                <button id="btn-restart" class="hud-icon-btn bg-slate-800/90 hover:bg-rose-900/70 text-slate-200 w-9 h-9 rounded-lg flex items-center justify-center border border-slate-600/50 transition" title="Ulangi Stage">
                     <i class="fa-solid fa-rotate-right text-sm"></i>
                 </button>
             </div>
@@ -214,7 +269,7 @@
                 <span class="text-rose-400 font-cinzel tracking-wider flex items-center gap-1.5">
                     <i class="fa-solid fa-crown text-amber-400"></i> RAJA GOBLIN GROMMASH
                 </span>
-                <span id="boss-hp-text" class="text-rose-200">500 / 500</span>
+                <span id="boss-hp-text" class="text-rose-200">550 / 550</span>
             </div>
             <div class="w-full h-3.5 bg-slate-950 rounded-full overflow-hidden border border-rose-500/40 p-0.5">
                 <div id="boss-hp-bar" class="h-full bg-gradient-to-r from-rose-700 via-red-500 to-amber-500 rounded-full transition-all duration-100" style="width: 100%;"></div>
@@ -233,8 +288,8 @@
 
     <!-- KONTROL LAYAR SENTUH & PANDUAN TOMBOL -->
     <div id="touch-controls" class="absolute bottom-3 left-3 right-3 flex justify-between items-end pointer-events-none z-20">
-        <!-- D-Pad Kiri & Kanan -->
-        <div class="flex gap-2.5 sm:gap-3 pointer-events-auto">
+        <!-- D-Pad Kiri & Kanan (Mendukung Geser Jari) -->
+        <div id="dpad-zone" class="flex gap-2.5 sm:gap-3 pointer-events-auto">
             <button id="t-left" class="touch-btn w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-white text-xl sm:text-2xl">
                 <i class="fa-solid fa-chevron-left"></i>
             </button>
@@ -244,7 +299,7 @@
         </div>
 
         <!-- Petunjuk Keyboard (Desktop) -->
-        <div class="hidden lg:flex items-center gap-4 glass-panel px-4 py-2 rounded-xl text-xs text-slate-300 pointer-events-auto">
+        <div class="pc-only hidden lg:flex items-center gap-4 glass-panel px-4 py-2 rounded-xl text-xs text-slate-300 pointer-events-auto">
             <span><kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-600 text-white font-bold">A/D</kbd> atau <kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-600 text-white font-bold">◀/▶</kbd> Gerak</span>
             <span><kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-600 text-white font-bold">W / ▲</kbd> Lompat (2x)</span>
             <span><kbd class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-600 text-white font-bold">J / Z / Spasi</kbd> Tebas</span>
@@ -434,19 +489,53 @@
         </div>
     </div>
 
+    <!-- MODAL PAUSE (JEDA PERMAINAN) -->
+    <div id="pause-modal" class="hidden absolute inset-0 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 z-40">
+        <div class="modal-card glass-panel max-w-sm w-full rounded-2xl sm:rounded-3xl p-5 sm:p-7 text-center border border-purple-500/40">
+            <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-purple-950/80 border border-purple-400/50 flex items-center justify-center text-2xl text-purple-300">
+                <i class="fa-solid fa-pause"></i>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white font-cinzel mb-1">PERMAINAN DIJEDA</h2>
+            <p class="text-xs text-slate-400 mb-5">Istirahat sejenak sebelum melanjutkan perburuan goblin.</p>
+            <div class="flex flex-col gap-2.5">
+                <button id="btn-resume-game" class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-sm shadow-lg border border-purple-400/50 transition">
+                    <i class="fa-solid fa-play mr-1.5"></i> Lanjutkan
+                </button>
+                <button id="btn-pause-restart" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs sm:text-sm border border-slate-600 transition">
+                    <i class="fa-solid fa-rotate-right mr-1.5"></i> Ulangi Stage Ini
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- OVERLAY CG ENDING (ASSASSIN MELIHAT MATAHARI TERBIT) -->
+    <div id="ending-cg-overlay" class="hidden absolute inset-0 pointer-events-none z-30 flex flex-col justify-between">
+        <div class="w-full bg-[#04060e]/95 border-b border-amber-400/25 px-4 sm:px-8 py-2 sm:py-3 flex justify-between items-center pointer-events-auto">
+            <div class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-amber-300/90 drop-shadow">
+                EPILOG • FAJAR KEDAMAIAN
+            </div>
+            <button id="btn-skip-cg" class="bg-slate-900/90 hover:bg-slate-800 text-amber-200 border border-amber-400/40 px-3.5 py-1 rounded-full text-xs font-bold tracking-wide transition active:scale-95">
+                <span id="btn-skip-cg-text">Lewati</span> <i class="fa-solid fa-chevron-right ml-1"></i>
+            </button>
+        </div>
+        <div class="w-full bg-[#04060e]/95 border-t border-amber-400/25 px-4 sm:px-10 py-2 sm:py-3.5 flex flex-col items-center pointer-events-none">
+            <p id="cg-subtitle" class="max-w-3xl text-center text-xs sm:text-sm font-semibold text-amber-50 leading-snug transition-opacity duration-500"></p>
+        </div>
+    </div>
+
     <!-- MODAL GAME OVER / VICTORY -->
     <div id="end-modal" class="hidden absolute inset-0 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 z-40">
         <div class="modal-card glass-panel max-w-md w-full rounded-2xl sm:rounded-3xl p-4 sm:p-7 text-center border border-purple-500/40 max-h-[94dvh] overflow-y-auto overflow-x-hidden">
-            <div id="end-icon-wrap" class="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center text-4xl border-2">
+            <div id="end-icon-wrap" class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl border-2">
                 <i id="end-icon" class="fa-solid fa-trophy"></i>
             </div>
             <div id="end-sub" class="text-xs font-bold uppercase tracking-widest text-amber-400 mb-1">MISI SELESAI</div>
-            <h2 id="end-title" class="text-2xl sm:text-3xl font-black text-white font-cinzel mb-2">KEMENANGAN MUTLAK!</h2>
-            <p id="end-desc" class="text-xs sm:text-sm text-slate-300 mb-6">
+            <h2 id="end-title" class="text-xl sm:text-3xl font-black text-white font-cinzel mb-2">KEMENANGAN MUTLAK!</h2>
+            <p id="end-desc" class="text-xs sm:text-sm text-slate-300 mb-4 sm:mb-5">
                 Raja Goblin Grommash telah tumbang! Kedamaian kembali ke negeri ini berkat pedang bayanganmu.
             </p>
 
-            <div class="grid grid-cols-2 gap-3 bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800 mb-6 text-xs">
+            <div class="grid grid-cols-2 gap-3 bg-slate-900/90 p-3 sm:p-3.5 rounded-2xl border border-slate-800 mb-3 text-xs">
                 <div>
                     <div class="text-slate-400">Goblin Dikalahkan</div>
                     <div id="end-kills" class="text-lg font-extrabold text-emerald-400">0</div>
@@ -456,12 +545,16 @@
                     <div id="end-gold" class="text-lg font-extrabold text-amber-400">0</div>
                 </div>
             </div>
+            <div id="end-record" class="hidden text-[11px] font-bold text-amber-300/90 mb-4"></div>
 
-            <div class="flex flex-col sm:flex-row gap-3">
-                <button id="btn-retry-stage" class="flex-1 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-600 transition">
+            <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+                <button id="btn-retry-stage" class="flex-1 py-2.5 sm:py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-600 transition">
                     <i class="fa-solid fa-rotate-left mr-1.5"></i> Ulangi Stage Ini
                 </button>
-                <button id="btn-play-again" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-sm shadow-lg border border-purple-400/50 transition">
+                <button id="btn-replay-cg" class="hidden flex-1 py-2.5 sm:py-3 rounded-xl bg-amber-600/90 hover:bg-amber-500 text-slate-950 font-extrabold text-sm border border-amber-300/60 transition">
+                    <i class="fa-solid fa-sun mr-1.5"></i> Lihat CG Ending
+                </button>
+                <button id="btn-play-again" class="flex-1 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-sm shadow-lg border border-purple-400/50 transition">
                     <i class="fa-solid fa-play mr-1.5"></i> Main Dari Awal
                 </button>
             </div>
@@ -598,6 +691,30 @@ class SoundSystem {
                     osc.start(now + i * 0.06);
                     osc.stop(now + i * 0.06 + 0.25);
                 });
+            } else if (type === 'ending') {
+                // Akord fajar hangat dan damai saat melihat matahari terbit
+                const notes = [
+                    { f: 261.63, t: 0.0, d: 1.8 },  // C4
+                    { f: 329.63, t: 0.15, d: 1.8 }, // E4
+                    { f: 392.00, t: 0.3, d: 1.8 },  // G4
+                    { f: 493.88, t: 0.45, d: 2.0 }, // B4
+                    { f: 523.25, t: 1.1, d: 2.2 },  // C5
+                    { f: 659.25, t: 1.35, d: 2.2 }, // E5
+                    { f: 783.99, t: 1.6, d: 2.5 }   // G5
+                ];
+                notes.forEach(n => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(n.f, now + n.t);
+                    gain.gain.setValueAtTime(0.001, now + n.t);
+                    gain.gain.linearRampToValueAtTime(0.13, now + n.t + 0.15);
+                    gain.gain.exponentialRampToValueAtTime(0.004, now + n.t + n.d);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + n.t);
+                    osc.stop(now + n.t + n.d);
+                });
             }
         } catch (e) {
             // Abaikan jika audio belum diizinkan browser
@@ -607,9 +724,24 @@ class SoundSystem {
 
 const sfx = new SoundSystem();
 
-// --- 2. SETUP CANVAS & RESOLUSI INTERNAL ---
+// --- 2. SETUP CANVAS, POLYFILL & CACHE ---
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+
+// Polyfill ctx.roundRect untuk Android System WebView versi lama (Chromium < 99)
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+    CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, radii) {
+        let r = typeof radii === 'number' ? radii : (Array.isArray(radii) ? radii[0] : 0) || 0;
+        r = Math.max(0, Math.min(r, Math.abs(w) / 2, Math.abs(h) / 2));
+        this.moveTo(x + r, y);
+        this.arcTo(x + w, y, x + w, y + h, r);
+        this.arcTo(x + w, y + h, x, y + h, r);
+        this.arcTo(x, y + h, x, y, r);
+        this.arcTo(x, y, x + w, y, r);
+        this.closePath();
+        return this;
+    };
+}
 
 const VIEW_WIDTH = 1280;
 const VIEW_HEIGHT = 720;
@@ -741,6 +873,8 @@ const STAGES = [
             { x: 950, y: 455, w: 250, h: 24, type: 'plat' },
             { x: 1320, y: 465, w: 230, h: 24, type: 'plat' },
             { x: 1650, y: 365, w: 240, h: 24, type: 'plat' },
+            // Jembatan batu menuju Arena Boss (menopang goblin penjaga gerbang)
+            { x: 1940, y: 465, w: 220, h: 24, type: 'plat' },
             // Platform di dalam Arena Boss
             { x: 2300, y: 460, w: 210, h: 24, type: 'plat' },
             { x: 2660, y: 375, w: 230, h: 24, type: 'plat' },
@@ -768,21 +902,64 @@ const STAGES = [
     }
 ];
 
-// --- 4. STATE PERMAINAN & PLAYER UPGRADES ---
+// Cache sky gradient per stage agar tidak alokasi ulang setiap frame
+const skyGradientCache = STAGES.map(s => {
+    const g = ctx.createLinearGradient(0, 0, 0, VIEW_HEIGHT);
+    g.addColorStop(0, s.skyTop);
+    g.addColorStop(1, s.skyBottom);
+    return g;
+});
+
+// --- 4. STATE PERMAINAN, SAVE RECORD & PLAYER UPGRADES ---
+function loadBestRecord() {
+    try {
+        const raw = localStorage.getItem('shadow_assassin_record_v1');
+        if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return { bestKills: 0, bestGold: 0, cleared: false };
+}
+
+function saveBestRecord(kills, gold, cleared) {
+    try {
+        const prev = loadBestRecord();
+        const next = {
+            bestKills: Math.max(prev.bestKills || 0, kills),
+            bestGold: Math.max(prev.bestGold || 0, gold),
+            cleared: Boolean(prev.cleared || cleared)
+        };
+        localStorage.setItem('shadow_assassin_record_v1', JSON.stringify(next));
+        return next;
+    } catch (e) {
+        return { bestKills: kills, bestGold: gold, cleared };
+    }
+}
+
 const game = {
-    state: 'start', // 'start', 'playing', 'shop', 'gameover', 'victory'
+    state: 'start', // 'start', 'playing', 'paused', 'shop', 'ending_cg', 'gameover', 'victory'
     stageIndex: 0,
     gold: 0,
     totalGoldEarned: 0,
     totalKills: 0,
     cameraX: 0,
     screenShake: 0,
+    hitStop: 0,
     betweenStages: false,
     upgrades: {
         atkLevel: 1,
         hpLevel: 1,
         spdLevel: 1
-    }
+    },
+    stageSnapshot: null
+};
+
+// State CG Ending (Assassin Melihat Matahari)
+const endingCG = {
+    frame: 0,
+    totalFrames: 540, // ~9 detik animasi fajar penuh
+    finished: false,
+    birds: [],
+    embers: [],
+    subtitleStep: -1
 };
 
 // Input Keyboard & Touch
@@ -794,6 +971,15 @@ const keys = {
     dashPressed: false
 };
 
+function resetInputKeys() {
+    keys.left = false;
+    keys.right = false;
+    keys.jumpPressed = false;
+    keys.attackPressed = false;
+    keys.dashPressed = false;
+    document.querySelectorAll('.touch-btn.active').forEach(b => b.classList.remove('active'));
+}
+
 // Entitas Game
 let player = null;
 let enemies = [];
@@ -803,6 +989,13 @@ let particles = [];
 let floatingTexts = [];
 let afterimages = [];
 let bgProps = [];
+let bannerTimeoutId = null;
+
+function pushParticle(pt) {
+    if (particles.length < 150) {
+        particles.push(pt);
+    }
+}
 
 // --- 5. KELAS KARAKTER UTAMA: SHADOW ASSASSIN ---
 class Assassin {
@@ -816,6 +1009,10 @@ class Assassin {
         this.facing = 1; // 1: kanan, -1: kiri
         this.onGround = false;
         this.jumpsLeft = 2;
+        this.coyoteTimer = 0;
+        this.jumpBufferTimer = 0;
+        this.lastSafeX = x;
+        this.lastSafeY = y;
 
         // Statistik berdasarkan Upgrade
         this.recalcStats(true);
@@ -830,6 +1027,7 @@ class Assassin {
         this.dashTimer = 0;
         this.dashCooldown = 0;
         this.invulnTimer = 0;
+        this.dashHitSet = null;
 
         // Visual Syal / Jubah
         this.animTime = 0;
@@ -854,9 +1052,17 @@ class Assassin {
         if (this.invulnTimer > 0) this.invulnTimer--;
         if (this.attackCooldown > 0) this.attackCooldown--;
         if (this.dashCooldown > 0) this.dashCooldown--;
+        if (this.coyoteTimer > 0) this.coyoteTimer--;
+        if (this.jumpBufferTimer > 0) this.jumpBufferTimer--;
         if (this.comboResetTimer > 0) {
             this.comboResetTimer--;
             if (this.comboResetTimer === 0) this.comboStep = 0;
+        }
+
+        // Buffer input lompat agar responsif sebelum menyentuh tanah
+        if (keys.jumpPressed) {
+            keys.jumpPressed = false;
+            this.jumpBufferTimer = 7;
         }
 
         // Sedang Shadow Dash
@@ -864,6 +1070,21 @@ class Assassin {
             this.dashTimer--;
             this.vx = this.facing * 15.5;
             this.vy = 0;
+
+            // Hitbox aktif selama meluncur melewati musuh
+            const dashBox = {
+                x: this.x - 14,
+                y: this.y - 8,
+                w: this.w + 28,
+                h: this.h + 16
+            };
+            enemies.forEach(en => {
+                if (!en.dead && this.dashHitSet && !this.dashHitSet.has(en) && rectOverlap(dashBox, en)) {
+                    this.dashHitSet.add(en);
+                    const dmg = Math.round(this.attackDamage * 0.75);
+                    en.takeDamage(dmg, this.facing * 5, true);
+                }
+            });
 
             // Buat bayangan afterimage
             if (this.dashTimer % 2 === 0) {
@@ -878,7 +1099,7 @@ class Assassin {
             }
 
             // Partikel bayangan
-            particles.push({
+            pushParticle({
                 x: this.x + this.w / 2,
                 y: this.y + this.h / 2 + (Math.random() - 0.5) * 30,
                 vx: -this.facing * (Math.random() * 3 + 1),
@@ -903,7 +1124,7 @@ class Assassin {
 
                 // Debu langkah kaki saat lari di tanah
                 if (this.onGround && Math.random() < 0.35) {
-                    particles.push({
+                    pushParticle({
                         x: this.x + this.w / 2 - this.facing * 10,
                         y: this.y + this.h,
                         vx: -this.facing * (Math.random() * 1.5),
@@ -924,24 +1145,39 @@ class Assassin {
             if (this.vy > 14) this.vy = 14;
         }
 
-        // Input Lompat & Double Jump
-        if (keys.jumpPressed) {
-            keys.jumpPressed = false;
-            if (this.jumpsLeft > 0) {
+        // Eksekusi Lompat (Coyote Time + Double Jump + Jump Buffer)
+        if (this.jumpBufferTimer > 0) {
+            let jumped = false;
+            let isAirJump = false;
+
+            if (this.onGround || this.coyoteTimer > 0) {
                 this.vy = -12.6;
                 this.onGround = false;
-                this.jumpsLeft--;
-                sfx.play('jump');
+                this.coyoteTimer = 0;
+                this.jumpsLeft = 1;
+                this.dashTimer = 0;
+                this.jumpBufferTimer = 0;
+                jumped = true;
+            } else if (this.jumpsLeft > 0) {
+                this.vy = -12.6;
+                this.onGround = false;
+                this.jumpsLeft = Math.max(0, Math.min(this.jumpsLeft, 1) - 1);
+                this.dashTimer = 0;
+                this.jumpBufferTimer = 0;
+                jumped = true;
+                isAirJump = true;
+            }
 
-                // Efek partikel pijakan udara (Double Jump)
-                for (let i = 0; i < 10; i++) {
-                    particles.push({
+            if (jumped) {
+                sfx.play('jump');
+                for (let i = 0; i < 8; i++) {
+                    pushParticle({
                         x: this.x + this.w / 2 + (Math.random() - 0.5) * 24,
                         y: this.y + this.h,
                         vx: (Math.random() - 0.5) * 4,
                         vy: Math.random() * 2 + 0.5,
                         size: Math.random() * 4 + 2,
-                        color: this.jumpsLeft === 0 ? '#a855f7' : '#cbd5e1',
+                        color: isAirJump ? '#a855f7' : '#cbd5e1',
                         life: 18,
                         maxLife: 18
                     });
@@ -956,21 +1192,21 @@ class Assassin {
                 this.dashTimer = 13;
                 this.dashCooldown = this.dashMaxCooldown;
                 this.invulnTimer = 20; // Kebal sesaat
+                this.dashHitSet = new Set();
                 sfx.play('dash');
 
-                // Serangan bayangan saat melewati musuh
+                // Cek musuh di sekitar titik awal dash
+                const startDashBox = {
+                    x: this.x - 16,
+                    y: this.y - 8,
+                    w: this.w + 32,
+                    h: this.h + 16
+                };
                 enemies.forEach(en => {
-                    if (!en.dead) {
-                        const dashBox = {
-                            x: this.facing === 1 ? this.x : this.x - 190,
-                            y: this.y - 10,
-                            w: 230,
-                            h: this.h + 20
-                        };
-                        if (rectOverlap(dashBox, en)) {
-                            const dmg = Math.round(this.attackDamage * 0.75);
-                            en.takeDamage(dmg, this.facing * 5, true);
-                        }
+                    if (!en.dead && !this.dashHitSet.has(en) && rectOverlap(startDashBox, en)) {
+                        this.dashHitSet.add(en);
+                        const dmg = Math.round(this.attackDamage * 0.75);
+                        en.takeDamage(dmg, this.facing * 5, true);
                     }
                 });
             }
@@ -986,7 +1222,7 @@ class Assassin {
 
         if (this.attackTimer > 0) this.attackTimer--;
 
-        // Pergerakan & Kolisi Horizontal
+        // Pergerakan & Kolisi Horizontal (termasuk tebing daratan solid)
         this.x += this.vx;
         if (this.x < 0) {
             this.x = 0;
@@ -996,11 +1232,26 @@ class Assassin {
             this.x = stage.worldWidth - this.w;
             this.vx = 0;
         }
+        for (const plat of stage.platforms) {
+            if (plat.type !== 'ground') continue;
+            if (this.y + this.h > plat.y + 12 && this.y < plat.y + plat.h) {
+                if (rectOverlap(this, plat)) {
+                    if (this.vx > 0) {
+                        this.x = plat.x - this.w;
+                        this.vx = 0;
+                    } else if (this.vx < 0) {
+                        this.x = plat.x + plat.w;
+                        this.vx = 0;
+                    }
+                }
+            }
+        }
 
         // Pergerakan & Kolisi Vertikal dengan Platform
         const prevBottom = this.y + this.h;
         this.y += this.vy;
         this.onGround = false;
+        let landedPlat = null;
 
         for (const plat of stage.platforms) {
             if (this.x + this.w > plat.x + 4 && this.x < plat.x + plat.w - 4) {
@@ -1009,8 +1260,19 @@ class Assassin {
                     this.y = plat.y - this.h;
                     this.vy = 0;
                     this.onGround = true;
+                    this.coyoteTimer = 6;
                     this.jumpsLeft = 2;
+                    landedPlat = plat;
                 }
+            }
+        }
+
+        // Simpan posisi pijakan aman terakhir (bebas duri & bukan di tepi jurang)
+        if (this.onGround && landedPlat && landedPlat.w >= this.w + 20) {
+            const onSpike = stage.spikes.some(sp => rectOverlap(this, sp));
+            if (!onSpike) {
+                this.lastSafeX = Math.max(landedPlat.x + 12, Math.min(this.x, landedPlat.x + landedPlat.w - this.w - 12));
+                this.lastSafeY = landedPlat.y - this.h;
             }
         }
 
@@ -1022,16 +1284,17 @@ class Assassin {
             }
         }
 
-        // Jatuh ke Jurang
+        // Jatuh ke Jurang -> Kembalikan ke pijakan aman terakhir
         if (this.y > VIEW_HEIGHT + 80) {
             this.takeDamage(28, 0);
             if (this.hp > 0) {
-                // Respawn di platform aman terdekat
                 this.vy = 0;
                 this.vx = 0;
-                this.x = Math.max(60, this.x - 180);
-                this.y = 320;
-                this.invulnTimer = 50;
+                this.dashTimer = 0;
+                this.x = this.lastSafeX;
+                this.y = Math.max(40, this.lastSafeY - 8);
+                this.jumpsLeft = 2;
+                this.invulnTimer = Math.max(this.invulnTimer, 55);
             }
         }
 
@@ -1071,10 +1334,12 @@ class Assassin {
             h: this.h + 22
         };
 
-        // Hancurkan anak panah goblin jika ditebas!
+        // Hancurkan anak panah goblin jika ditebas + reward kecil cooldown dash!
         projectiles.forEach(proj => {
-            if (rectOverlap(hitbox, { x: proj.x - 10, y: proj.y - 10, w: 20, h: 20 })) {
+            if (!proj.dead && rectOverlap(hitbox, { x: proj.x - 10, y: proj.y - 10, w: 20, h: 20 })) {
                 proj.dead = true;
+                this.dashCooldown = Math.max(0, this.dashCooldown - 12);
+                game.hitStop = Math.max(game.hitStop, 2);
                 spawnParticles(proj.x, proj.y, '#38bdf8', 8);
                 addFloatingText("TANGKIS!", proj.x, proj.y - 10, '#38bdf8');
             }
@@ -1082,6 +1347,7 @@ class Assassin {
 
         // Cek terkena Goblin
         let hitAny = false;
+        let hitBoss = false;
         const dmgMultiplier = this.comboStep === 3 ? 1.35 : 1.0;
         const finalDmg = Math.round(this.attackDamage * dmgMultiplier);
 
@@ -1089,12 +1355,16 @@ class Assassin {
             if (!en.dead && rectOverlap(hitbox, en)) {
                 en.takeDamage(finalDmg, this.facing * (this.comboStep === 3 ? 8 : 5));
                 hitAny = true;
+                if (en.type === 'boss') hitBoss = true;
             }
         });
 
         if (hitAny) {
             sfx.play('hit');
             game.screenShake = this.comboStep === 3 ? 7 : 4;
+            if (this.comboStep === 3 || hitBoss) {
+                game.hitStop = Math.max(game.hitStop, 2);
+            }
         }
     }
 
@@ -1175,12 +1445,11 @@ class Assassin {
         ctx.lineTo(-8, -8);
         ctx.fill();
 
-        // Mata Bersinar Cyan
+        // Mata Bersinar Cyan (tanpa shadowBlur berat)
+        ctx.fillStyle = 'rgba(34, 211, 238, 0.3)';
+        ctx.fillRect(1, -21, 11, 7.5);
         ctx.fillStyle = '#22d3ee';
-        ctx.shadowColor = '#22d3ee';
-        ctx.shadowBlur = 8;
         ctx.fillRect(3, -19, 7, 3.5);
-        ctx.shadowBlur = 0;
 
         // Belati di Tangan
         ctx.save();
@@ -1196,22 +1465,25 @@ class Assassin {
         ctx.fill();
         ctx.restore();
 
-        // Efek Arc Tebasan Belati (Slash Trail)
+        // Efek Arc Tebasan Belati (Slash Trail cepat tanpa shadowBlur)
         if (this.attackTimer > 0) {
             const progress = 1 - this.attackTimer / 12;
-            ctx.save();
-            ctx.strokeStyle = this.comboStep === 3 ? '#f43f5e' : '#38bdf8';
-            ctx.lineWidth = this.comboStep === 3 ? 6 : 4;
-            ctx.shadowColor = this.comboStep === 3 ? '#f43f5e' : '#a855f7';
-            ctx.shadowBlur = 14;
-
-            ctx.beginPath();
             const radius = this.comboStep === 3 ? 56 : 44;
-            if (this.comboStep % 2 === 1) {
-                ctx.arc(10, 0, radius, -Math.PI * 0.65 + progress * 0.5, Math.PI * 0.45 + progress * 0.3);
-            } else {
-                ctx.arc(10, 0, radius, -Math.PI * 0.45 - progress * 0.3, Math.PI * 0.65 - progress * 0.5);
-            }
+            const startAng = this.comboStep % 2 === 1 ? -Math.PI * 0.65 + progress * 0.5 : -Math.PI * 0.45 - progress * 0.3;
+            const endAng = this.comboStep % 2 === 1 ? Math.PI * 0.45 + progress * 0.3 : Math.PI * 0.65 - progress * 0.5;
+
+            ctx.save();
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = this.comboStep === 3 ? 'rgba(244, 63, 94, 0.32)' : 'rgba(168, 85, 247, 0.32)';
+            ctx.lineWidth = this.comboStep === 3 ? 13 : 10;
+            ctx.beginPath();
+            ctx.arc(10, 0, radius, startAng, endAng);
+            ctx.stroke();
+
+            ctx.strokeStyle = this.comboStep === 3 ? '#f43f5e' : '#38bdf8';
+            ctx.lineWidth = this.comboStep === 3 ? 5.5 : 4;
+            ctx.beginPath();
+            ctx.arc(10, 0, radius, startAng, endAng);
             ctx.stroke();
             ctx.restore();
         }
@@ -1230,6 +1502,7 @@ class Goblin {
         this.vx = 0;
         this.vy = 0;
         this.facing = -1;
+        this.onGround = false;
         this.dead = false;
         this.animTime = Math.random() * 10;
         this.hitFlash = 0;
@@ -1338,6 +1611,7 @@ class Goblin {
                         vy: Math.sin(angle) * 7.8,
                         damage: this.damage,
                         color: '#a3e635',
+                        isWave: false,
                         dead: false
                     });
                 }
@@ -1355,10 +1629,11 @@ class Goblin {
                 this.facing = distX >= 0 ? 1 : -1;
                 this.bossSkillTimer--;
 
-                if (this.bossSkillTimer <= 0) {
-                    // Jurus Spesial Boss: Lompatan Hantaman Tanah + Gelombang Kejut
+                if (this.bossSkillTimer <= 0 && this.onGround) {
+                    // Jurus Spesial Boss: Lompatan Hantaman Tanah + Gelombang Kejut (hanya saat menapak tanah)
                     this.vy = -11.5;
                     this.vx = this.facing * 6.5;
+                    this.onGround = false;
                     this.bossSkillTimer = 170;
                     this.windupTimer = 35;
                     addFloatingText("HANTAMAN RAJA!", this.x + this.w / 2, this.y - 20, '#fbbf24', true);
@@ -1389,6 +1664,7 @@ class Goblin {
                                 vy: 0,
                                 damage: 18,
                                 color: '#f43f5e',
+                                isWave: true,
                                 dead: false
                             });
                         });
@@ -1421,15 +1697,51 @@ class Goblin {
             this.vx = 0;
         }
 
+        // Batasi area gerak Boss di dalam Arena Benteng & cegah goblin keluar dari batas dunia
+        if (this.type === 'boss') {
+            const minBossX = 2130;
+            const maxBossX = stage.worldWidth - this.w - 20;
+            if (this.x < minBossX) {
+                this.x = minBossX;
+                this.vx = 0;
+            } else if (this.x > maxBossX) {
+                this.x = maxBossX;
+                this.vx = 0;
+            }
+        } else {
+            if (this.x < 10) {
+                this.x = 10;
+                this.vx = 0;
+            } else if (this.x > stage.worldWidth - this.w - 10) {
+                this.x = stage.worldWidth - this.w - 10;
+                this.vx = 0;
+            }
+        }
+
         const prevBottom = this.y + this.h;
         this.y += this.vy;
+        this.onGround = false;
 
         for (const plat of stage.platforms) {
             if (this.x + this.w > plat.x && this.x < plat.x + plat.w) {
                 if (this.vy >= 0 && prevBottom <= plat.y + 14 && this.y + this.h >= plat.y) {
                     this.y = plat.y - this.h;
                     this.vy = 0;
+                    this.onGround = true;
                 }
+            }
+        }
+
+        // Anti-softlock: jika goblin terjatuh ke jurang, anggap gugur agar portal tetap bisa terbuka
+        if (this.y > VIEW_HEIGHT + 80) {
+            if (this.type === 'boss') {
+                this.x = 2750;
+                this.y = 480;
+                this.vx = 0;
+                this.vy = 0;
+            } else {
+                this.die(true);
+                return;
             }
         }
 
@@ -1450,45 +1762,56 @@ class Goblin {
         addFloatingText(`${amount}`, this.x + this.w / 2, this.y - 6, fromDash ? '#22d3ee' : '#fbbf24', true);
 
         if (this.hp <= 0) {
-            this.die();
+            this.die(false);
         }
     }
 
-    die() {
+    die(droppedInVoid = false) {
+        if (this.dead) return;
         this.dead = true;
         game.totalKills++;
 
-        // Ledakan partikel kematian goblin
-        spawnParticles(this.x + this.w / 2, this.y + this.h / 2, '#22c55e', 22);
-        spawnParticles(this.x + this.w / 2, this.y + this.h / 2, '#facc15', 12);
-
-        // Jatuhkan Koin Gold
+        const stage = STAGES[game.stageIndex];
         const count = Math.floor(Math.random() * (this.goldDrop[1] - this.goldDrop[0] + 1)) + this.goldDrop[0];
         const coinValue = this.type === 'boss' ? 15 : (10 + game.stageIndex * 4);
 
-        for (let i = 0; i < count; i++) {
-            coins.push({
-                x: this.x + this.w / 2,
-                y: this.y + this.h / 2,
-                vx: (Math.random() - 0.5) * 7,
-                vy: -Math.random() * 6 - 3,
-                value: coinValue,
-                type: 'gold',
-                life: 0
-            });
-        }
+        if (droppedInVoid) {
+            // Jika goblin jatuh ke jurang, langsung berikan emas ke Assassin
+            const bonusGold = count * coinValue;
+            game.gold += bonusGold;
+            game.totalGoldEarned += bonusGold;
+            const labelX = Math.max(60, Math.min(stage.worldWidth - 60, this.x));
+            addFloatingText(`+${bonusGold} Emas`, labelX, VIEW_HEIGHT - 70, '#facc15', true);
+        } else {
+            // Ledakan partikel kematian goblin
+            spawnParticles(this.x + this.w / 2, this.y + this.h / 2, '#22c55e', 22);
+            spawnParticles(this.x + this.w / 2, this.y + this.h / 2, '#facc15', 12);
 
-        // Peluang menjatuhkan Orb Darah (Heal)
-        if (Math.random() < 0.35 || this.type === 'boss') {
-            coins.push({
-                x: this.x + this.w / 2,
-                y: this.y + this.h / 2,
-                vx: (Math.random() - 0.5) * 4,
-                vy: -6,
-                value: 20,
-                type: 'heal',
-                life: 0
-            });
+            // Jatuhkan Koin Gold
+            for (let i = 0; i < count; i++) {
+                coins.push({
+                    x: this.x + this.w / 2,
+                    y: this.y + this.h / 2,
+                    vx: (Math.random() - 0.5) * 7,
+                    vy: -Math.random() * 6 - 3,
+                    value: coinValue,
+                    type: 'gold',
+                    life: 0
+                });
+            }
+
+            // Peluang menjatuhkan Orb Darah (Heal)
+            if (Math.random() < 0.35 || this.type === 'boss') {
+                coins.push({
+                    x: this.x + this.w / 2,
+                    y: this.y + this.h / 2,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: -6,
+                    value: 20,
+                    type: 'heal',
+                    life: 0
+                });
+            }
         }
 
         if (this.type === 'boss') {
@@ -1531,10 +1854,6 @@ class Goblin {
 
         ctx.translate(cx, cy);
         ctx.scale(this.facing, 1);
-
-        if (this.hitFlash > 0) {
-            ctx.filter = 'brightness(2.5)';
-        }
 
         if (this.type === 'boss') {
             // --- VISUAL BOSS RAJA GOBLIN ---
@@ -1599,6 +1918,13 @@ class Goblin {
             ctx.roundRect(2, -52, 34, 24, 4);
             ctx.fill();
             ctx.restore();
+
+            if (this.hitFlash > 0) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+                ctx.beginPath();
+                ctx.roundRect(-34, -50, 70, 95, 14);
+                ctx.fill();
+            }
         } else {
             // --- VISUAL GOBLIN BIASA & PEMANAH ---
             const walkBob = Math.sin(this.animTime * 2) * 3;
@@ -1648,6 +1974,13 @@ class Goblin {
                 ctx.arc(10, -2, 14, -Math.PI * 0.45, Math.PI * 0.45);
                 ctx.stroke();
             }
+
+            if (this.hitFlash > 0) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.52)';
+                ctx.beginPath();
+                ctx.roundRect(-16, -26, 32, 48, 8);
+                ctx.fill();
+            }
         }
 
         ctx.restore();
@@ -1660,7 +1993,9 @@ function rectOverlap(a, b) {
 }
 
 function spawnParticles(x, y, color, count = 10) {
-    for (let i = 0; i < count; i++) {
+    const space = Math.max(0, 150 - particles.length);
+    const actualCount = Math.min(count, space);
+    for (let i = 0; i < actualCount; i++) {
         particles.push({
             x,
             y,
@@ -1687,20 +2022,52 @@ function addFloatingText(text, x, y, color = '#ffffff', big = false) {
     });
 }
 
+function hideBanner() {
+    if (bannerTimeoutId) {
+        clearTimeout(bannerTimeoutId);
+        bannerTimeoutId = null;
+    }
+    const banner = document.getElementById('stage-banner');
+    banner.style.opacity = '0';
+    banner.classList.add('hidden');
+}
+
 function showBanner(sub, title, desc) {
     const banner = document.getElementById('stage-banner');
     document.getElementById('banner-sub').textContent = sub;
     document.getElementById('banner-title').textContent = title;
     document.getElementById('banner-desc').textContent = desc;
+    banner.classList.remove('hidden');
     banner.style.opacity = '1';
-    setTimeout(() => {
+    if (bannerTimeoutId) clearTimeout(bannerTimeoutId);
+    bannerTimeoutId = setTimeout(() => {
         banner.style.opacity = '0';
-    }, 3200);
+        bannerTimeoutId = setTimeout(() => {
+            banner.classList.add('hidden');
+            bannerTimeoutId = null;
+        }, 500);
+    }, 3000);
 }
 
 // --- 8. INISIALISASI STAGE ---
-function loadStage(index, fullHeal = false) {
+function loadStage(index, fullHeal = false, restoreSnapshot = false) {
+    if (restoreSnapshot && game.stageSnapshot) {
+        game.gold = game.stageSnapshot.gold;
+        game.totalGoldEarned = game.stageSnapshot.totalGoldEarned;
+        game.totalKills = game.stageSnapshot.totalKills;
+        game.upgrades = { ...game.stageSnapshot.upgrades };
+    } else {
+        game.stageSnapshot = {
+            gold: game.gold,
+            totalGoldEarned: game.totalGoldEarned,
+            totalKills: game.totalKills,
+            upgrades: { ...game.upgrades }
+        };
+    }
+
     game.stageIndex = index;
+    game.hitStop = 0;
+    game.screenShake = 0;
     const stage = STAGES[index];
 
     if (!player) {
@@ -1710,6 +2077,18 @@ function loadStage(index, fullHeal = false) {
         player.y = 480;
         player.vx = 0;
         player.vy = 0;
+        player.lastSafeX = 100;
+        player.lastSafeY = 480;
+        player.jumpsLeft = 2;
+        player.coyoteTimer = 0;
+        player.jumpBufferTimer = 0;
+        player.dashTimer = 0;
+        player.dashCooldown = 0;
+        player.invulnTimer = 0;
+        player.attackTimer = 0;
+        player.comboStep = 0;
+        player.dashHitSet = null;
+        player.scarfPoints = Array.from({ length: 6 }, () => ({ x: 100, y: 480 }));
         player.recalcStats(fullHeal);
     }
 
@@ -1721,8 +2100,12 @@ function loadStage(index, fullHeal = false) {
     floatingTexts = [];
     afterimages = [];
     game.cameraX = 0;
+    resetInputKeys();
 
     document.getElementById('boss-hud').classList.add('hidden');
+    document.getElementById('hud').classList.remove('hidden');
+    document.getElementById('touch-controls').classList.remove('hidden');
+    document.getElementById('ending-cg-overlay').classList.add('hidden');
 
     // Buat dekorasi latar belakang sesuai tema Stage
     bgProps = [];
@@ -1738,7 +2121,7 @@ function loadStage(index, fullHeal = false) {
     showBanner(stage.subtitle, stage.name.toUpperCase(), stage.desc);
 }
 
-// --- 9. UPDATE HUD & TOKO UPGRADE ---
+// --- 9. UPDATE HUD, PAUSE & TOKO UPGRADE ---
 function updateHUD() {
     if (!player) return;
     const stage = STAGES[game.stageIndex];
@@ -1802,6 +2185,7 @@ function updateShopUI() {
 function openShop(betweenStages = false) {
     game.state = 'shop';
     game.betweenStages = betweenStages;
+    resetInputKeys();
     document.getElementById('shop-feedback').textContent = '';
 
     if (betweenStages) {
@@ -1820,10 +2204,32 @@ function closeShop() {
     document.getElementById('shop-modal').classList.add('hidden');
     if (game.betweenStages) {
         game.betweenStages = false;
-        loadStage(game.stageIndex + 1, false);
+        loadStage(game.stageIndex + 1, false, false);
     }
+    resetInputKeys();
     game.state = 'playing';
 }
+
+function openPause() {
+    if (game.state !== 'playing') return;
+    game.state = 'paused';
+    resetInputKeys();
+    document.getElementById('pause-modal').classList.remove('hidden');
+}
+
+function resumeGame() {
+    if (game.state !== 'paused') return;
+    document.getElementById('pause-modal').classList.add('hidden');
+    resetInputKeys();
+    game.state = 'playing';
+}
+
+window.onAppPause = function () {
+    resetInputKeys();
+    if (game.state === 'playing') {
+        openPause();
+    }
+};
 
 function buyUpgrade(type) {
     const cost = getUpgradeCost(type);
@@ -1867,40 +2273,502 @@ function buyUpgrade(type) {
     updateHUD();
 }
 
-// --- 10. KONDISI MENANG & KALAH ---
+// --- 10. CG ENDING (ASSASSIN MELIHAT MATAHARI TERBIT) & KONDISI MENANG / KALAH ---
+function lerpRGB(c1, c2, t) {
+    const r = Math.round(c1[0] + (c2[0] - c1[0]) * t);
+    const g = Math.round(c1[1] + (c2[1] - c1[1]) * t);
+    const b = Math.round(c1[2] + (c2[2] - c1[2]) * t);
+    return `rgb(${r},${g},${b})`;
+}
+
+function startEndingCG() {
+    game.state = 'ending_cg';
+    resetInputKeys();
+    hideBanner();
+
+    document.getElementById('hud').classList.add('hidden');
+    document.getElementById('boss-hud').classList.add('hidden');
+    document.getElementById('touch-controls').classList.add('hidden');
+    document.getElementById('pause-modal').classList.add('hidden');
+    document.getElementById('shop-modal').classList.add('hidden');
+    document.getElementById('end-modal').classList.add('hidden');
+    document.getElementById('ending-cg-overlay').classList.remove('hidden');
+
+    endingCG.frame = 0;
+    endingCG.finished = false;
+    endingCG.canContinue = false;
+    endingCG.subtitleStep = -1;
+    document.getElementById('btn-skip-cg-text').textContent = 'Lewati';
+    document.getElementById('cg-subtitle').textContent = '';
+
+    // Burung terbang pagi hari di cakrawala
+    endingCG.birds = Array.from({ length: 7 }, (_, i) => ({
+        x: 420 + (i % 4) * 48 + Math.random() * 25,
+        y: 230 + Math.floor(i / 4) * 32 + (i % 2) * 14,
+        speed: 0.55 + Math.random() * 0.25,
+        scale: 0.75 + Math.random() * 0.45,
+        phase: Math.random() * Math.PI * 2
+    }));
+
+    // Debu cahaya fajar keemasan yang melayang perlahan
+    endingCG.embers = Array.from({ length: 42 }, () => ({
+        x: Math.random() * VIEW_WIDTH,
+        y: Math.random() * VIEW_HEIGHT,
+        vx: 0.4 + Math.random() * 0.9,
+        vy: -0.25 - Math.random() * 0.55,
+        size: 1.5 + Math.random() * 3,
+        alpha: 0.35 + Math.random() * 0.55,
+        phase: Math.random() * Math.PI * 2
+    }));
+
+    sfx.play('ending');
+}
+
+function updateEndingCG() {
+    endingCG.frame++;
+
+    const captions = [
+        'Kegelapan Benteng Goblin telah runtuh di bawah kilauan belati bayangan...',
+        'Untuk pertama kalinya, langit fajar menyambut sang Shadow Assassin...',
+        'Fajar kedamaian tiba. Negeri ini kembali hangat di bawah sinar matahari.'
+    ];
+
+    let step = 0;
+    if (endingCG.frame >= 360) step = 2;
+    else if (endingCG.frame >= 180) step = 1;
+
+    if (step !== endingCG.subtitleStep) {
+        endingCG.subtitleStep = step;
+        document.getElementById('cg-subtitle').textContent = captions[step];
+    }
+
+    if (endingCG.frame >= 380 && !endingCG.canContinue) {
+        endingCG.canContinue = true;
+        document.getElementById('btn-skip-cg-text').textContent = 'Lanjut';
+    }
+
+    // Animasi burung & partikel cahaya pagi
+    endingCG.birds.forEach(b => {
+        b.x += b.speed;
+        b.y -= 0.08;
+        b.phase += 0.09;
+        if (b.x > VIEW_WIDTH + 60) {
+            b.x = -40;
+            b.y = 210 + Math.random() * 90;
+        }
+    });
+
+    endingCG.embers.forEach(em => {
+        em.x += em.vx + Math.sin(endingCG.frame * 0.02 + em.phase) * 0.25;
+        em.y += em.vy;
+        if (em.x > VIEW_WIDTH + 20) em.x = -15;
+        if (em.y < -15) {
+            em.y = VIEW_HEIGHT + 10;
+            em.x = Math.random() * VIEW_WIDTH;
+        }
+    });
+
+    // Selesai otomatis setelah adegan matahari terbit penuh menikmati fajar (~10.5 detik)
+    if (endingCG.frame >= 630 && !endingCG.finished) {
+        endingCG.finished = true;
+        triggerVictory();
+    }
+}
+
+function drawEndingCG() {
+    const t = Math.min(1, endingCG.frame / 420);
+    const p = 1 - Math.pow(1 - t, 2); // Ease-out lembut saat fajar menyingsing
+    const sway = endingCG.frame * 0.055;
+
+    // 1. Gradien Langit Fajar (transisi malam -> keemasan hangat)
+    const skyGrad = ctx.createLinearGradient(0, 0, 0, VIEW_HEIGHT);
+    skyGrad.addColorStop(0, lerpRGB([9, 10, 28], [26, 36, 79], p));
+    skyGrad.addColorStop(0.42, lerpRGB([28, 17, 52], [126, 52, 92], p));
+    skyGrad.addColorStop(0.75, lerpRGB([56, 22, 62], [234, 102, 54], p));
+    skyGrad.addColorStop(1, lerpRGB([74, 34, 58], [253, 219, 132], p));
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, VIEW_WIDTH, VIEW_HEIGHT);
+
+    // 2. Bintang sisa malam yang perlahan memudar
+    const starAlpha = Math.max(0, 1 - p * 1.45);
+    if (starAlpha > 0.02) {
+        ctx.save();
+        for (let i = 0; i < 36; i++) {
+            const sx = (i * 173 + 57) % VIEW_WIDTH;
+            const sy = 58 + ((i * 97 + 31) % 240);
+            const twinkle = 0.5 + 0.5 * Math.sin(endingCG.frame * 0.06 + i);
+            ctx.fillStyle = `rgba(248, 250, 252, ${starAlpha * twinkle * 0.8})`;
+            ctx.beginPath();
+            ctx.arc(sx, sy, (i % 3 === 0 ? 1.8 : 1.1), 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.restore();
+    }
+
+    // 3. Posisi & Pancaran Matahari Terbit
+    const sunX = 840;
+    const sunY = 565 - p * 235; // Terbit dari balik pegunungan (565 -> 330)
+    const sunRadius = 74;
+
+    // Aura cahaya atmosfer matahari
+    const haloGrad = ctx.createRadialGradient(sunX, sunY, 20, sunX, sunY, 460);
+    haloGrad.addColorStop(0, `rgba(255, 250, 205, ${0.45 + p * 0.45})`);
+    haloGrad.addColorStop(0.28, `rgba(251, 191, 36, ${0.25 + p * 0.3})`);
+    haloGrad.addColorStop(0.62, `rgba(249, 115, 22, ${0.12 + p * 0.16})`);
+    haloGrad.addColorStop(1, 'rgba(249, 115, 22, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.fillRect(0, 0, VIEW_WIDTH, VIEW_HEIGHT);
+
+    // Sinar Matahari (Volumetric God-Rays)
+    ctx.save();
+    ctx.translate(sunX, sunY);
+    for (let i = 0; i < 9; i++) {
+        const angle = -Math.PI * 0.92 + i * 0.24 + Math.sin(endingCG.frame * 0.008 + i) * 0.03;
+        ctx.save();
+        ctx.rotate(angle);
+        const rayGrad = ctx.createLinearGradient(0, 0, 640, 0);
+        rayGrad.addColorStop(0, `rgba(254, 240, 138, ${0.08 + p * 0.14})`);
+        rayGrad.addColorStop(1, 'rgba(251, 191, 36, 0)');
+        ctx.fillStyle = rayGrad;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(640, -52);
+        ctx.lineTo(640, 52);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+    }
+    ctx.restore();
+
+    // Piringan Matahari Bersinar
+    const discGrad = ctx.createRadialGradient(sunX, sunY, 8, sunX, sunY, sunRadius);
+    discGrad.addColorStop(0, '#ffffff');
+    discGrad.addColorStop(0.55, '#fef08a');
+    discGrad.addColorStop(1, '#fb923c');
+    ctx.fillStyle = discGrad;
+    ctx.beginPath();
+    ctx.arc(sunX, sunY, sunRadius, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 4. Pegunungan Jauh & Kilau Fajar di Puncak
+    ctx.fillStyle = lerpRGB([24, 15, 42], [75, 42, 76], p);
+    ctx.beginPath();
+    ctx.moveTo(0, VIEW_HEIGHT);
+    ctx.lineTo(0, 495);
+    ctx.lineTo(220, 445);
+    ctx.lineTo(430, 490);
+    ctx.lineTo(630, 425);
+    ctx.lineTo(790, 480);
+    ctx.lineTo(990, 435);
+    ctx.lineTo(1160, 475);
+    ctx.lineTo(VIEW_WIDTH, 445);
+    ctx.lineTo(VIEW_WIDTH, VIEW_HEIGHT);
+    ctx.closePath();
+    ctx.fill();
+
+    // Rim cahaya tipis di puncak gunung menghadap matahari
+    ctx.strokeStyle = `rgba(253, 186, 116, ${0.12 + p * 0.35})`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(220, 445);
+    ctx.lineTo(430, 490);
+    ctx.lineTo(630, 425);
+    ctx.lineTo(790, 480);
+    ctx.lineTo(990, 435);
+    ctx.stroke();
+
+    // Kabut Fajar Keemasan di Lembah
+    const mistGrad = ctx.createLinearGradient(0, 460, 0, 585);
+    mistGrad.addColorStop(0, 'rgba(254, 215, 170, 0)');
+    mistGrad.addColorStop(0.55, `rgba(253, 186, 116, ${0.18 + p * 0.25})`);
+    mistGrad.addColorStop(1, 'rgba(253, 186, 116, 0)');
+    ctx.fillStyle = mistGrad;
+    ctx.fillRect(0, 460, VIEW_WIDTH, 130);
+
+    // Lapisan Bukit Hutan & Siluet Menara Benteng Goblin di kejauhan kanan
+    ctx.fillStyle = lerpRGB([15, 12, 30], [45, 25, 52], p);
+    ctx.beginPath();
+    ctx.moveTo(0, VIEW_HEIGHT);
+    ctx.lineTo(0, 530);
+    ctx.lineTo(280, 510);
+    ctx.lineTo(540, 555);
+    ctx.lineTo(740, 525);
+    ctx.lineTo(940, 555);
+    ctx.lineTo(1065, 528);
+    ctx.lineTo(1080, 505);
+    ctx.lineTo(1096, 512);
+    ctx.lineTo(1108, 496);
+    ctx.lineTo(1122, 524);
+    ctx.lineTo(VIEW_WIDTH, 515);
+    ctx.lineTo(VIEW_WIDTH, VIEW_HEIGHT);
+    ctx.closePath();
+    ctx.fill();
+
+    // Danau / Lautan Kabut Pagi memantulkan cahaya matahari di sisi kanan
+    const lakeY = 558;
+    const lakeGrad = ctx.createLinearGradient(0, lakeY, 0, VIEW_HEIGHT);
+    lakeGrad.addColorStop(0, lerpRGB([20, 16, 40], [180, 88, 68], p));
+    lakeGrad.addColorStop(1, lerpRGB([8, 9, 22], [35, 19, 44], p));
+    ctx.fillStyle = lakeGrad;
+    ctx.fillRect(0, lakeY, VIEW_WIDTH, VIEW_HEIGHT - lakeY);
+
+    // Kilau pantulan matahari di permukaan lembah/air
+    ctx.save();
+    for (let i = 0; i < 8; i++) {
+        const ry = lakeY + 10 + i * 11;
+        const rw = (110 - i * 8) * (0.6 + p * 0.6) + Math.sin(endingCG.frame * 0.06 + i) * 14;
+        ctx.fillStyle = `rgba(254, 240, 138, ${(0.36 - i * 0.035) * (0.35 + p * 0.65)})`;
+        ctx.fillRect(sunX - rw / 2, ry, rw, 3);
+    }
+    ctx.restore();
+
+    // 5. Burung-burung Pagi Terbang di Langit
+    ctx.save();
+    ctx.strokeStyle = 'rgba(28, 16, 42, 0.72)';
+    ctx.lineWidth = 2.2;
+    ctx.lineCap = 'round';
+    endingCG.birds.forEach(b => {
+        const wing = Math.sin(b.phase) * 5 * b.scale;
+        const span = 10 * b.scale;
+        ctx.beginPath();
+        ctx.moveTo(b.x - span, b.y + wing);
+        ctx.quadraticCurveTo(b.x - span * 0.45, b.y - 4 * b.scale, b.x, b.y);
+        ctx.quadraticCurveTo(b.x + span * 0.45, b.y - 4 * b.scale, b.x + span, b.y + wing);
+        ctx.stroke();
+    });
+    ctx.restore();
+
+    // 6. Tebing Batu Depan di Kiri Layar (tempat Shadow Assassin berdiri)
+    ctx.fillStyle = '#070812';
+    ctx.beginPath();
+    ctx.moveTo(0, VIEW_HEIGHT);
+    ctx.lineTo(0, 488);
+    ctx.lineTo(135, 474);
+    ctx.lineTo(295, 466);
+    ctx.lineTo(360, 476);
+    ctx.lineTo(422, 540);
+    ctx.lineTo(498, VIEW_HEIGHT);
+    ctx.closePath();
+    ctx.fill();
+
+    // Rim-light cahaya fajar di tepi tebing menghadap matahari
+    ctx.strokeStyle = `rgba(251, 191, 36, ${0.28 + p * 0.5})`;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(135, 474);
+    ctx.lineTo(295, 466);
+    ctx.lineTo(360, 476);
+    ctx.lineTo(422, 540);
+    ctx.stroke();
+
+    // Rumput ilalang tertiup angin pagi di atas tebing
+    ctx.save();
+    ctx.strokeStyle = '#0c0d1b';
+    ctx.lineWidth = 2.5;
+    for (let i = 0; i < 16; i++) {
+        const gx = 32 + i * 21;
+        const gy = i < 6 ? 482 - i * 2 : 469;
+        const tipX = gx - 10 - Math.sin(sway + i * 0.6) * 8;
+        const tipY = gy - 16 - (i % 3) * 5;
+        ctx.beginPath();
+        ctx.moveTo(gx, gy);
+        ctx.quadraticCurveTo(gx - 3, gy - 8, tipX, tipY);
+        ctx.stroke();
+    }
+    ctx.restore();
+
+    // 7. SOSOK SHADOW ASSASSIN MELIHAT MATAHARI TERBIT (Heroic Pose)
+    const ax = 285;
+    const ay = 468;
+    const breath = Math.sin(endingCG.frame * 0.045) * 1.4;
+    const rimAlpha = 0.35 + p * 0.6;
+
+    ctx.save();
+    ctx.translate(ax, ay);
+
+    // Syal Panjang Meruncing Berkibar ke Kiri Diterpa Angin Fajar
+    const scarfPts = [{ x: -8, y: -94 + breath }];
+    for (let s = 1; s <= 9; s++) {
+        scarfPts.push({
+            x: -8 - s * 22,
+            y: -94 + breath + Math.sin(sway - s * 0.65) * (3 + s * 1.1) - s * 1.6
+        });
+    }
+    ctx.fillStyle = '#6b21a8';
+    ctx.beginPath();
+    ctx.moveTo(scarfPts[0].x, scarfPts[0].y - 5);
+    for (let s = 1; s < scarfPts.length; s++) {
+        const halfW = Math.max(1.2, 5.5 - s * 0.45);
+        ctx.lineTo(scarfPts[s].x, scarfPts[s].y - halfW);
+    }
+    for (let s = scarfPts.length - 1; s >= 0; s--) {
+        const halfW = Math.max(1.2, 5.5 - s * 0.45);
+        ctx.lineTo(scarfPts[s].x, scarfPts[s].y + halfW);
+    }
+    ctx.closePath();
+    ctx.fill();
+    // Highlight tepi atas syal terkena sinar matahari
+    ctx.strokeStyle = `rgba(251, 191, 36, ${rimAlpha * 0.75})`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(scarfPts[0].x, scarfPts[0].y - 5);
+    for (let s = 1; s < scarfPts.length; s++) {
+        const halfW = Math.max(1.2, 5.5 - s * 0.45);
+        ctx.lineTo(scarfPts[s].x, scarfPts[s].y - halfW);
+    }
+    ctx.stroke();
+
+    // Kaki Mantap Berdiri di Puncak Tebing
+    ctx.fillStyle = '#090b17';
+    ctx.beginPath();
+    ctx.moveTo(-16, -42);
+    ctx.lineTo(-26, 2);
+    ctx.lineTo(-10, 2);
+    ctx.lineTo(-3, -36);
+    ctx.lineTo(8, 2);
+    ctx.lineTo(24, 2);
+    ctx.lineTo(14, -44);
+    ctx.closePath();
+    ctx.fill();
+
+    // Sarung Belati Kembar di Punggung
+    ctx.save();
+    ctx.translate(-12, -88 + breath);
+    ctx.rotate(-0.55);
+    ctx.fillStyle = '#1e293b';
+    ctx.fillRect(-4, -34, 7, 52);
+    ctx.fillStyle = `rgba(253, 224, 71, ${rimAlpha})`;
+    ctx.fillRect(-5, -36, 9, 5); // Gagang belati berkilau matahari
+    ctx.restore();
+
+    // Jubah & Torso Shadow Assassin (menghadap kanan ke arah matahari)
+    ctx.fillStyle = '#0b0e1e';
+    ctx.beginPath();
+    ctx.moveTo(-20, -98 + breath);
+    ctx.lineTo(18, -96 + breath);
+    ctx.lineTo(26, -34 + breath * 0.4);
+    ctx.lineTo(-32 - Math.sin(sway) * 2.5, -24 + breath * 0.4);
+    ctx.closePath();
+    ctx.fill();
+
+    // Tangan kanan beristirahat santai di sisi sabuk
+    ctx.beginPath();
+    ctx.moveTo(10, -88 + breath);
+    ctx.lineTo(22, -52 + breath);
+    ctx.lineTo(13, -49 + breath);
+    ctx.lineTo(2, -78 + breath);
+    ctx.closePath();
+    ctx.fill();
+
+    // Kepala & Tudung (sedikit menengadah memandang matahari)
+    ctx.fillStyle = '#090b17';
+    ctx.beginPath();
+    ctx.arc(4, -114 + breath, 18, 0, Math.PI * 2);
+    ctx.fill();
+    // Ujung tudung belakang runcing tertiup angin
+    ctx.beginPath();
+    ctx.moveTo(-8, -128 + breath);
+    ctx.lineTo(-34, -114 + breath + Math.sin(sway) * 2);
+    ctx.lineTo(-12, -102 + breath);
+    ctx.closePath();
+    ctx.fill();
+
+    // Kilau mata tenang memandang fajar
+    ctx.fillStyle = '#67e8f9';
+    ctx.fillRect(13, -118 + breath, 7, 3.2);
+
+    // Garis Rim-Light Emas di sepanjang sisi depan tubuh yang menghadap matahari
+    ctx.strokeStyle = `rgba(253, 224, 71, ${rimAlpha})`;
+    ctx.lineWidth = 2.6;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(6, -131 + breath);
+    ctx.quadraticCurveTo(23, -120 + breath, 18, -96 + breath);
+    ctx.lineTo(22, -52 + breath);
+    ctx.lineTo(24, 0);
+    ctx.stroke();
+
+    ctx.restore();
+
+    // 8. Partikel Debu Cahaya Fajar Keemasan
+    ctx.save();
+    endingCG.embers.forEach(em => {
+        ctx.fillStyle = `rgba(254, 240, 138, ${em.alpha * (0.4 + p * 0.6)})`;
+        ctx.beginPath();
+        ctx.arc(em.x, em.y, em.size, 0, Math.PI * 2);
+        ctx.fill();
+    });
+    ctx.restore();
+
+    // 9. Fade-in lembut saat adegan baru dimulai
+    if (endingCG.frame < 30) {
+        ctx.fillStyle = `rgba(0, 0, 0, ${1 - endingCG.frame / 30})`;
+        ctx.fillRect(0, 0, VIEW_WIDTH, VIEW_HEIGHT);
+    }
+}
+
 function triggerGameOver() {
     game.state = 'gameover';
+    resetInputKeys();
+    hideBanner();
+    document.getElementById('hud').classList.remove('hidden');
+    document.getElementById('touch-controls').classList.remove('hidden');
+    document.getElementById('ending-cg-overlay').classList.add('hidden');
+    document.getElementById('pause-modal').classList.add('hidden');
+
+    const record = saveBestRecord(game.totalKills, game.totalGoldEarned, false);
     const modal = document.getElementById('end-modal');
     const iconWrap = document.getElementById('end-icon-wrap');
     const icon = document.getElementById('end-icon');
 
-    iconWrap.className = 'w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center text-4xl border-2 bg-rose-950/80 border-rose-500 text-rose-400';
+    iconWrap.className = 'w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl border-2 bg-rose-950/80 border-rose-500 text-rose-400';
     icon.className = 'fa-solid fa-skull-crossbones';
     document.getElementById('end-sub').textContent = 'PERTEMPURAN BERAKHIR';
     document.getElementById('end-title').textContent = 'ASSASSIN TUMBANG';
-    document.getElementById('end-desc').textContent = 'Jangan menyerah! Gunakan Emas yang sudah terkumpul untuk memperkuat statistikmu dan coba lagi.';
+    document.getElementById('end-desc').textContent = 'Jangan menyerah! Bangkit kembali di stage ini dengan perlengkapanmu sebelum tumbang.';
     document.getElementById('end-kills').textContent = game.totalKills;
     document.getElementById('end-gold').textContent = game.totalGoldEarned;
+
+    const recordEl = document.getElementById('end-record');
+    recordEl.textContent = `Rekor Terbaik: ${record.bestKills} Goblin • ${record.bestGold} Emas`;
+    recordEl.classList.remove('hidden');
+
     document.getElementById('btn-retry-stage').classList.remove('hidden');
+    document.getElementById('btn-replay-cg').classList.add('hidden');
 
     modal.classList.remove('hidden');
 }
 
 function triggerVictory() {
     game.state = 'victory';
+    resetInputKeys();
+    hideBanner();
     sfx.play('portal');
+
+    document.getElementById('ending-cg-overlay').classList.add('hidden');
+    document.getElementById('pause-modal').classList.add('hidden');
+    document.getElementById('hud').classList.remove('hidden');
+    document.getElementById('touch-controls').classList.remove('hidden');
+
+    const record = saveBestRecord(game.totalKills, game.totalGoldEarned, true);
     const modal = document.getElementById('end-modal');
     const iconWrap = document.getElementById('end-icon-wrap');
     const icon = document.getElementById('end-icon');
 
-    iconWrap.className = 'w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center text-4xl border-2 bg-amber-950/80 border-amber-400 text-amber-300';
+    iconWrap.className = 'w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl border-2 bg-amber-950/80 border-amber-400 text-amber-300';
     icon.className = 'fa-solid fa-trophy';
     document.getElementById('end-sub').textContent = 'SELURUH 3 STAGE DITAKLUKKAN';
     document.getElementById('end-title').textContent = 'SANG MASTER ASSASSIN!';
     document.getElementById('end-desc').textContent = 'Selamat! Kamu telah membersihkan Hutan Gelap, Gua Goblin, dan menumbangkan Raja Goblin Grommash di Bentengnya!';
     document.getElementById('end-kills').textContent = game.totalKills;
     document.getElementById('end-gold').textContent = game.totalGoldEarned;
+
+    const recordEl = document.getElementById('end-record');
+    recordEl.textContent = `Rekor Terbaik: ${record.bestKills} Goblin • ${record.bestGold} Emas`;
+    recordEl.classList.remove('hidden');
+
     document.getElementById('btn-retry-stage').classList.add('hidden');
+    document.getElementById('btn-replay-cg').classList.remove('hidden');
 
     modal.classList.remove('hidden');
 }
@@ -1908,6 +2776,11 @@ function triggerVictory() {
 // --- 11. GAME LOOP UTAMA (UPDATE & RENDER) ---
 function updateGame() {
     if (game.state !== 'playing') return;
+
+    if (game.hitStop > 0) {
+        game.hitStop--;
+        return;
+    }
 
     const stage = STAGES[game.stageIndex];
     player.update(stage);
@@ -1917,7 +2790,7 @@ function updateGame() {
     const dashText = document.getElementById('hud-dash-text');
     if (player.dashCooldown <= 0) {
         dashBar.style.width = '100%';
-        dashText.textContent = 'SIAP [K/Shift]';
+        dashText.textContent = isTouchCapable ? 'SIAP' : 'SIAP [K/Shift]';
     } else {
         const pct = ((player.dashMaxCooldown - player.dashCooldown) / player.dashMaxCooldown) * 100;
         dashBar.style.width = `${pct}%`;
@@ -1933,12 +2806,20 @@ function updateGame() {
         p.x += p.vx;
         p.y += p.vy;
 
-        if (rectOverlap({ x: p.x - 6, y: p.y - 6, w: 12, h: 12 }, player)) {
-            player.takeDamage(p.damage, Math.sign(p.vx) * 5);
+        // Hancur jika menabrak tebing daratan solid
+        for (const plat of stage.platforms) {
+            if (plat.type === 'ground' && p.x >= plat.x && p.x <= plat.x + plat.w && p.y >= plat.y + 4 && p.y <= plat.y + plat.h) {
+                p.dead = true;
+                break;
+            }
+        }
+
+        if (!p.dead && rectOverlap({ x: p.x - 6, y: p.y - 6, w: 12, h: 12 }, player)) {
+            player.takeDamage(p.damage, Math.sign(p.vx || 1) * 5);
             p.dead = true;
         }
 
-        if (p.x < game.cameraX - 100 || p.x > game.cameraX + VIEW_WIDTH + 100 || p.dead) {
+        if (p.x < game.cameraX - 150 || p.x > game.cameraX + VIEW_WIDTH + 150 || p.x < 0 || p.x > stage.worldWidth || p.y > VIEW_HEIGHT + 50 || p.dead) {
             projectiles.splice(i, 1);
         }
     }
@@ -1960,7 +2841,7 @@ function updateGame() {
             }
         }
 
-        // Magnet tarik otomatis ke Assassin jika dekat atau setelah 25 frame
+        // Magnet tarik otomatis ke Assassin jika dekat atau setelah 35 frame
         const dx = (player.x + player.w / 2) - c.x;
         const dy = (player.y + player.h / 2) - c.y;
         const dist = Math.hypot(dx, dy);
@@ -1998,7 +2879,7 @@ function updateGame() {
                 sfx.play('portal');
                 openShop(true);
             } else {
-                triggerVictory();
+                startEndingCG();
             }
         } else if (Math.random() < 0.05) {
             addFloatingText(`Kalahkan ${aliveEnemies} Goblin lagi!`, stage.portalX, stage.portalY - 60, '#f43f5e');
@@ -2040,11 +2921,8 @@ function updateGame() {
 function drawGame() {
     const stage = STAGES[game.stageIndex];
 
-    // 1. Langit / Latar Belakang Stage
-    const skyGrad = ctx.createLinearGradient(0, 0, 0, VIEW_HEIGHT);
-    skyGrad.addColorStop(0, stage.skyTop);
-    skyGrad.addColorStop(1, stage.skyBottom);
-    ctx.fillStyle = skyGrad;
+    // 1. Langit / Latar Belakang Stage (menggunakan gradient cached)
+    ctx.fillStyle = skyGradientCache[game.stageIndex];
     ctx.fillRect(0, 0, VIEW_WIDTH, VIEW_HEIGHT);
 
     // Bulan Purnama / Aura Kristal
@@ -2087,7 +2965,7 @@ function drawGame() {
                 ctx.closePath();
                 ctx.fill();
             } else {
-                // Pilar & Obor Benteng Goblin
+                // Pilar Benteng Goblin
                 ctx.fillRect(px, 610 - prop.h * 1.5, prop.w * 0.8, prop.h * 1.5);
             }
         }
@@ -2115,6 +2993,7 @@ function drawGame() {
 
     // 4. Gambar Jebakan Duri (Spike Traps)
     for (const spike of stage.spikes) {
+        if (spike.x + spike.w < game.cameraX - 50 || spike.x > game.cameraX + VIEW_WIDTH + 50) continue;
         ctx.fillStyle = '#94a3b8';
         const spikeCount = Math.floor(spike.w / 14);
         for (let i = 0; i < spikeCount; i++) {
@@ -2141,13 +3020,26 @@ function drawGame() {
     ctx.fillRect(-38, -55, 14, 115);
     ctx.fillRect(24, -55, 14, 115);
 
+    // Aura luar Portal (ringan tanpa shadowBlur)
+    if (portalUnlocked) {
+        ctx.beginPath();
+        ctx.ellipse(0, 2, 34 + Math.sin(pTime * 2) * 4, 56, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(34, 211, 238, 0.22)';
+        ctx.fill();
+    }
+
     // Pusaran Energi Portal
     ctx.beginPath();
     ctx.ellipse(0, 2, 24 + Math.sin(pTime * 2) * 3, 48, 0, 0, Math.PI * 2);
-    ctx.fillStyle = portalUnlocked ? 'rgba(168, 85, 247, 0.75)' : 'rgba(71, 85, 105, 0.45)';
-    ctx.shadowColor = portalUnlocked ? '#22d3ee' : 'transparent';
-    ctx.shadowBlur = portalUnlocked ? 25 : 0;
+    ctx.fillStyle = portalUnlocked ? 'rgba(168, 85, 247, 0.8)' : 'rgba(71, 85, 105, 0.45)';
     ctx.fill();
+
+    if (portalUnlocked) {
+        ctx.beginPath();
+        ctx.ellipse(0, 2, 12 + Math.cos(pTime * 3) * 2, 30, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(103, 232, 249, 0.65)';
+        ctx.fill();
+    }
 
     ctx.font = '800 12px "Plus Jakarta Sans"';
     ctx.textAlign = 'center';
@@ -2166,22 +3058,26 @@ function drawGame() {
         ctx.restore();
     });
 
-    // 7. Gambar Koin Gold & Orb Heal
+    // 7. Gambar Koin Gold & Orb Heal (glow halo ringan)
     coins.forEach(c => {
         ctx.save();
         if (c.type === 'gold') {
+            ctx.fillStyle = 'rgba(250, 204, 21, 0.25)';
+            ctx.beginPath();
+            ctx.arc(c.x, c.y, 12, 0, Math.PI * 2);
+            ctx.fill();
             ctx.fillStyle = '#facc15';
-            ctx.shadowColor = '#facc15';
-            ctx.shadowBlur = 10;
             ctx.beginPath();
             ctx.arc(c.x, c.y, 8, 0, Math.PI * 2);
             ctx.fill();
             ctx.fillStyle = '#854d0e';
             ctx.fillRect(c.x - 2, c.y - 4, 4, 8);
         } else {
+            ctx.fillStyle = 'rgba(74, 222, 128, 0.25)';
+            ctx.beginPath();
+            ctx.arc(c.x, c.y, 13, 0, Math.PI * 2);
+            ctx.fill();
             ctx.fillStyle = '#4ade80';
-            ctx.shadowColor = '#4ade80';
-            ctx.shadowBlur = 10;
             ctx.beginPath();
             ctx.arc(c.x, c.y, 9, 0, Math.PI * 2);
             ctx.fill();
@@ -2198,11 +3094,14 @@ function drawGame() {
     // 10. Gambar Proyektil Anak Panah & Shockwave
     projectiles.forEach(p => {
         ctx.save();
-        ctx.fillStyle = p.color;
-        ctx.shadowColor = p.color;
-        ctx.shadowBlur = 8;
+        ctx.fillStyle = p.isWave ? 'rgba(244, 63, 94, 0.28)' : 'rgba(163, 230, 53, 0.28)';
         ctx.beginPath();
-        ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.isWave ? 12 : 9, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.isWave ? 7 : 5.5, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
     });
@@ -2242,16 +3141,67 @@ function drawGame() {
     }
 }
 
-function gameLoop() {
-    updateGame();
-    drawGame();
+let lastFrameTime = 0;
+let accumulator = 0;
+const FIXED_STEP = 1000 / 60;
+
+function gameLoop(timestamp) {
+    if (typeof timestamp !== 'number') timestamp = performance.now();
+    if (!lastFrameTime) lastFrameTime = timestamp;
+    let delta = timestamp - lastFrameTime;
+    lastFrameTime = timestamp;
+    if (delta > 50) delta = 50; // Cegah lompatan waktu terlalu besar
+
+    accumulator += delta;
+    while (accumulator >= FIXED_STEP) {
+        if (game.state === 'playing') {
+            updateGame();
+        } else if (game.state === 'ending_cg') {
+            updateEndingCG();
+        }
+        accumulator -= FIXED_STEP;
+    }
+
+    if (game.state === 'ending_cg') {
+        drawEndingCG();
+    } else {
+        drawGame();
+    }
     requestAnimationFrame(gameLoop);
 }
 
-// --- 12. EVENT LISTENERS (KEYBOARD, MOUSE & TOUCH) ---
+// --- 12. EVENT LISTENERS (KEYBOARD, POINTER & TOUCH) ---
+let isTouchCapable = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+if (isTouchCapable) {
+    document.body.classList.add('is-touch');
+}
+window.addEventListener('touchstart', () => {
+    isTouchCapable = true;
+    document.body.classList.add('is-touch');
+}, { once: true, passive: true });
+window.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'touch') {
+        isTouchCapable = true;
+        document.body.classList.add('is-touch');
+    }
+}, { passive: true });
+
 window.addEventListener('keydown', e => {
     if (e.repeat) return;
     const code = e.code;
+
+    if (code === 'Escape' || code === 'KeyP') {
+        if (game.state === 'playing') openPause();
+        else if (game.state === 'paused') resumeGame();
+        else if (game.state === 'shop' && !game.betweenStages) closeShop();
+        return;
+    }
+
+    if (game.state === 'ending_cg' && (code === 'Enter' || code === 'Space') && endingCG.frame > 30) {
+        e.preventDefault();
+        triggerVictory();
+        return;
+    }
 
     if (code === 'KeyA' || code === 'ArrowLeft') keys.left = true;
     if (code === 'KeyD' || code === 'ArrowRight') keys.right = true;
@@ -2286,39 +3236,106 @@ window.addEventListener('keyup', e => {
     if (code === 'KeyD' || code === 'ArrowRight') keys.right = false;
 });
 
-// Binding Tombol Layar Sentuh (On-Screen Controls)
-function bindTouchButton(id, onDown, onUp) {
-    const btn = document.getElementById(id);
-    const start = e => {
+window.addEventListener('blur', resetInputKeys);
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        window.onAppPause();
+    }
+});
+
+// D-Pad Kiri/Kanan dengan dukungan geser jari mulus (Pointer Events)
+(function initDpad() {
+    const dpadZone = document.getElementById('dpad-zone');
+    const btnLeft = document.getElementById('t-left');
+    const btnRight = document.getElementById('t-right');
+    const activePointers = new Map();
+
+    function syncDpadState() {
+        let goLeft = false;
+        let goRight = false;
+        for (const dir of activePointers.values()) {
+            if (dir === 'left') goLeft = true;
+            if (dir === 'right') goRight = true;
+        }
+        keys.left = goLeft;
+        keys.right = goRight;
+        btnLeft.classList.toggle('active', goLeft);
+        btnRight.classList.toggle('active', goRight);
+    }
+
+    function detectDir(clientX) {
+        const leftRect = btnLeft.getBoundingClientRect();
+        const rightRect = btnRight.getBoundingClientRect();
+        const midX = (leftRect.right + rightRect.left) / 2;
+        return clientX < midX ? 'left' : 'right';
+    }
+
+    dpadZone.addEventListener('pointerdown', e => {
         e.preventDefault();
         sfx.init();
+        if (dpadZone.setPointerCapture) {
+            try { dpadZone.setPointerCapture(e.pointerId); } catch (err) {}
+        }
+        activePointers.set(e.pointerId, detectDir(e.clientX));
+        syncDpadState();
+    });
+
+    dpadZone.addEventListener('pointermove', e => {
+        if (!activePointers.has(e.pointerId)) return;
+        e.preventDefault();
+        const dir = detectDir(e.clientX);
+        if (activePointers.get(e.pointerId) !== dir) {
+            activePointers.set(e.pointerId, dir);
+            syncDpadState();
+        }
+    });
+
+    const releasePointer = e => {
+        if (!activePointers.has(e.pointerId)) return;
+        e.preventDefault();
+        activePointers.delete(e.pointerId);
+        syncDpadState();
+    };
+
+    dpadZone.addEventListener('pointerup', releasePointer);
+    dpadZone.addEventListener('pointercancel', releasePointer);
+    dpadZone.addEventListener('lostpointercapture', releasePointer);
+})();
+
+// Binding Tombol Aksi Layar Sentuh (Pointer Events - anti double trigger)
+function bindActionButton(id, onDown) {
+    const btn = document.getElementById(id);
+    const activeIds = new Set();
+
+    btn.addEventListener('pointerdown', e => {
+        e.preventDefault();
+        sfx.init();
+        if (btn.setPointerCapture) {
+            try { btn.setPointerCapture(e.pointerId); } catch (err) {}
+        }
+        activeIds.add(e.pointerId);
         btn.classList.add('active');
         onDown();
-    };
+    });
+
     const end = e => {
-        e.preventDefault();
-        btn.classList.remove('active');
-        if (onUp) onUp();
+        activeIds.delete(e.pointerId);
+        if (activeIds.size === 0) btn.classList.remove('active');
     };
-    btn.addEventListener('touchstart', start, { passive: false });
-    btn.addEventListener('touchend', end, { passive: false });
-    btn.addEventListener('touchcancel', end, { passive: false });
-    btn.addEventListener('mousedown', start);
-    btn.addEventListener('mouseup', end);
-    btn.addEventListener('mouseleave', end);
+    btn.addEventListener('pointerup', end);
+    btn.addEventListener('pointercancel', end);
+    btn.addEventListener('lostpointercapture', end);
 }
 
-bindTouchButton('t-left', () => { keys.left = true; }, () => { keys.left = false; });
-bindTouchButton('t-right', () => { keys.right = true; }, () => { keys.right = false; });
-bindTouchButton('t-jump', () => { keys.jumpPressed = true; });
-bindTouchButton('t-attack', () => { keys.attackPressed = true; });
-bindTouchButton('t-dash', () => { keys.dashPressed = true; });
+bindActionButton('t-jump', () => { keys.jumpPressed = true; });
+bindActionButton('t-attack', () => { keys.attackPressed = true; });
+bindActionButton('t-dash', () => { keys.dashPressed = true; });
 
 // Tombol UI & Modal
 document.getElementById('btn-start-game').addEventListener('click', () => {
     sfx.init();
     document.getElementById('start-modal').classList.add('hidden');
-    loadStage(0, true);
+    loadStage(0, true, false);
     game.state = 'playing';
 });
 
@@ -2343,16 +3360,44 @@ document.getElementById('btn-sound').addEventListener('click', () => {
     icon.className = sfx.muted ? 'fa-solid fa-volume-xmark text-sm text-rose-400' : 'fa-solid fa-volume-high text-sm';
 });
 
+document.getElementById('btn-pause').addEventListener('click', () => {
+    sfx.init();
+    if (game.state === 'playing') openPause();
+});
+
+document.getElementById('btn-resume-game').addEventListener('click', () => {
+    resumeGame();
+});
+
+document.getElementById('btn-pause-restart').addEventListener('click', () => {
+    document.getElementById('pause-modal').classList.add('hidden');
+    loadStage(game.stageIndex, true, true);
+    game.state = 'playing';
+});
+
 document.getElementById('btn-restart').addEventListener('click', () => {
     if (game.state === 'playing') {
-        loadStage(game.stageIndex, true);
+        loadStage(game.stageIndex, true, true);
     }
 });
 
 document.getElementById('btn-retry-stage').addEventListener('click', () => {
     document.getElementById('end-modal').classList.add('hidden');
-    loadStage(game.stageIndex, true);
+    loadStage(game.stageIndex, true, true);
     game.state = 'playing';
+});
+
+document.getElementById('btn-skip-cg').addEventListener('click', () => {
+    sfx.init();
+    if (game.state === 'ending_cg') {
+        triggerVictory();
+    }
+});
+
+document.getElementById('btn-replay-cg').addEventListener('click', () => {
+    sfx.init();
+    document.getElementById('end-modal').classList.add('hidden');
+    startEndingCG();
 });
 
 document.getElementById('btn-play-again').addEventListener('click', () => {
@@ -2361,15 +3406,15 @@ document.getElementById('btn-play-again').addEventListener('click', () => {
     game.totalGoldEarned = 0;
     game.totalKills = 0;
     game.upgrades = { atkLevel: 1, hpLevel: 1, spdLevel: 1 };
-    loadStage(0, true);
+    loadStage(0, true, false);
     game.state = 'playing';
 });
 
 // Mulai Render Loop saat halaman selesai dimuat
 window.onload = function () {
-    loadStage(0, true);
+    loadStage(0, true, false);
     game.state = 'start';
-    gameLoop();
+    requestAnimationFrame(gameLoop);
 };
 </script>
 </body>
