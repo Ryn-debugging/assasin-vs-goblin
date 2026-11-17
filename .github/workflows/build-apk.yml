@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build:
-    name: Build APK
+    name: Build Release APK
     runs-on: ubuntu-latest
 
     steps:
@@ -30,21 +30,26 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+      - name: Build Signed Release APK
+        run: ./gradlew assembleRelease --stacktrace
 
-      - name: Upload Debug APK Artifact
+      - name: Rename and Verify Release APK
+        run: |
+          cp app/build/outputs/apk/release/app-release.apk ShadowAssassin.apk
+          "${ANDROID_HOME}/build-tools/34.0.0/apksigner" verify --verbose ShadowAssassin.apk
+
+      - name: Upload Release APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ShadowAssassin-Debug-APK
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: ShadowAssassin-Release-APK
+          path: ShadowAssassin.apk
           if-no-files-found: error
 
       - name: Create Release and Upload APK
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: app/build/outputs/apk/debug/app-debug.apk
+          files: ShadowAssassin.apk
           name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false

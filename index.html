@@ -79,6 +79,45 @@
         .gold-pulse {
             animation: pulseGlow 2s infinite;
         }
+        @media (max-height: 480px) {
+            #start-modal .modal-card,
+            #end-modal .modal-card {
+                padding: 0.9rem 1.25rem !important;
+                max-width: 34rem !important;
+            }
+            #start-modal .start-icon {
+                width: 2.75rem !important;
+                height: 2.75rem !important;
+                margin-bottom: 0.4rem !important;
+            }
+            #start-modal .start-icon i {
+                font-size: 1.35rem !important;
+            }
+            #start-modal h1 {
+                font-size: 1.35rem !important;
+                line-height: 1.15 !important;
+                margin-bottom: 0.35rem !important;
+            }
+            #start-modal h1 span {
+                font-size: 1rem !important;
+            }
+            #start-modal .start-desc {
+                font-size: 0.72rem !important;
+                line-height: 1.3 !important;
+                margin-bottom: 0.6rem !important;
+            }
+            #start-modal .start-grid {
+                padding: 0.5rem 0.75rem !important;
+                gap: 0.4rem !important;
+                margin-bottom: 0.65rem !important;
+                font-size: 0.68rem !important;
+            }
+            #btn-start-game {
+                padding-top: 0.55rem !important;
+                padding-bottom: 0.55rem !important;
+                font-size: 0.875rem !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -230,22 +269,22 @@
     </div>
 
     <!-- MODAL MENU AWAL (START SCREEN) -->
-    <div id="start-modal" class="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 z-40">
-        <div class="glass-panel max-w-lg w-full rounded-3xl p-6 sm:p-8 text-center border border-purple-500/40 relative overflow-hidden">
-            <div class="absolute -top-24 -left-24 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl"></div>
-            <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-rose-600/20 rounded-full blur-3xl"></div>
+    <div id="start-modal" class="absolute inset-0 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 z-40">
+        <div class="modal-card glass-panel max-w-lg w-full rounded-2xl sm:rounded-3xl p-4 sm:p-7 text-center border border-purple-500/40 relative max-h-[94dvh] overflow-y-auto overflow-x-hidden">
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-rose-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
-            <div class="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-purple-700 via-indigo-900 to-slate-950 border-2 border-purple-400 flex items-center justify-center shadow-xl">
-                <i class="fa-solid fa-user-ninja text-4xl text-purple-200"></i>
+            <div class="start-icon w-12 h-12 sm:w-20 sm:h-20 mx-auto mb-2 sm:mb-4 rounded-xl sm:rounded-2xl bg-gradient-to-br from-purple-700 via-indigo-900 to-slate-950 border-2 border-purple-400 flex items-center justify-center shadow-xl">
+                <i class="fa-solid fa-user-ninja text-2xl sm:text-4xl text-purple-200"></i>
             </div>
 
-            <div class="text-xs font-bold uppercase tracking-[0.25em] text-purple-400 mb-1">2D Action Platformer</div>
-            <h1 class="text-2xl sm:text-4xl font-black text-white font-cinzel tracking-wide mb-3">SHADOW ASSASSIN<br><span class="text-emerald-400 text-xl sm:text-2xl">VS GOBLINS</span></h1>
-            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+            <div class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-purple-400 mb-0.5 sm:mb-1">2D Action Platformer</div>
+            <h1 class="text-xl sm:text-4xl font-black text-white font-cinzel tracking-wide mb-2 sm:mb-3">SHADOW ASSASSIN<br><span class="text-emerald-400 text-base sm:text-2xl">VS GOBLINS</span></h1>
+            <p class="start-desc text-slate-300 text-[11px] sm:text-sm leading-snug sm:leading-relaxed mb-3 sm:mb-5">
                 Pasukan Goblin telah menguasai Hutan Gelap hingga Benteng Kuno. Gunakan belati kembar dan jurus <strong class="text-cyan-300">Shadow Dash</strong> untuk menumpas mereka, kumpulkan <strong class="text-amber-300">Koin Emas</strong>, perkuat kekuatanmu, dan kalahkan Raja Goblin!
             </p>
 
-            <div class="grid grid-cols-2 gap-2.5 text-left bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 mb-6 text-xs">
+            <div class="start-grid grid grid-cols-2 gap-2 text-left bg-slate-900/80 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-slate-800 mb-3 sm:mb-5 text-[11px] sm:text-xs">
                 <div class="flex items-center gap-2.5">
                     <i class="fa-solid fa-arrows-left-right text-purple-400 text-base w-5 text-center"></i>
                     <div>
@@ -396,8 +435,8 @@
     </div>
 
     <!-- MODAL GAME OVER / VICTORY -->
-    <div id="end-modal" class="hidden absolute inset-0 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 z-40">
-        <div class="glass-panel max-w-md w-full rounded-3xl p-6 sm:p-8 text-center border border-purple-500/40">
+    <div id="end-modal" class="hidden absolute inset-0 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-2 sm:p-4 z-40">
+        <div class="modal-card glass-panel max-w-md w-full rounded-2xl sm:rounded-3xl p-4 sm:p-7 text-center border border-purple-500/40 max-h-[94dvh] overflow-y-auto overflow-x-hidden">
             <div id="end-icon-wrap" class="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center text-4xl border-2">
                 <i id="end-icon" class="fa-solid fa-trophy"></i>
             </div>
