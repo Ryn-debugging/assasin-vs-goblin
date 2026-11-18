@@ -235,10 +235,18 @@
                 padding: 0.12rem 0.38rem !important;
                 font-size: 0.58rem !important;
             }
-            #btn-start-game, #btn-continue-stage {
+            #btn-start-game, #btn-continue-stage, #btn-boss-rush {
                 padding-top: 0.34rem !important;
                 padding-bottom: 0.34rem !important;
-                font-size: 0.76rem !important;
+                font-size: 0.74rem !important;
+            }
+            #shop-relics-bar {
+                margin-top: 0 !important;
+                gap: 0.2rem !important;
+            }
+            #shop-relics-bar .relic-pill {
+                padding: 0.06rem 0.32rem !important;
+                font-size: 0.54rem !important;
             }
             #end-modal #end-icon-wrap {
                 width: 2rem !important;
@@ -564,10 +572,10 @@
                 <i class="fa-solid fa-user-ninja text-2xl sm:text-4xl text-purple-200"></i>
             </div>
 
-            <div class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-purple-400 mb-0.5 sm:mb-1">2D Action Platformer • v3.0.0 • 30 Stage</div>
+            <div class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-purple-400 mb-0.5 sm:mb-1">2D Action Platformer • v4.0.0 • Edisi Maksimal</div>
             <h1 class="text-xl sm:text-4xl font-black text-white font-cinzel tracking-wide mb-2 sm:mb-3">SHADOW ASSASSIN<br><span class="text-emerald-400 text-base sm:text-2xl">VS GOBLINS</span></h1>
             <p class="start-desc text-slate-300 text-[11px] sm:text-sm leading-snug sm:leading-relaxed mb-3 sm:mb-5">
-                Taklukkan 30 Stage lintas 6 Babak hingga Mahkota Fajar Abadi! Manfaatkan <strong class="text-cyan-300">Pegas Bayangan</strong>, <strong class="text-emerald-300">Kunai</strong>, <strong class="text-rose-300">Backstab 1.5x</strong>, &amp; <strong class="text-amber-300">Badai Bayangan</strong>.
+                Taklukkan 30 Stage lintas 6 Babak &amp; Mode <strong class="text-rose-300">Boss Rush</strong>! Kuasai <strong class="text-cyan-300">4 Relik Bayangan</strong>, <strong class="text-emerald-300">Kunai Kipas</strong>, <strong class="text-purple-300">Tebas Udara Pogo</strong>, &amp; <strong class="text-amber-300">Badai Bayangan</strong>.
             </p>
 
             <div class="start-grid grid grid-cols-2 gap-2 text-left bg-slate-900/80 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-slate-800 mb-3 sm:mb-5 text-[11px] sm:text-xs">
@@ -581,8 +589,8 @@
                 <div class="flex items-center gap-2.5">
                     <i class="fa-solid fa-khanda text-rose-400 text-base w-5 text-center"></i>
                     <div>
-                        <div class="font-bold text-white">Belati &amp; Kunai</div>
-                        <div class="text-slate-400">J / Spasi &amp; Kunai (L / C)</div>
+                        <div class="font-bold text-white">Belati &amp; Kunai Kipas</div>
+                        <div class="text-slate-400">J / Spasi (Pogo) &amp; Kunai (L / C)</div>
                     </div>
                 </div>
                 <div class="flex items-center gap-2.5">
@@ -593,9 +601,9 @@
                     </div>
                 </div>
                 <div class="flex items-center gap-2.5">
-                    <i class="fa-solid fa-coins text-amber-400 text-base w-5 text-center"></i>
+                    <i class="fa-solid fa-gem text-amber-400 text-base w-5 text-center"></i>
                     <div>
-                        <div class="font-bold text-white">Toko Upgrade</div>
+                        <div class="font-bold text-white">Toko &amp; 4 Relik Pusaka</div>
                         <div class="text-slate-400">Tombol B / Antar Stage</div>
                     </div>
                 </div>
@@ -615,6 +623,9 @@
                 <button id="btn-start-game" class="flex-1 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-sm sm:text-base tracking-wide shadow-lg shadow-purple-600/30 border border-purple-400/50 transition active:scale-95">
                     <i class="fa-solid fa-play mr-1.5"></i> MULAI PETUALANGAN
                 </button>
+                <button id="btn-boss-rush" class="flex-1 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-rose-600 via-amber-600 to-rose-600 hover:from-rose-500 hover:to-amber-500 text-white font-extrabold text-sm sm:text-base tracking-wide shadow-lg shadow-rose-600/30 border border-amber-400/50 transition active:scale-95">
+                    <i class="fa-solid fa-crown mr-1.5"></i> BOSS RUSH (9 BOSS)
+                </button>
             </div>
         </div>
     </div>
@@ -625,9 +636,12 @@
             <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-800">
                 <div>
                     <span id="shop-subtitle" class="text-[11px] font-bold uppercase tracking-widest text-purple-400">Persiapan Pertempuran</span>
-                    <h2 class="text-xl sm:text-2xl font-black text-white font-cinzel flex items-center gap-2">
-                        <i class="fa-solid fa-store text-purple-400"></i> TOKO BAYANGAN
-                    </h2>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <h2 class="text-xl sm:text-2xl font-black text-white font-cinzel flex items-center gap-2">
+                            <i class="fa-solid fa-store text-purple-400"></i> TOKO BAYANGAN
+                        </h2>
+                        <div id="shop-relics-bar" class="flex flex-wrap items-center gap-1.5"></div>
+                    </div>
                 </div>
                 <div class="flex items-center gap-2 bg-amber-950/80 border border-amber-500/50 px-3.5 py-1.5 rounded-xl">
                     <i class="fa-solid fa-coins text-amber-400 text-lg"></i>
@@ -1109,6 +1123,46 @@ class SoundSystem {
                     osc.start(now + i * 0.07);
                     osc.stop(now + i * 0.07 + 0.32);
                 });
+            } else if (type === 'lightning') {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(1320, now);
+                osc.frequency.exponentialRampToValueAtTime(240, now + 0.14);
+                gain.gain.setValueAtTime(0.18, now);
+                gain.gain.exponentialRampToValueAtTime(0.008, now + 0.14);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                this.attachCleanup(osc, gain);
+                osc.start(now);
+                osc.stop(now + 0.14);
+            } else if (type === 'pogo') {
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(340, now);
+                osc.frequency.exponentialRampToValueAtTime(760, now + 0.13);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.13);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                this.attachCleanup(osc, gain);
+                osc.start(now);
+                osc.stop(now + 0.13);
+            } else if (type === 'boss_kill') {
+                [196.00, 293.66, 392.00, 587.33].forEach((freq, i) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(freq, now + i * 0.06);
+                    gain.gain.setValueAtTime(0.16, now + i * 0.06);
+                    gain.gain.exponentialRampToValueAtTime(0.006, now + i * 0.06 + 0.42);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    this.attachCleanup(osc, gain);
+                    osc.start(now + i * 0.06);
+                    osc.stop(now + i * 0.06 + 0.42);
+                });
             } else if (type === 'ending') {
                 // Akord fajar hangat dan damai saat melihat matahari terbit
                 const notes = [
@@ -1193,6 +1247,22 @@ class SoundSystem {
                 this.attachCleanup(osc, gain);
                 osc.start(now);
                 osc.stop(now + intervalMs / 1000 * 0.92);
+
+                // Harmoni sub-bass 2D setiap ketukan ke-4
+                if (this.bgmStep % 4 === 0) {
+                    const subOsc = this.ctx.createOscillator();
+                    const subGain = this.ctx.createGain();
+                    subOsc.type = 'sine';
+                    subOsc.frequency.setValueAtTime(freq * 0.5, now);
+                    subGain.gain.setValueAtTime(0.001, now);
+                    subGain.gain.linearRampToValueAtTime(0.022, now + 0.04);
+                    subGain.gain.exponentialRampToValueAtTime(0.001, now + intervalMs / 1000 * 1.7);
+                    subOsc.connect(subGain);
+                    subGain.connect(this.ctx.destination);
+                    this.attachCleanup(subOsc, subGain);
+                    subOsc.start(now);
+                    subOsc.stop(now + intervalMs / 1000 * 1.75);
+                }
                 this.bgmStep++;
             } catch (e) {}
         }, intervalMs);
@@ -2260,13 +2330,14 @@ const skyGradientCache = STAGES.map(s => {
 
 // --- 4. STATE PERMAINAN, SAVE RECORD & PLAYER UPGRADES ---
 const RANK_ORDER = { S: 4, A: 3, B: 2, C: 1 };
+const BOSS_RUSH_STAGES = [2, 5, 7, 11, 16, 19, 23, 27, 29]; // 9 Stage Panglima & Kaisar Agung
 
 function loadBestRecord() {
     try {
         const raw = localStorage.getItem('shadow_assassin_record_v1');
         if (raw) return JSON.parse(raw);
     } catch (e) {}
-    return { bestKills: 0, bestGold: 0, cleared: false, maxStageReached: 0, bestRank: '', bestTimeSec: 0, totalSecrets: 0 };
+    return { bestKills: 0, bestGold: 0, cleared: false, maxStageReached: 0, bestRank: '', bestTimeSec: 0, totalSecrets: 0, bossRushCleared: false };
 }
 
 function saveBestRecord(kills, gold, cleared, extras = {}) {
@@ -2285,7 +2356,8 @@ function saveBestRecord(kills, gold, cleared, extras = {}) {
             maxStageReached: Math.max(prev.maxStageReached || 0, extras.maxStageReached !== undefined ? extras.maxStageReached : game.stageIndex),
             bestRank: nextRank,
             bestTimeSec: nextTime,
-            totalSecrets: Math.max(prev.totalSecrets || 0, extras.secretsFound || 0)
+            totalSecrets: Math.max(prev.totalSecrets || 0, extras.secretsFound || 0),
+            bossRushCleared: Boolean(prev.bossRushCleared || extras.bossRushCleared)
         };
         localStorage.setItem('shadow_assassin_record_v1', JSON.stringify(next));
         return next;
@@ -2296,7 +2368,7 @@ function saveBestRecord(kills, gold, cleared, extras = {}) {
 
 function saveStageProgress() {
     try {
-        if (game.stageIndex <= 0) return;
+        if (game.bossRushMode || game.stageIndex <= 0) return;
         const payload = {
             stageIndex: game.stageIndex,
             gold: game.gold,
@@ -2349,6 +2421,8 @@ const game = {
     secretsFound: 0,
     damageTaken: 0,
     elapsedFrames: 0,
+    bossRushMode: false,
+    bossRushStep: 0,
     upgrades: {
         atkLevel: 1,
         hpLevel: 1,
@@ -2408,7 +2482,74 @@ let particles = [];
 let floatingTexts = [];
 let afterimages = [];
 let bgProps = [];
+let shockRings = [];
+let lightningBolts = [];
 let bannerTimeoutId = null;
+
+// Partikel Cuaca Atmosferik 2D (38 partikel pooled bebas alokasi GC)
+const weatherParticles = Array.from({ length: 38 }, (_, i) => ({
+    x: (i * 97) % VIEW_WIDTH,
+    y: (i * 53) % VIEW_HEIGHT,
+    size: 1.5 + (i % 3) * 1.1,
+    speedX: ((i % 5) - 2) * 0.35,
+    speedY: 0.6 + (i % 4) * 0.45,
+    phase: i * 0.7
+}));
+
+function getTotalUpgradeLevel() {
+    return (game.upgrades.atkLevel || 1) + (game.upgrades.hpLevel || 1) + (game.upgrades.spdLevel || 1) - 2;
+}
+
+// 4 Relik Pusaka Bayangan (Aktif Otomatis sesuai Total Level Upgrade)
+function hasRelic(id) {
+    const lv = getTotalUpgradeLevel();
+    if (id === 'magnet') return lv >= 1;    // Relik I: Magnet Bayangan (Lv 1+)
+    if (id === 'lightning') return lv >= 4; // Relik II: Segel Kilat Tangkis (Lv 4+)
+    if (id === 'vampire') return lv >= 8;   // Relik III: Jubah Vampir Gerhana (Lv 8+)
+    if (id === 'astral') return lv >= 14;   // Relik IV: Mahkota Astral Abadi (Lv 14+)
+    return false;
+}
+
+function spawnShockRing(x, y, maxR, color, lineW = 4) {
+    if (shockRings.length < 18) {
+        shockRings.push({ x, y, r: 10, maxR, color, lineW, life: 16, maxLife: 16 });
+    }
+}
+
+function triggerParryLightning(fromX, fromY) {
+    if (!hasRelic('lightning') || !player) return;
+    let nearest = null;
+    let bestDist = 420;
+    for (const en of enemies) {
+        if (en.dead) continue;
+        const ecx = en.x + en.w / 2;
+        const ecy = en.y + en.h / 2;
+        const d = Math.hypot(ecx - fromX, ecy - fromY);
+        if (d < bestDist) {
+            bestDist = d;
+            nearest = en;
+        }
+    }
+    if (!nearest) return;
+    const tx = nearest.x + nearest.w / 2;
+    const ty = nearest.y + nearest.h / 2;
+    const dmg = Math.max(10, Math.round(player.attackDamage * 0.55));
+    nearest.takeDamage(dmg, Math.sign(tx - fromX || player.facing) * 4, { fromKunai: true, isBackstab: false });
+    const pts = [{ x: fromX, y: fromY }];
+    const segs = 5;
+    for (let s = 1; s < segs; s++) {
+        const t = s / segs;
+        pts.push({
+            x: fromX + (tx - fromX) * t + (Math.random() - 0.5) * 26,
+            y: fromY + (ty - fromY) * t + (Math.random() - 0.5) * 26
+        });
+    }
+    pts.push({ x: tx, y: ty });
+    lightningBolts.push({ pts, color: '#38bdf8', life: 12, maxLife: 12 });
+    spawnShockRing(tx, ty, 38, '#38bdf8', 3);
+    sfx.play('lightning');
+    addFloatingText('KILAT TANGKIS!', tx, nearest.y - 16, '#67e8f9');
+}
 
 function pushParticle(pt) {
     if (particles.length < 150) {
@@ -2494,6 +2635,11 @@ class Assassin {
     update(stage) {
         this.animTime += 0.15;
 
+        // Relik IV (Mahkota Astral): Regenerasi Fury pasif saat bertempur
+        if (hasRelic('astral') && game.worldTick % 45 === 0 && enemies.some(e => !e.dead)) {
+            this.addFury(1);
+        }
+
         if (this.invulnTimer > 0) this.invulnTimer--;
         if (this.attackCooldown > 0) this.attackCooldown--;
         if (this.kunaiCooldown > 0) this.kunaiCooldown--;
@@ -2526,13 +2672,17 @@ class Assassin {
                 w: this.w + 28,
                 h: this.h + 16
             };
+            const dashMult = game.upgrades.spdLevel >= 4 ? 0.9 : 0.75;
             enemies.forEach(en => {
                 if (!en.dead && this.dashHitSet && !this.dashHitSet.has(en) && rectOverlap(dashBox, en)) {
                     this.dashHitSet.add(en);
                     const isBackstab = (en.facing === 1 && (this.x + this.w / 2) < (en.x + en.w / 2)) ||
                                        (en.facing === -1 && (this.x + this.w / 2) > (en.x + en.w / 2));
-                    const dmg = Math.round(this.attackDamage * 0.75);
+                    const dmg = Math.round(this.attackDamage * dashMult);
                     en.takeDamage(dmg, this.facing * 5, { fromDash: true, isBackstab });
+                    if (game.upgrades.spdLevel >= 4) {
+                        spawnShockRing(en.x + en.w / 2, en.y + en.h / 2, 34, '#22d3ee', 3);
+                    }
                     this.addFury(10);
                 }
             });
@@ -2668,13 +2818,17 @@ class Assassin {
                     w: this.w + 32,
                     h: this.h + 16
                 };
+                const dashMult = game.upgrades.spdLevel >= 4 ? 0.9 : 0.75;
                 enemies.forEach(en => {
                     if (!en.dead && !this.dashHitSet.has(en) && rectOverlap(startDashBox, en)) {
                         this.dashHitSet.add(en);
                         const isBackstab = (en.facing === 1 && (this.x + this.w / 2) < (en.x + en.w / 2)) ||
                                            (en.facing === -1 && (this.x + this.w / 2) > (en.x + en.w / 2));
-                        const dmg = Math.round(this.attackDamage * 0.75);
+                        const dmg = Math.round(this.attackDamage * dashMult);
                         en.takeDamage(dmg, this.facing * 5, { fromDash: true, isBackstab });
+                        if (game.upgrades.spdLevel >= 4) {
+                            spawnShockRing(en.x + en.w / 2, en.y + en.h / 2, 34, '#22d3ee', 3);
+                        }
                         this.addFury(10);
                     }
                 });
@@ -2838,17 +2992,23 @@ class Assassin {
         sfx.play('kunai');
         const originX = this.x + this.w / 2 + this.facing * 18;
         const originY = this.y + 22;
-        playerProjectiles.push({
-            x: originX,
-            y: originY,
-            vx: this.facing * 14.5,
-            vy: 0,
-            facing: this.facing,
-            damage: Math.round(this.attackDamage * 0.72),
-            life: 54,
-            dead: false
-        });
-        spawnParticles(originX, originY, '#34d399', 5);
+        const atkLv = game.upgrades.atkLevel || 1;
+        // Evolusi Kunai 2D: Lv.1-3 = 1 Kunai, Lv.4-6 = 2 Kunai Kembar, Lv.7+ = 3 Kunai Kipas (Triple Fan)
+        const vyList = atkLv >= 7 ? [-2.1, 0, 2.1] : (atkLv >= 4 ? [-1.1, 1.1] : [0]);
+        const kunaiDmg = Math.round(this.attackDamage * 0.72);
+        for (let i = 0; i < vyList.length; i++) {
+            playerProjectiles.push({
+                x: originX,
+                y: originY + (vyList.length === 2 ? (i === 0 ? -3 : 3) : 0),
+                vx: this.facing * 14.5,
+                vy: vyList[i],
+                facing: this.facing,
+                damage: kunaiDmg,
+                life: 54,
+                dead: false
+            });
+        }
+        spawnParticles(originX, originY, '#34d399', 5 + vyList.length);
     }
 
     performAttack() {
@@ -2863,40 +3023,46 @@ class Assassin {
             this.vx = this.facing * 4.5;
         }
 
-        // Hitbox tebasan di depan Assassin (+bonus jangkauan saat Air Slash)
-        const isAirSlash = !this.onGround && this.vy > 2.0;
+        // Hitbox tebasan di depan Assassin (+bonus jangkauan saat Air Slash / Pogo)
+        const isAirSlash = !this.onGround && this.vy > 1.5;
         const reach = (this.comboStep === 3 ? 88 : 72) + (isAirSlash ? 16 : 0);
         const hitbox = {
             x: this.facing === 1 ? this.x + this.w / 2 : this.x + this.w / 2 - reach,
             y: this.y - 12,
             w: reach,
-            h: this.h + 22
+            h: this.h + (isAirSlash ? 28 : 22)
         };
 
-        // Hancurkan anak panah / orb / bom goblin jika ditebas + reward cooldown dash & fury!
+        // Hancurkan anak panah / orb / bom goblin jika ditebas + reward cooldown dash & fury + Relik Kilat!
+        let parriedAny = false;
         projectiles.forEach(proj => {
             if (!proj.dead && !proj.isWave && rectOverlap(hitbox, { x: proj.x - 10, y: proj.y - 10, w: 20, h: 20 })) {
                 proj.dead = true;
+                parriedAny = true;
                 this.dashCooldown = Math.max(0, this.dashCooldown - 12);
                 this.addFury(proj.isBomb ? 15 : 14);
                 game.hitStop = Math.max(game.hitStop, 2);
                 sfx.play('parry');
                 spawnParticles(proj.x, proj.y, '#38bdf8', 8);
                 addFloatingText(proj.isBomb ? "BOM TANGKIS!" : "TANGKIS!", proj.x, proj.y - 10, '#38bdf8');
+                triggerParryLightning(proj.x, proj.y);
             }
         });
 
-        // Gelombang Sabit Bayangan saat Belati Lv.3+ pada Combo ke-3
+        // Evolusi Gelombang Sabit Bayangan saat Belati Lv.3+ (Lv.6+ = Sabit Gerhana Agung) pada Combo ke-3
         if (game.upgrades.atkLevel >= 3 && this.comboStep === 3) {
+            const isGrandCrescent = game.upgrades.atkLevel >= 6;
             playerProjectiles.push({
                 x: this.x + this.w / 2 + this.facing * 24,
                 y: this.y + this.h * 0.45,
-                vx: this.facing * 12,
+                vx: this.facing * (isGrandCrescent ? 13.5 : 12),
                 vy: 0,
                 facing: this.facing,
-                damage: Math.round(this.attackDamage * 0.9),
-                life: 32,
+                damage: Math.round(this.attackDamage * (isGrandCrescent ? 1.15 : 0.9)),
+                life: isGrandCrescent ? 38 : 32,
+                radius: isGrandCrescent ? 28 : 22,
                 isCrescent: true,
+                isGrand: isGrandCrescent,
                 hitSet: new Set(),
                 dead: false
             });
@@ -2909,11 +3075,12 @@ class Assassin {
             }
         });
 
-        // Cek terkena Goblin
+        // Cek terkena Goblin (+ Skala Penguasaan Combo 5/10/15 Hit)
         let hitAny = false;
         let hitBoss = false;
         const dmgMultiplier = this.comboStep === 3 ? 1.35 : 1.0;
-        const finalDmg = Math.round(this.attackDamage * dmgMultiplier);
+        const comboBonus = game.comboCount >= 15 ? 1.32 : (game.comboCount >= 10 ? 1.22 : (game.comboCount >= 5 ? 1.12 : 1.0));
+        const finalDmg = Math.round(this.attackDamage * dmgMultiplier * comboBonus);
 
         enemies.forEach(en => {
             if (!en.dead && rectOverlap(hitbox, en)) {
@@ -2928,6 +3095,16 @@ class Assassin {
 
         if (isAirSlash) {
             spawnParticles(this.x + this.w / 2 + this.facing * 28, this.y + this.h / 2, '#38bdf8', 5);
+            // Manuver 2D Baru: Tebas Udara Pogo (memantul ke atas & memulihkan 1 lompatan udara saat mengenai musuh/proyektil)
+            if (hitAny || parriedAny) {
+                this.vy = -8.6;
+                this.jumpsLeft = Math.max(this.jumpsLeft, 1);
+                this.scaleX = 0.88;
+                this.scaleY = 1.14;
+                sfx.play('pogo');
+                spawnShockRing(this.x + this.w / 2, this.y + this.h, 42, '#38bdf8', 3);
+                addFloatingText('POGO SLASH!', this.x + this.w / 2, this.y - 18, '#67e8f9');
+            }
         }
 
         if (hitAny) {
@@ -2953,6 +3130,8 @@ class Assassin {
 
         const cx = this.x + this.w / 2;
         const cy = this.y + this.h / 2;
+        spawnShockRing(cx, cy, 240, '#a855f7', 6);
+        spawnShockRing(cx, cy, 185, '#facc15', 4);
 
         // Hancurkan semua proyektil & bom musuh di sekitar pusaran badai
         for (const proj of projectiles) {
@@ -2981,6 +3160,32 @@ class Assassin {
                 }
             }
         });
+
+        // Relik IV (Mahkota Astral) / Belati Lv.5+: Luncurkan 2 Gelombang Sabit Astral Kiri-Kanan & Pulihkan 15% HP!
+        if (hasRelic('astral') || game.upgrades.atkLevel >= 5) {
+            if (hasRelic('astral') && this.hp < this.maxHp) {
+                const ultHeal = Math.max(15, Math.round(this.maxHp * 0.15));
+                this.hp = Math.min(this.maxHp, this.hp + ultHeal);
+                addFloatingText(`+${ultHeal} HP ASTRAL`, cx, this.y - 44, '#4ade80', true);
+                updateHUD();
+            }
+            [-1, 1].forEach(dir => {
+                playerProjectiles.push({
+                    x: cx + dir * 24,
+                    y: this.y + this.h * 0.45,
+                    vx: dir * 14,
+                    vy: 0,
+                    facing: dir,
+                    damage: Math.round(this.attackDamage * 1.25),
+                    life: 44,
+                    radius: 30,
+                    isCrescent: true,
+                    isGrand: true,
+                    hitSet: new Set(),
+                    dead: false
+                });
+            });
+        }
 
         for (let i = 0; i < 24; i++) {
             const ang = (Math.PI * 2 * i) / 24;
@@ -3065,6 +3270,17 @@ class Assassin {
             ctx.restore();
         }
 
+        // Aura 2D Penguasaan Combo Tinggi (10+ Hit)
+        if (game.comboCount >= 10 && game.comboTimer > 0) {
+            ctx.save();
+            ctx.strokeStyle = game.comboCount >= 15 ? 'rgba(250, 204, 21, 0.38)' : 'rgba(56, 189, 248, 0.32)';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.arc(cx, cy, 29 + Math.sin(this.animTime * 2) * 2.5, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+        }
+
         ctx.save();
 
         // Efek kedip saat invulnerable setelah terkena serangan
@@ -3078,7 +3294,7 @@ class Assassin {
         for (let i = 1; i < this.scarfPoints.length; i++) {
             ctx.lineTo(this.scarfPoints[i].x, this.scarfPoints[i].y);
         }
-        ctx.strokeStyle = '#9333ea';
+        ctx.strokeStyle = hasRelic('astral') ? '#c084fc' : '#9333ea';
         ctx.lineWidth = 6;
         ctx.lineCap = 'round';
         ctx.stroke();
@@ -3125,20 +3341,28 @@ class Assassin {
         ctx.fillStyle = this.fury >= 100 ? '#facc15' : '#22d3ee';
         ctx.fillRect(3, -19, 7, 3.5);
 
-        // Belati di Tangan (atau pose melempar Kunai)
+        // Belati di Tangan (atau pose melempar Kunai + Bilah Plasma 2D saat Belati Lv.4+)
         ctx.save();
         if (this.attackTimer > 0) {
             ctx.rotate(this.comboStep % 2 === 1 ? 0.8 : -0.7);
         } else if (this.kunaiTimer > 0) {
             ctx.rotate(-0.45);
         }
-        ctx.fillStyle = this.kunaiTimer > 0 ? '#6ee7b7' : '#e2e8f0';
+        ctx.fillStyle = this.kunaiTimer > 0 ? '#6ee7b7' : (game.upgrades.atkLevel >= 7 ? '#fde047' : '#e2e8f0');
         ctx.beginPath();
         ctx.moveTo(8, -2);
-        ctx.lineTo(28, -5);
+        ctx.lineTo(29, -5);
         ctx.lineTo(22, 3);
         ctx.closePath();
         ctx.fill();
+        if (game.upgrades.atkLevel >= 4) {
+            ctx.strokeStyle = game.upgrades.atkLevel >= 7 ? '#f43f5e' : '#38bdf8';
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(9, -2);
+            ctx.lineTo(29, -5);
+            ctx.stroke();
+        }
         ctx.restore();
 
         // Efek Arc Tebasan Belati (Slash Trail cepat tanpa shadowBlur)
@@ -4173,11 +4397,17 @@ class Goblin {
         game.totalKills++;
         if (player) {
             player.addFury(this.isBossType() ? 35 : 15);
+            // Relik III (Jubah Vampir Gerhana): Hisap darah musuh yang tumbang
+            if (!droppedInVoid && hasRelic('vampire') && player.hp > 0 && player.hp < player.maxHp) {
+                const vampHeal = Math.max(4, Math.round(player.maxHp * 0.035));
+                player.hp = Math.min(player.maxHp, player.hp + vampHeal);
+                addFloatingText(`+${vampHeal} VAMPIR`, player.x + player.w / 2, player.y - 16, '#4ade80');
+            }
         }
 
         const stage = STAGES[game.stageIndex];
         let count = Math.floor(Math.random() * (this.goldDrop[1] - this.goldDrop[0] + 1)) + this.goldDrop[0];
-        if (!droppedInVoid && game.comboCount >= 5) count += 1;
+        if (!droppedInVoid && game.comboCount >= 5) count += (hasRelic('magnet') ? 2 : 1);
         const coinValue = this.isBossType()
             ? (game.stageIndex < 8 ? 15 : 24 + (game.stageIndex - 7) * 3)
             : (game.stageIndex < 8 ? 10 + game.stageIndex * 4 : 38 + (game.stageIndex - 7) * 3);
@@ -4191,6 +4421,11 @@ class Goblin {
         } else {
             spawnParticles(this.x + this.w / 2, this.y + this.h / 2, '#22c55e', 22);
             spawnParticles(this.x + this.w / 2, this.y + this.h / 2, '#facc15', 12);
+            if (this.isBossType()) {
+                sfx.play('boss_kill');
+                spawnShockRing(this.x + this.w / 2, this.y + this.h / 2, 160, '#f43f5e', 6);
+                spawnShockRing(this.x + this.w / 2, this.y + this.h / 2, 110, '#facc15', 4);
+            }
 
             for (let i = 0; i < count; i++) {
                 coins.push({
@@ -4956,6 +5191,8 @@ function loadStage(index, fullHeal = false, restoreSnapshot = false) {
     particles = [];
     floatingTexts = [];
     afterimages = [];
+    shockRings = [];
+    lightningBolts = [];
     game.cameraX = 0;
     resetInputKeys();
 
@@ -4978,13 +5215,16 @@ function loadStage(index, fullHeal = false, restoreSnapshot = false) {
     updateHUD();
     syncTouchAndAbilityUI();
     saveStageProgress();
-    if (index > 0) {
+    if (!game.bossRushMode && index > 0) {
         saveBestRecord(game.totalKills, game.totalGoldEarned, false, { maxStageReached: index });
     }
     if (game.state === 'playing') {
         sfx.startBGM(index);
     }
-    showBanner(stage.subtitle, stage.name.toUpperCase(), stage.desc);
+    const bannerSub = game.bossRushMode
+        ? `BOSS RUSH ${game.bossRushStep + 1} / ${BOSS_RUSH_STAGES.length} • ${stage.subtitle}`
+        : stage.subtitle;
+    showBanner(bannerSub, stage.name.toUpperCase(), stage.desc);
 }
 
 // --- 9. UPDATE HUD, PAUSE & TOKO UPGRADE ---
@@ -5001,10 +5241,12 @@ function updateHUD() {
         reviveBadge.classList.toggle('hidden', !player.hasShadowRevive);
     }
 
-    const totalLv = game.upgrades.atkLevel + game.upgrades.hpLevel + game.upgrades.spdLevel - 2;
+    const totalLv = getTotalUpgradeLevel();
     document.getElementById('hud-levelBadge').textContent = `LV ${totalLv}`;
 
-    document.getElementById('hud-stage-num').textContent = `STAGE ${stage.id} / ${STAGES.length}`;
+    document.getElementById('hud-stage-num').textContent = game.bossRushMode
+        ? `BOSS RUSH ${game.bossRushStep + 1} / ${BOSS_RUSH_STAGES.length}`
+        : `STAGE ${stage.id} / ${STAGES.length}`;
     document.getElementById('hud-stage-name').textContent = stage.name;
     document.getElementById('hud-enemy-count').textContent = aliveEnemies > 0 ? `${aliveEnemies} Musuh` : `PORTAL BUKA!`;
     document.getElementById('hud-gold').textContent = game.gold;
@@ -5033,8 +5275,10 @@ function updateShopUI() {
 
     // Attack
     const costAtk = getUpgradeCost('atk');
-    document.getElementById('lvl-atk').textContent = `Lv.${game.upgrades.atkLevel}`;
-    document.getElementById('stat-atk').textContent = `Damage Saat Ini: ${player.attackDamage}`;
+    const atkLv = game.upgrades.atkLevel;
+    const kunaiCnt = atkLv >= 7 ? 3 : (atkLv >= 4 ? 2 : 1);
+    document.getElementById('lvl-atk').textContent = `Lv.${atkLv}`;
+    document.getElementById('stat-atk').textContent = `Damage Saat Ini: ${player.attackDamage}${kunaiCnt > 1 ? ` • Kunai x${kunaiCnt}` : ''}`;
     document.getElementById('cost-atk').textContent = `${costAtk} Emas`;
 
     // HP
@@ -5053,6 +5297,24 @@ function updateShopUI() {
 
     // Heal
     document.getElementById('stat-heal').textContent = `HP: ${Math.ceil(player.hp)} / ${player.maxHp}`;
+
+    // 4 Relik Pusaka Bayangan (otomatis terbuka sesuai Total Level)
+    const relicsBar = document.getElementById('shop-relics-bar');
+    if (relicsBar) {
+        const relicDefs = [
+            { id: 'magnet', name: 'Magnet', req: 1, icon: 'fa-magnet', color: 'text-amber-300 border-amber-400/50 bg-amber-950/60' },
+            { id: 'lightning', name: 'Kilat Tangkis', req: 4, icon: 'fa-bolt', color: 'text-cyan-300 border-cyan-400/50 bg-cyan-950/60' },
+            { id: 'vampire', name: 'Jubah Vampir', req: 8, icon: 'fa-droplet', color: 'text-rose-300 border-rose-400/50 bg-rose-950/60' },
+            { id: 'astral', name: 'Mahkota Astral', req: 14, icon: 'fa-crown', color: 'text-purple-200 border-purple-400/60 bg-purple-950/70' }
+        ];
+        relicsBar.innerHTML = relicDefs.map(r => {
+            const active = hasRelic(r.id);
+            const cls = active
+                ? r.color
+                : 'text-slate-500 border-slate-700/60 bg-slate-900/60 opacity-75';
+            return `<span class="relic-pill inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] font-bold ${cls}" title="Terbuka pada Total Level ${r.req}"><i class="fa-solid ${r.icon}"></i>${r.name}${active ? ' ✓' : ` (Lv.${r.req})`}</span>`;
+        }).join('');
+    }
 }
 
 function openShop(betweenStages = false) {
@@ -5063,7 +5325,16 @@ function openShop(betweenStages = false) {
 
     const storyBox = document.getElementById('shop-story-box');
     const stage = STAGES[game.stageIndex];
-    if (betweenStages && game.stageIndex < STAGES.length - 1) {
+    if (betweenStages && game.bossRushMode && game.bossRushStep < BOSS_RUSH_STAGES.length - 1) {
+        const nextBossStage = STAGES[BOSS_RUSH_STAGES[game.bossRushStep + 1]];
+        document.getElementById('shop-subtitle').textContent = `BOSS RUSH ${game.bossRushStep + 1} / ${BOSS_RUSH_STAGES.length} SELESAI!`;
+        document.getElementById('btn-close-shop-text').textContent = ` TANTANG BOSS ${game.bossRushStep + 2}: ${nextBossStage.name.toUpperCase()}`;
+        if (storyBox && stage.storyNote) {
+            document.getElementById('shop-story-title').textContent = stage.storyTitle || `BOSS ${game.bossRushStep + 1} DITAKLUKKAN`;
+            document.getElementById('shop-story-text').textContent = stage.storyNote;
+            storyBox.classList.remove('hidden');
+        }
+    } else if (betweenStages && game.stageIndex < STAGES.length - 1) {
         document.getElementById('shop-subtitle').textContent = `STAGE ${game.stageIndex + 1} SELESAI!`;
         document.getElementById('btn-close-shop-text').textContent = `MASUKI STAGE ${game.stageIndex + 2}: ${STAGES[game.stageIndex + 1].name.toUpperCase()}`;
         if (storyBox && stage.storyNote) {
@@ -5087,7 +5358,12 @@ function closeShop() {
     game.betweenStages = false;
     game.state = 'playing';
     if (advanceNext) {
-        loadStage(game.stageIndex + 1, false, false);
+        if (game.bossRushMode) {
+            game.bossRushStep = Math.min(BOSS_RUSH_STAGES.length - 1, game.bossRushStep + 1);
+            loadStage(BOSS_RUSH_STAGES[game.bossRushStep], false, false);
+        } else {
+            loadStage(game.stageIndex + 1, false, false);
+        }
     }
     resetInputKeys();
 }
@@ -5639,9 +5915,11 @@ function triggerVictory() {
     const timeSec = Math.max(1, Math.round(game.elapsedFrames / 60));
     const mm = String(Math.floor(timeSec / 60)).padStart(2, '0');
     const ss = String(timeSec % 60).padStart(2, '0');
-    const maxChests = STAGES.reduce((acc, s) => acc + (s.chests ? s.chests.length : 0), 0);
-    const parTimeSec = Math.max(720, STAGES.length * 60);
-    const dmgDivisor = Math.max(24, STAGES.length * 10);
+    const maxChests = game.bossRushMode
+        ? BOSS_RUSH_STAGES.reduce((acc, idx) => acc + (STAGES[idx].chests ? STAGES[idx].chests.length : 0), 0)
+        : STAGES.reduce((acc, s) => acc + (s.chests ? s.chests.length : 0), 0);
+    const parTimeSec = game.bossRushMode ? 540 : Math.max(720, STAGES.length * 60);
+    const dmgDivisor = game.bossRushMode ? 120 : Math.max(24, STAGES.length * 10);
     const chestWeight = STAGES.length > 10 ? 2 : 3;
     const rankScore = 100
         - Math.min(48, Math.floor(game.damageTaken / dmgDivisor))
@@ -5666,7 +5944,8 @@ function triggerVictory() {
         rank,
         timeSec,
         secretsFound: game.secretsFound,
-        maxStageReached: STAGES.length - 1
+        maxStageReached: STAGES.length - 1,
+        bossRushCleared: Boolean(game.bossRushMode)
     });
     renderStageSelect();
 
@@ -5676,9 +5955,15 @@ function triggerVictory() {
 
     iconWrap.className = 'w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl border-2 bg-amber-950/80 border-amber-400 text-amber-300';
     icon.className = 'fa-solid fa-trophy';
-    document.getElementById('end-sub').textContent = `SELURUH ${STAGES.length} STAGE DITAKLUKKAN`;
-    document.getElementById('end-title').textContent = 'SANG MASTER ASSASSIN!';
-    document.getElementById('end-desc').textContent = 'Selamat! Lintas 6 Babak penuh rintangan, kamu telah menumbangkan para Panglima Goblin hingga Kaisar Agung Azhorak!';
+    document.getElementById('end-sub').textContent = game.bossRushMode
+        ? `MODE BOSS RUSH • ${BOSS_RUSH_STAGES.length} PANGLIMA DITAKLUKKAN`
+        : `SELURUH ${STAGES.length} STAGE DITAKLUKKAN`;
+    document.getElementById('end-title').textContent = game.bossRushMode
+        ? 'PENAKLUK 9 PANGLIMA!'
+        : 'SANG MASTER ASSASSIN!';
+    document.getElementById('end-desc').textContent = game.bossRushMode
+        ? 'Luar biasa! Kamu berhasil menumbangkan ke-9 Panglima Goblin & Kaisar Agung Azhorak secara beruntun di Mode Boss Rush!'
+        : 'Selamat! Lintas 6 Babak penuh rintangan, kamu telah menumbangkan para Panglima Goblin hingga Kaisar Agung Azhorak!';
     document.getElementById('end-kills').textContent = game.totalKills;
     document.getElementById('end-gold').textContent = game.totalGoldEarned;
 
@@ -5825,6 +6110,7 @@ function updateGame() {
                     sfx.play('parry');
                     spawnParticles(ep.x, ep.y, '#38bdf8', 10);
                     addFloatingText(ep.isBomb ? "BOM TANGKIS!" : (kp.isCrescent ? "SABIT TANGKIS!" : "KUNAI TANGKIS!"), ep.x, ep.y - 12, '#38bdf8');
+                    triggerParryLightning(ep.x, ep.y);
                     if (!kp.isCrescent) break;
                 }
             }
@@ -5940,7 +6226,9 @@ function updateGame() {
         }
     }
 
-    // Update Koin Gold & Orb Heal (Efek Magnet Otomatis ke Pemain)
+    // Update Koin Gold & Orb Heal (Efek Magnet Otomatis ke Pemain + Relik I Magnet Bayangan)
+    const pullRadius = hasRelic('magnet') ? 260 : 220;
+    const pullSpeed = hasRelic('magnet') ? 10.5 : 9.5;
     for (let i = coins.length - 1; i >= 0; i--) {
         const c = coins[i];
         c.life++;
@@ -5962,9 +6250,9 @@ function updateGame() {
         const dy = (player.y + player.h / 2) - c.y;
         const dist = Math.hypot(dx, dy);
 
-        if (dist < 220 || c.life > 35) {
-            c.x += (dx / (dist || 1)) * 9.5;
-            c.y += (dy / (dist || 1)) * 9.5;
+        if (dist < pullRadius || c.life > 35) {
+            c.x += (dx / (dist || 1)) * pullSpeed;
+            c.y += (dy / (dist || 1)) * pullSpeed;
         }
 
         // Diambil oleh Assassin
@@ -5991,7 +6279,16 @@ function updateGame() {
     const portalBox = { x: stage.portalX - 35, y: stage.portalY - 50, w: 70, h: 100 };
     if (rectOverlap(player, portalBox)) {
         if (aliveEnemies === 0) {
-            if (game.stageIndex < STAGES.length - 1) {
+            if (game.bossRushMode) {
+                if (game.bossRushStep < BOSS_RUSH_STAGES.length - 1) {
+                    game.gold += 90;
+                    game.totalGoldEarned += 90;
+                    sfx.play('portal');
+                    openShop(true);
+                } else {
+                    startEndingCG();
+                }
+            } else if (game.stageIndex < STAGES.length - 1) {
                 sfx.play('portal');
                 openShop(true);
             } else {
@@ -6006,6 +6303,21 @@ function updateGame() {
     for (let i = afterimages.length - 1; i >= 0; i--) {
         afterimages[i].alpha -= 0.06;
         if (afterimages[i].alpha <= 0) afterimages.splice(i, 1);
+    }
+
+    // Update Shock Rings 2D
+    for (let i = shockRings.length - 1; i >= 0; i--) {
+        const sr = shockRings[i];
+        sr.life--;
+        const p = 1 - sr.life / sr.maxLife;
+        sr.r = 10 + (sr.maxR - 10) * p;
+        if (sr.life <= 0) shockRings.splice(i, 1);
+    }
+
+    // Update Lightning Bolts 2D
+    for (let i = lightningBolts.length - 1; i >= 0; i--) {
+        lightningBolts[i].life--;
+        if (lightningBolts[i].life <= 0) lightningBolts.splice(i, 1);
     }
 
     // Update Partikel
@@ -6066,6 +6378,52 @@ function drawGame() {
             ctx.beginPath();
             ctx.arc(VIEW_WIDTH - 220, 150, 47, 0, Math.PI * 2);
             ctx.stroke();
+        }
+    }
+    ctx.restore();
+
+    // 1b. Sistem Cuaca Atmosferik 2D per Bioma (Kunang-kunang, Spora, Bara Lava, Kabut Racun, Salju, Badai Petir, Debu Astral)
+    ctx.save();
+    const isStormWeather = theme === 'storm';
+    const isSnowWeather = theme === 'glacier' || theme === 'sky';
+    const isEmberWeather = theme === 'volcano' || theme === 'forge' || theme === 'fortress';
+    const weatherColor = isStormWeather
+        ? 'rgba(125, 211, 252, 0.38)'
+        : (isSnowWeather ? 'rgba(224, 242, 254, 0.48)' : (isEmberWeather ? 'rgba(251, 146, 60, 0.42)' : stage.ambientColor));
+    ctx.fillStyle = weatherColor;
+    ctx.strokeStyle = weatherColor;
+    ctx.lineWidth = 1.4;
+    for (let i = 0; i < weatherParticles.length; i++) {
+        const wp = weatherParticles[i];
+        if (game.state === 'playing') {
+            if (isStormWeather) {
+                wp.x -= 3.8;
+                wp.y += 9.5;
+            } else if (isEmberWeather) {
+                wp.x += Math.sin(game.worldTick * 0.03 + wp.phase) * 0.55;
+                wp.y -= wp.speedY * 1.15;
+            } else if (isSnowWeather) {
+                wp.x += Math.sin(game.worldTick * 0.025 + wp.phase) * 0.65 - 0.35;
+                wp.y += wp.speedY * 0.95;
+            } else {
+                wp.x += Math.sin(game.worldTick * 0.02 + wp.phase) * 0.45 + wp.speedX;
+                wp.y += Math.cos(game.worldTick * 0.02 + wp.phase) * 0.35;
+            }
+            if (wp.x < -10) wp.x = VIEW_WIDTH + 8;
+            if (wp.x > VIEW_WIDTH + 10) wp.x = -8;
+            if (wp.y < -10) wp.y = VIEW_HEIGHT + 8;
+            if (wp.y > VIEW_HEIGHT + 10) wp.y = -8;
+        }
+        if (isStormWeather) {
+            ctx.beginPath();
+            ctx.moveTo(wp.x, wp.y);
+            ctx.lineTo(wp.x - 4, wp.y + 11);
+            ctx.stroke();
+        } else {
+            ctx.globalAlpha = isSnowWeather ? 0.55 : (0.22 + 0.18 * Math.sin(game.worldTick * 0.04 + wp.phase));
+            ctx.beginPath();
+            ctx.arc(wp.x, wp.y, wp.size, 0, Math.PI * 2);
+            ctx.fill();
         }
     }
     ctx.restore();
@@ -6458,17 +6816,18 @@ function drawGame() {
         ctx.translate(kp.x, kp.y);
         if (kp.isCrescent) {
             if (kp.facing < 0) ctx.scale(-1, 1);
-            ctx.strokeStyle = 'rgba(244, 63, 94, 0.38)';
-            ctx.lineWidth = 10;
+            const r = kp.radius || 22;
+            ctx.strokeStyle = kp.isGrand ? 'rgba(168, 85, 247, 0.45)' : 'rgba(244, 63, 94, 0.38)';
+            ctx.lineWidth = kp.isGrand ? 13 : 10;
             ctx.lineCap = 'round';
             ctx.beginPath();
-            ctx.arc(-6, 0, 22, -Math.PI * 0.42, Math.PI * 0.42);
+            ctx.arc(-6, 0, r, -Math.PI * 0.44, Math.PI * 0.44);
             ctx.stroke();
 
-            ctx.strokeStyle = '#fde047';
-            ctx.lineWidth = 4;
+            ctx.strokeStyle = kp.isGrand ? '#38bdf8' : '#fde047';
+            ctx.lineWidth = kp.isGrand ? 5 : 4;
             ctx.beginPath();
-            ctx.arc(-6, 0, 22, -Math.PI * 0.38, Math.PI * 0.38);
+            ctx.arc(-6, 0, r, -Math.PI * 0.4, Math.PI * 0.4);
             ctx.stroke();
         } else {
             ctx.rotate(Math.atan2(kp.vy, kp.vx));
@@ -6525,6 +6884,46 @@ function drawGame() {
         }
     }
 
+    // 10b. Gambar Shock Rings 2D & Petir Kilat Tangkis 2D
+    if (shockRings.length > 0) {
+        ctx.save();
+        for (let i = 0; i < shockRings.length; i++) {
+            const sr = shockRings[i];
+            ctx.globalAlpha = Math.max(0, (sr.life / sr.maxLife) * 0.72);
+            ctx.strokeStyle = sr.color;
+            ctx.lineWidth = sr.lineW;
+            ctx.beginPath();
+            ctx.arc(sr.x, sr.y, sr.r, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    if (lightningBolts.length > 0) {
+        ctx.save();
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        for (let i = 0; i < lightningBolts.length; i++) {
+            const lb = lightningBolts[i];
+            if (!lb.pts || lb.pts.length < 2) continue;
+            ctx.globalAlpha = Math.max(0, lb.life / lb.maxLife);
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.42)';
+            ctx.lineWidth = 7;
+            ctx.beginPath();
+            ctx.moveTo(lb.pts[0].x, lb.pts[0].y);
+            for (let j = 1; j < lb.pts.length; j++) ctx.lineTo(lb.pts[j].x, lb.pts[j].y);
+            ctx.stroke();
+
+            ctx.strokeStyle = '#e0f2fe';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(lb.pts[0].x, lb.pts[0].y);
+            for (let j = 1; j < lb.pts.length; j++) ctx.lineTo(lb.pts[j].x, lb.pts[j].y);
+            ctx.stroke();
+        }
+        ctx.restore();
+    }
+
     // 11. Gambar Partikel (batched)
     for (let i = 0; i < particles.length; i++) {
         const pt = particles[i];
@@ -6549,23 +6948,94 @@ function drawGame() {
 
     ctx.restore();
 
-    // Lencana Combo Hit di pojok kanan atas area permainan
+    // Lencana Combo Hit & Gelar Penguasaan Combo 2D di pojok kanan atas area permainan
     if (game.comboCount >= 2 && game.comboTimer > 0) {
         ctx.save();
-        const badgeW = 148;
+        const badgeW = 166;
+        const badgeH = game.comboCount >= 5 ? 44 : 32;
         const badgeX = VIEW_WIDTH - badgeW - 24;
         const badgeY = 114;
-        ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-        ctx.strokeStyle = game.comboCount >= 5 ? '#facc15' : '#38bdf8';
+        const comboColor = game.comboCount >= 15 ? '#f43f5e' : (game.comboCount >= 10 ? '#c084fc' : (game.comboCount >= 5 ? '#facc15' : '#38bdf8'));
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
+        ctx.strokeStyle = comboColor;
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.roundRect(badgeX, badgeY, badgeW, 32, 10);
+        ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 10);
         ctx.fill();
         ctx.stroke();
-        ctx.fillStyle = game.comboCount >= 5 ? '#facc15' : '#67e8f9';
+        ctx.fillStyle = comboColor;
         ctx.font = '900 13px "Plus Jakarta Sans"';
         ctx.textAlign = 'center';
-        ctx.fillText(`${game.comboCount} HIT COMBO!`, badgeX + badgeW / 2, badgeY + 21);
+        ctx.fillText(`${game.comboCount} HIT COMBO!`, badgeX + badgeW / 2, badgeY + (game.comboCount >= 5 ? 18 : 21));
+        if (game.comboCount >= 5) {
+            const tierLabel = game.comboCount >= 15
+                ? 'DEWA BAYANGAN! (+32%)'
+                : (game.comboCount >= 10 ? 'AMUKAN! (+22%)' : 'RENTETAN! (+12%)');
+            ctx.font = '800 10px "Plus Jakarta Sans"';
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillText(tierLabel, badgeX + badgeW / 2, badgeY + 34);
+        }
+        ctx.restore();
+    }
+
+    // 13. Radar Peta Progres Stage 2D (Minimap Horizontal di Tengah Atas/Bawah Layar)
+    if (player && stage && stage.worldWidth > 0) {
+        ctx.save();
+        const radarW = 220;
+        const radarH = 7;
+        const radarX = (VIEW_WIDTH - radarW) / 2;
+        const radarY = VIEW_HEIGHT - 16;
+        const invW = 1 / stage.worldWidth;
+
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.78)';
+        ctx.strokeStyle = 'rgba(148, 163, 184, 0.35)';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.roundRect(radarX - 6, radarY - 4, radarW + 12, radarH + 8, 7);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(51, 65, 85, 0.75)';
+        ctx.fillRect(radarX, radarY + 2, radarW, 3);
+
+        // Titik Checkpoint (Cyan)
+        for (let i = 0; i < checkpoints.length; i++) {
+            const cp = checkpoints[i];
+            const cx = radarX + Math.max(0, Math.min(1, cp.x * invW)) * radarW;
+            ctx.fillStyle = cp.activated ? '#22d3ee' : '#64748b';
+            ctx.fillRect(cx - 1.5, radarY + 1, 3, 5);
+        }
+        // Titik Peti Harta belum dibuka (Kuning Emas)
+        for (let i = 0; i < chests.length; i++) {
+            const ch = chests[i];
+            if (ch.opened) continue;
+            const cx = radarX + Math.max(0, Math.min(1, ch.x * invW)) * radarW;
+            ctx.fillStyle = '#facc15';
+            ctx.fillRect(cx - 2, radarY + 1, 4, 5);
+        }
+        // Titik Musuh & Boss hidup (Hijau / Merah Boss)
+        for (let i = 0; i < enemies.length; i++) {
+            const en = enemies[i];
+            if (en.dead) continue;
+            const ex = radarX + Math.max(0, Math.min(1, (en.x + en.w / 2) * invW)) * radarW;
+            ctx.fillStyle = en.isBossType() ? '#f43f5e' : '#4ade80';
+            ctx.beginPath();
+            ctx.arc(ex, radarY + 3.5, en.isBossType() ? 4 : 2.3, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        // Titik Portal (Ungu/Cyan)
+        const pxPortal = radarX + Math.max(0, Math.min(1, stage.portalX * invW)) * radarW;
+        ctx.fillStyle = portalUnlocked ? '#22d3ee' : '#a855f7';
+        ctx.beginPath();
+        ctx.arc(pxPortal, radarY + 3.5, 3.8, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Titik Posisi Assassin (Putih/Ungu Terang)
+        const pxPlayer = radarX + Math.max(0, Math.min(1, (player.x + player.w / 2) * invW)) * radarW;
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(pxPlayer, radarY + 3.5, 4.2, 0, Math.PI * 2);
+        ctx.fill();
         ctx.restore();
     }
 
@@ -6845,6 +7315,8 @@ function startFromStage(stageIdx = 0) {
     sfx.init();
     clearStageProgress();
     const safeIdx = Math.max(0, Math.min(STAGES.length - 1, stageIdx));
+    game.bossRushMode = false;
+    game.bossRushStep = 0;
     game.gold = safeIdx * 35;
     game.totalGoldEarned = safeIdx * 35;
     game.totalKills = 0;
@@ -6864,6 +7336,33 @@ function startFromStage(stageIdx = 0) {
     game.state = 'playing';
     loadStage(safeIdx, true, false);
     sfx.startBGM(safeIdx);
+}
+
+function startBossRush() {
+    sfx.init();
+    clearStageProgress();
+    game.bossRushMode = true;
+    game.bossRushStep = 0;
+    game.gold = 120;
+    game.totalGoldEarned = 120;
+    game.totalKills = 0;
+    game.secretsFound = 0;
+    game.damageTaken = 0;
+    game.elapsedFrames = 0;
+    game.comboCount = 0;
+    game.comboTimer = 0;
+    game.maxCombo = 0;
+    game.pendingContinueFury = 50;
+    game.upgrades = {
+        atkLevel: 3,
+        hpLevel: 3,
+        spdLevel: 2
+    };
+    const firstBossIdx = BOSS_RUSH_STAGES[0];
+    document.getElementById('start-modal').classList.add('hidden');
+    game.state = 'playing';
+    loadStage(firstBossIdx, true, false);
+    sfx.startBGM(firstBossIdx);
 }
 
 let stageSelectPage = -1;
@@ -6948,11 +7447,20 @@ document.getElementById('btn-start-game').addEventListener('click', () => {
     startFromStage(0);
 });
 
+const btnBossRush = document.getElementById('btn-boss-rush');
+if (btnBossRush) {
+    btnBossRush.addEventListener('click', () => {
+        startBossRush();
+    });
+}
+
 document.getElementById('btn-continue-stage').addEventListener('click', () => {
     const saved = loadStageProgress();
     sfx.init();
     document.getElementById('start-modal').classList.add('hidden');
     if (saved) {
+        game.bossRushMode = false;
+        game.bossRushStep = 0;
         game.gold = saved.gold || 0;
         game.totalGoldEarned = saved.totalGoldEarned || 0;
         game.totalKills = saved.totalKills || 0;
