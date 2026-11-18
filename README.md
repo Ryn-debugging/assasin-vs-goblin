@@ -6,9 +6,9 @@
 
 ## 📱 Download APK Android
 
-Kamu bisa langsung mengunduh file APK versi terbaru (**v2.0.0 - Release APK**) melalui tautan berikut:
+Kamu bisa langsung mengunduh file APK versi terbaru (**v3.0.0 - Release APK**) melalui tautan berikut:
 
-👉 **[Download ShadowAssassin.apk (v2.0.0)](https://github.com/Ryn-debugging/assasin-vs-goblin/releases/latest/download/ShadowAssassin.apk)**
+👉 **[Download ShadowAssassin.apk (v3.0.0)](https://github.com/Ryn-debugging/assasin-vs-goblin/releases/latest/download/ShadowAssassin.apk)**
 
 atau lihat semua rilis di halaman **[GitHub Releases](https://github.com/Ryn-debugging/assasin-vs-goblin/releases/latest)**.
 
@@ -38,26 +38,27 @@ Game ini dirancang untuk dapat dimainkan di **Smartphone (Touchscreen)** maupun 
 
 ---
 
-## ✨ Fitur Utama (v2.0.0)
+## ✨ Fitur Utama (v3.0.0)
 
-- **8 Stage Campaign (3 Babak Penuh + Final Boss Baru):**
-  - **Babak I (Benteng Grommash):** Stage 1 Hutan Gelap, Stage 2 Gua Goblin, Stage 3 Benteng Goblin (Boss: *Raja Goblin Grommash*).
-  - **Babak II (Menuju Matahari):** Stage 4 Jurang Kabut (*platform* bergerak & jurang), Stage 5 Kuil Obsidian, Stage 6 Puncak Fajar (Boss: *Kaisar Goblin Kraven* + *Summon Guards*).
-  - **Babak III (Gerhana Abadi — Baru di v2.0.0!):** Stage 7 Jembatan Magma (jembatan gantung magma, **Batu Pegas Bayangan**, & *Goblin Pengebom*), Stage 8 Tahta Gerhana (Final Boss 3 Fase: *Overlord Goblin Malakor* + *Garda Gerhana*).
-  - **Alur Cerita Antar-Stage** di Toko Bayangan & fitur **Pilih Stage Terbuka (Stage 1–8)** di menu awal.
-- **Mekanik Combat & Arena Baru:**
-  - **Badai Bayangan (`Q`/`E`/`F` & `ULTI`):** Kumpulkan *Shadow Fury* (`0–100%`) dari serangan, backstab, parry, & kill untuk melepaskan badai AoE masif yang menembus tameng dan menyapu proyektil!
-  - **Belati Bayangan Lv.3+ (*Sabit Bayangan*):** Combo ke-3 meluncurkan gelombang sabit energi menembus banyak musuh + **Air Slash** jangkauan ekstra di udara.
-  - **Batu Pegas Bayangan:** Landasan pegas bercahaya untuk melontarkan Assassin ke platform tinggi sekaligus mereset kuota *Double Jump*.
-  - **Variasi Musuh Lengkap:** *Goblin Brute* (tameng depan vs *Backstab 1.5x Crit!*), *Goblin Ninja*, *Goblin Shaman* (bola sihir & penyembuh kawan), plus **Goblin Pengebom** (*bom parabola* yang bisa ditangkis belati/kunai!).
-  - **Checkpoint Lentera Bayangan & Nyawa Bayangan** (1× bangkit otomatis) serta **16 Peti Harta Tersembunyi** (2 per stage).
-  - **Peringkat Kemenangan (`Rank S / A / B / C`)**, pencatat waktu tempuh, dan rekor tersimpan di `localStorage`.
-- **Perbaikan Bug Tombol Lompat & Optimasi Zero-Lag:**
-  - Menghapus `setPointerCapture` contention & mutasi kelas DOM per-frame (diganti `data-active` / `data-jumps` cache) agar tombol `LOMPAT` dan D-Pad tidak pernah nyangkut, double-consume jump, atau memicu stutter WebView.
-  - Sinkronisasi *frame pacing* 60Hz, pembersihan node Web Audio API, dan indikator *2 Pip Double Jump* langsung pada tombol `LOMPAT`.
+- **30 Stage Campaign (6 Babak Penuh + True Final Boss *Kaisar Agung Azhorak*):**
+  - **Babak I (Benteng Grommash — Stage 1–3):** Hutan Gelap, Gua Goblin, Benteng Goblin (*Boss: Raja Goblin Grommash*).
+  - **Babak II (Menuju Matahari — Stage 4–6):** Jurang Kabut (*platform* bergerak & jurang), Kuil Obsidian, Puncak Fajar (*Boss: Kaisar Goblin Kraven* + *Summon Guards*).
+  - **Babak III (Gerhana Abadi — Stage 7–8):** Jembatan Magma (*Batu Pegas Bayangan* & *Goblin Pengebom*), Tahta Gerhana (*Boss 3 Fase: Overlord Goblin Malakor*).
+  - **Babak IV (Rawa Beracun & Kristal — Stage 9–14, Baru di v3.0.0!):** Rawa Beracun, Hutan Jamur, Tambang Kristal, Tambang Zorgak (*Boss: Panglima Tambang Zorgak*), Jurang Angin, Gerbang Es.
+  - **Babak V (Puncak Es & Labirin Mesiu — Stage 15–20, Baru di v3.0.0!):** Danau Beku, Lembah Salju, Benteng Vrakos (*Boss: Jenderal Es Vrakos*), Pabrik Mesiu, Rantai Besi, Benteng Dorgon (*Boss 3 Fase: Panglima Perang Dorgon*).
+  - **Babak VI (Langit Badai & Mahkota Fajar — Stage 21–30, Baru di v3.0.0!):** Menara Petir, Kawah Berapi, Kuil Bayangan, Takhta Kaelgor (*Boss 3 Fase: Adipati Bayangan Kaelgor*), Jembatan Langit, Benteng Awan, Koridor Waktu, Tahta Xylar (*Boss 3 Fase: Penjaga Waktu Xylar*), Gerbang Astral, dan **Stage 30 Mahkota Fajar** (*True Final Boss 3 Fase: Kaisar Agung Azhorak* + *Mahkota Astral* & *Serangan Gelombang Ganda*).
+  - **Menu Pilih Stage Terbuka Berhalaman (`Stage 1–6` s.d. `Stage 25–30`)** agar nyaman di layar HP `800×360` maupun desktop, ditambah alur cerita antar-stage & **Lanjut Stage Terakhir**.
+- **Mekanik Combat, Bioma, & Keseimbangan 30-Stage:**
+  - **15 Tema Bioma Paralaks Unik:** Hutan, Gua, Benteng, Jurang, Kuil, Fajar, Gunung Berapi, Gerhana, Rawa Asam, Hutan Jamur, Pabrik Mesiu, Gletser Es, Menara Petir, Kerajaan Awan, & Mahkota Astral.
+  - **Badai Bayangan (`Q`/`E`/`F` & `ULTI`), Belati Sabit Bayangan Lv.3+, & Backstab 1.5× Crit:** Tangkis panah/bom untuk isi *Shadow Fury* (`0–100%`) dan lepaskan AoE masif yang menembus tameng.
+  - **Checkpoint Lentera Bayangan, Nyawa Bayangan, & 60 Peti Harta (2 per stage):** Hadiah emas & pemulihan proporsional terhadap `maxHp` serta bola heal Dukun Goblin yang terskala adil hingga Stage 30.
+  - **Peringkat Kemenangan (`Rank S / A / B / C`):** Waktu target, penalti damage, & hitungan `60` peti harta yang disesuaikan untuk ekspedisi penuh 30 stage, tersimpan di `localStorage`.
+- **Perbaikan Bug & Optimasi Zero-Lag (v2.0.0–v3.0.0):**
+  - **Keseimbangan 30-Stage:** *Soft-cap* kecepatan gerak (`moveSpeed` maks `9.0`) & batas aman cooldown *Dash*/*Kunai* agar karakter tetap presisi di *platform* sempit; *diminishing scaling* damage/speed musuh di Stage 9–30 untuk mencegah *one-shot* mendadak; parameter arena/summon independen per Boss; dan pengaman `lastSafeX/Y` terhadap *Batu Pegas* agar *respawn* dari jurang tidak pernah terjebak mental ulang.
+  - **Zero-Lag Input & Tombol Lompat:** Bebas `setPointerCapture` contention & mutasi kelas DOM per-frame (memakai `data-active` / `data-jumps` cache) plus indikator *2 Pip Double Jump* pada tombol `LOMPAT`.
 - **CG Ending Fajar Kedamaian & Audio Sintetis:**
-  - Epilog animasi sang Shadow Assassin menyaksikan matahari terbit setelah menumbangkan Overlord Malakor, dengan fitur *Putar Ulang CG*.
-  - 8 pola BGM sintetis unik per stage + efek suara tebasan, crit, kunai, pegas, bom, badai bayangan, dan akord fajar 100% offline (~3.3 MB).
+  - Epilog animasi sang Shadow Assassin menyaksikan matahari terbit setelah menumbangkan Kaisar Agung Azhorak, dengan fitur *Putar Ulang CG*.
+  - **14 pola BGM sintetis** + efek suara tebasan, crit, kunai, pegas, bom, badai bayangan, dan akord fajar 100% offline.
   - Kompatibel dengan **Android 5.0 (Lollipop) hingga Android 15** (`minSdk 21`, signed v1+v2+v3) dalam WebView Fullscreen Immersive Mode (Landscape).
 
 ---

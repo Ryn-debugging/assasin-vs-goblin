@@ -129,6 +129,9 @@
             border-color: rgba(168, 85, 247, 0.7);
             box-shadow: 0 8px 20px rgba(139, 92, 246, 0.2);
         }
+        #stage-select-tabs.hidden {
+            display: none !important;
+        }
         @media (max-height: 480px) {
             #hud {
                 padding: 0.45rem 0.65rem !important;
@@ -215,8 +218,18 @@
                 margin-bottom: 0.24rem !important;
                 padding: 0.2rem 0.38rem !important;
             }
+            #stage-select-tabs {
+                gap: 0.2rem !important;
+                margin-bottom: 0.2rem !important;
+            }
+            #stage-select-tabs button {
+                padding: 0.08rem 0.36rem !important;
+                font-size: 0.56rem !important;
+            }
             #stage-select-pills {
-                gap: 0.24rem !important;
+                gap: 0.22rem !important;
+                max-height: 52px;
+                overflow-y: auto;
             }
             #stage-select-pills button {
                 padding: 0.12rem 0.38rem !important;
@@ -407,7 +420,7 @@
             <!-- Info Stage & Sisa Musuh -->
             <div class="hud-card glass-panel rounded-xl px-3.5 py-2 sm:px-5 sm:py-2.5 flex items-center gap-4 sm:gap-6 pointer-events-auto">
                 <div class="text-center">
-                    <div class="text-[10px] sm:text-xs uppercase tracking-wider text-purple-300 font-bold" id="hud-stage-num">STAGE 1 / 8</div>
+                    <div class="text-[10px] sm:text-xs uppercase tracking-wider text-purple-300 font-bold" id="hud-stage-num">STAGE 1 / 30</div>
                     <div class="text-xs sm:text-base font-extrabold text-white font-cinzel tracking-wide" id="hud-stage-name">Hutan Gelap</div>
                 </div>
                 <div class="h-8 w-[1px] bg-slate-700"></div>
@@ -458,7 +471,7 @@
             </div>
         </div>
 
-        <!-- BOSS HP BAR (Muncul di Stage 3, 6 & 8 saat dekat Boss) -->
+        <!-- BOSS HP BAR (Muncul di Stage Boss saat dekat Boss) -->
         <div id="boss-hud" class="hidden max-w-xl w-full mx-auto glass-panel rounded-xl px-4 py-2 border-rose-500/50">
             <div class="flex justify-between items-center text-xs font-bold mb-1">
                 <span class="text-rose-400 font-cinzel tracking-wider flex items-center gap-1.5">
@@ -551,10 +564,10 @@
                 <i class="fa-solid fa-user-ninja text-2xl sm:text-4xl text-purple-200"></i>
             </div>
 
-            <div class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-purple-400 mb-0.5 sm:mb-1">2D Action Platformer • v2.0.0 • 8 Stage</div>
+            <div class="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-purple-400 mb-0.5 sm:mb-1">2D Action Platformer • v3.0.0 • 30 Stage</div>
             <h1 class="text-xl sm:text-4xl font-black text-white font-cinzel tracking-wide mb-2 sm:mb-3">SHADOW ASSASSIN<br><span class="text-emerald-400 text-base sm:text-2xl">VS GOBLINS</span></h1>
             <p class="start-desc text-slate-300 text-[11px] sm:text-sm leading-snug sm:leading-relaxed mb-3 sm:mb-5">
-                Taklukkan 8 Stage dari Hutan Gelap hingga Tahta Gerhana! Manfaatkan <strong class="text-cyan-300">Pegas Bayangan</strong>, <strong class="text-emerald-300">Kunai</strong>, <strong class="text-rose-300">Backstab 1.5x</strong>, &amp; <strong class="text-amber-300">Badai Bayangan</strong>.
+                Taklukkan 30 Stage lintas 6 Babak hingga Mahkota Fajar Abadi! Manfaatkan <strong class="text-cyan-300">Pegas Bayangan</strong>, <strong class="text-emerald-300">Kunai</strong>, <strong class="text-rose-300">Backstab 1.5x</strong>, &amp; <strong class="text-amber-300">Badai Bayangan</strong>.
             </p>
 
             <div class="start-grid grid grid-cols-2 gap-2 text-left bg-slate-900/80 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-slate-800 mb-3 sm:mb-5 text-[11px] sm:text-xs">
@@ -590,7 +603,8 @@
 
             <!-- Pilihan Stage Terbuka (Muncul jika pemain pernah membuka Stage 2+) -->
             <div id="stage-select-bar" class="hidden bg-slate-900/85 border border-slate-800 rounded-xl p-2 mb-3 text-center">
-                <div class="text-[10px] font-bold uppercase tracking-wider text-purple-300 mb-1.5">Pilih Stage Terbuka</div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-purple-300 mb-1">Pilih Stage Terbuka</div>
+                <div id="stage-select-tabs" class="hidden flex flex-wrap justify-center gap-1 mb-1.5"></div>
                 <div id="stage-select-pills" class="flex flex-wrap justify-center gap-1.5"></div>
             </div>
 
@@ -1133,28 +1147,42 @@ class SoundSystem {
         this.bgmStep = 0;
 
         const patterns = [
-            [146.83, 174.61, 220.00, 174.61, 164.81, 196.00, 261.63, 196.00],
-            [130.81, 155.56, 196.00, 155.56, 116.54, 155.56, 196.00, 233.08],
-            [110.00, 164.81, 220.00, 130.81, 116.54, 174.61, 233.08, 164.81],
-            [146.83, 220.00, 207.65, 174.61, 130.81, 196.00, 207.65, 164.81],
-            [123.47, 185.00, 196.00, 146.83, 123.47, 164.81, 220.00, 185.00],
-            [110.00, 164.81, 220.00, 246.94, 130.81, 196.00, 233.08, 293.66],
-            [116.54, 174.61, 207.65, 261.63, 123.47, 185.00, 233.08, 277.18],
-            [98.00, 146.83, 207.65, 293.66, 110.00, 164.81, 233.08, 329.63]
+            [146.83, 174.61, 220.00, 174.61, 164.81, 196.00, 261.63, 196.00], // Hutan
+            [130.81, 155.56, 196.00, 155.56, 116.54, 155.56, 196.00, 233.08], // Gua
+            [110.00, 164.81, 220.00, 130.81, 116.54, 174.61, 233.08, 164.81], // Boss Grommash
+            [146.83, 220.00, 207.65, 174.61, 130.81, 196.00, 207.65, 164.81], // Jurang
+            [123.47, 185.00, 196.00, 146.83, 123.47, 164.81, 220.00, 185.00], // Kuil
+            [110.00, 164.81, 220.00, 246.94, 130.81, 196.00, 233.08, 293.66], // Boss Kraven
+            [116.54, 174.61, 207.65, 261.63, 123.47, 185.00, 233.08, 277.18], // Magma
+            [98.00, 146.83, 207.65, 293.66, 110.00, 164.81, 233.08, 329.63],  // Boss Malakor
+            [138.59, 174.61, 207.65, 164.81, 138.59, 185.00, 246.94, 185.00], // Rawa / Jamur
+            [155.56, 196.00, 233.08, 293.66, 146.83, 196.00, 261.63, 293.66], // Kristal / Angin
+            [164.81, 220.00, 261.63, 329.63, 146.83, 207.65, 246.94, 293.66], // Glasial / Es
+            [116.54, 155.56, 185.00, 246.94, 110.00, 146.83, 185.00, 220.00], // Labirin Besi / Mesiu
+            [103.83, 155.56, 207.65, 277.18, 116.54, 174.61, 233.08, 311.13], // Petir / Astral
+            [98.00, 146.83, 196.00, 261.63, 110.00, 164.81, 246.94, 349.23]   // Finale Kaisar Agung
         ];
-        const intervalByStage = [320, 280, 240, 270, 250, 235, 225, 210];
-        const intervalMs = intervalByStage[stageIdx] || 280;
+        const stageObj = typeof STAGES !== 'undefined' ? STAGES[stageIdx] : null;
+        const isBoss = Boolean(stageObj && (stageObj.isBossStage || stageIdx === 2 || stageIdx === 5 || stageIdx === 7));
+        const baseIntervals = [320, 280, 240, 270, 250, 235, 225, 210];
+        const intervalMs = stageIdx < baseIntervals.length
+            ? baseIntervals[stageIdx]
+            : (isBoss ? Math.max(185, 225 - Math.floor((stageIdx - 7) * 1.6)) : Math.max(205, 275 - Math.floor((stageIdx - 7) * 2.5)));
 
         this.bgmTimer = setInterval(() => {
             if (this.muted || !this.ctx || this.ctx.state !== 'running') return;
             if (typeof game === 'undefined' || game.state !== 'playing') return;
             try {
-                const pat = patterns[this.bgmStage % patterns.length];
+                const curStageObj = typeof STAGES !== 'undefined' ? STAGES[this.bgmStage] : null;
+                const patIdx = (curStageObj && typeof curStageObj.bgmPattern === 'number')
+                    ? curStageObj.bgmPattern
+                    : this.bgmStage;
+                const pat = patterns[patIdx % patterns.length];
                 const freq = pat[this.bgmStep % pat.length];
                 const now = this.ctx.currentTime;
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
-                const isBossStage = this.bgmStage === 2 || this.bgmStage === 5 || this.bgmStage === 7;
+                const isBossStage = Boolean(curStageObj && curStageObj.isBossStage) || this.bgmStage === 2 || this.bgmStage === 5 || this.bgmStage === 7;
                 osc.type = isBossStage ? 'sawtooth' : 'triangle';
                 osc.frequency.setValueAtTime(freq, now);
                 gain.gain.setValueAtTime(0.001, now);
@@ -1205,10 +1233,12 @@ const VIEW_HEIGHT = 720;
 canvas.width = VIEW_WIDTH;
 canvas.height = VIEW_HEIGHT;
 
-// --- 3. DATA 8 STAGE PETUALANGAN PENUH ---
+// --- 3. DATA 30 STAGE PETUALANGAN PENUH (6 BABAK) ---
 const STAGES = [
     {
         id: 1,
+        bgStyle: 'forest',
+        bgmPattern: 0,
         name: "Hutan Gelap",
         subtitle: "STAGE 1 - PERBATASAN RIMBA",
         desc: "Tumpas patroli goblin di hutan berkabut dan capai Portal Kuno di ujung timur!",
@@ -1260,6 +1290,8 @@ const STAGES = [
     },
     {
         id: 2,
+        bgStyle: 'cave',
+        bgmPattern: 1,
         name: "Gua Goblin",
         subtitle: "STAGE 2 - TEROWONGAN BAWAH TANAH",
         desc: "Waspadai jebakan duri beracun dan pemanah goblin di tebing kristal!",
@@ -1320,6 +1352,9 @@ const STAGES = [
     },
     {
         id: 3,
+        bgStyle: 'fortress',
+        bgmPattern: 2,
+        isBossStage: true,
         name: "Benteng Goblin",
         subtitle: "STAGE 3 - SINGGASANA RAJA GOBLIN",
         desc: "Serbu benteng dan kalahkan Raja Goblin Grommash untuk membuka segel menuju Babak II!",
@@ -1380,6 +1415,8 @@ const STAGES = [
     },
     {
         id: 4,
+        bgStyle: 'cliff',
+        bgmPattern: 3,
         name: "Jurang Kabut",
         subtitle: "STAGE 4 - JEMBATAN JURANG KABUT",
         desc: "Seberangi platform bergerak, lumpuhkan Brute bertameng lewat serangan belakang & Kunai!",
@@ -1440,6 +1477,8 @@ const STAGES = [
     },
     {
         id: 5,
+        bgStyle: 'temple',
+        bgmPattern: 4,
         name: "Kuil Obsidian",
         subtitle: "STAGE 5 - KUIL OBSIDIAN TERLARANG",
         desc: "Hancurkan Dukun Goblin penyembuh dan hindari serbuan Ninja di kuil batu hitam!",
@@ -1503,6 +1542,9 @@ const STAGES = [
     },
     {
         id: 6,
+        bgStyle: 'dawn',
+        bgmPattern: 5,
+        isBossStage: true,
         name: "Puncak Fajar",
         subtitle: "STAGE 6 - PUNCAK GUNUNG FAJAR",
         desc: "Tumbangkan Kaisar Goblin Kraven untuk membuka gerbang menuju Babak III: Gerhana Abadi!",
@@ -1558,6 +1600,8 @@ const STAGES = [
     },
     {
         id: 7,
+        bgStyle: 'volcano',
+        bgmPattern: 6,
         name: "Jembatan Magma",
         subtitle: "STAGE 7 - JEMBATAN KAWAH MAGMA",
         desc: "Gunakan Batu Pegas Bayangan untuk melambung & tangkis bom Goblin Pengebom!",
@@ -1624,11 +1668,14 @@ const STAGES = [
     },
     {
         id: 8,
+        bgStyle: 'eclipse',
+        bgmPattern: 7,
+        isBossStage: true,
         name: "Tahta Gerhana",
         subtitle: "STAGE 8 - TAHTA GERHANA ABADI",
-        desc: "Pertarungan puncak! Tumbangkan Overlord Goblin Malakor untuk membebaskan fajar sejati!",
-        storyTitle: "FAJAR KEMENANGAN",
-        storyNote: "Gerhana abadi telah runtuh dan kedamaian sejati menyinari negeri ini.",
+        desc: "Pertarungan puncak Babak III! Tumbangkan Overlord Goblin Malakor untuk membuka jalan ke Babak IV!",
+        storyTitle: "BABAK IV • RAWA BERACUN & KRISTAL",
+        storyNote: "Overlord Malakor tumbang! Namun di balik segel gerhana terkuak wilayah Timur Rawa Beracun dan Kerajaan Es menuju Tahta Kaisar Agung Azhorak.",
         worldWidth: 4500,
         skyTop: "#050312",
         skyBottom: "#2e1042",
@@ -1682,6 +1729,512 @@ const STAGES = [
         portalY: 510
     }
 ];
+
+function placeGoblin(type, x, surfaceY, bossOpts = null) {
+    const dy = type === 'brute' ? 70
+        : (type === 'boss' ? 110
+        : (type === 'final_boss' ? 116
+        : (type === 'overlord_boss' ? 124
+        : (type === 'supreme_boss' ? 132 : 60))));
+    const en = { type, x, y: surfaceY - dy };
+    if (bossOpts) en.bossOpts = bossOpts;
+    return en;
+}
+
+function buildCampaignStage(cfg) {
+    const t = cfg.tpl;
+    const m = cfg.squad;
+    let worldWidth = 4400;
+    let platforms = [];
+    let spikes = [];
+    let springs = [];
+    let checkpoints = [];
+    let chests = [];
+    let enemies = [];
+    let portalX = 4240;
+
+    if (t === 'bridge') {
+        worldWidth = 4400;
+        platforms = [
+            { x: 0, y: 610, w: 900, h: 140, type: 'ground' },
+            { x: 1300, y: 610, w: 860, h: 140, type: 'ground' },
+            { x: 2340, y: 610, w: 940, h: 140, type: 'ground' },
+            { x: 3660, y: 610, w: 740, h: 140, type: 'ground' },
+            { x: 300, y: 480, w: 220, h: 24, type: 'plat' },
+            { x: 590, y: 375, w: 230, h: 24, type: 'plat' },
+            { x: 1010, y: 525, w: 170, h: 24, type: 'moving', moveX: 115, moveY: 0, speed: 0.025, phase: 0 },
+            { x: 1460, y: 475, w: 230, h: 24, type: 'plat' },
+            { x: 1750, y: 365, w: 230, h: 24, type: 'plat' },
+            { x: 2640, y: 475, w: 240, h: 24, type: 'plat' },
+            { x: 2940, y: 365, w: 230, h: 24, type: 'plat' },
+            { x: 3390, y: 515, w: 170, h: 24, type: 'moving', moveX: 105, moveY: -30, speed: 0.026, phase: 1.4 },
+            { x: 3820, y: 470, w: 230, h: 24, type: 'plat' }
+        ];
+        springs = [
+            { x: 680, y: 590, w: 90, h: 20 },
+            { x: 3700, y: 590, w: 90, h: 20 }
+        ];
+        spikes = [
+            { x: 470, y: 590, w: 95, h: 20 },
+            { x: 1680, y: 590, w: 95, h: 20 },
+            { x: 2800, y: 590, w: 95, h: 20 }
+        ];
+        checkpoints = [{ x: 2440, y: 610 }];
+        chests = [{ x: 760, y: 375 }, { x: 3110, y: 365 }];
+        enemies = [
+            placeGoblin(m[0], 380, 480),
+            placeGoblin(m[1], 625, 375),
+            placeGoblin(m[2], 1410, 610),
+            placeGoblin(m[3], 1545, 475),
+            placeGoblin(m[4], 1840, 365),
+            placeGoblin(m[5], 1975, 610),
+            placeGoblin(m[6], 2730, 475),
+            placeGoblin(m[7], 3000, 365),
+            placeGoblin(m[8], 3060, 610),
+            placeGoblin(m[9], 3910, 470),
+            placeGoblin(m[10], 3990, 610)
+        ];
+        portalX = 4240;
+    } else if (t === 'towers') {
+        worldWidth = 4600;
+        platforms = [
+            { x: 0, y: 610, w: 960, h: 140, type: 'ground' },
+            { x: 1130, y: 610, w: 950, h: 140, type: 'ground' },
+            { x: 2480, y: 610, w: 920, h: 140, type: 'ground' },
+            { x: 3570, y: 610, w: 1030, h: 140, type: 'ground' },
+            { x: 320, y: 480, w: 220, h: 24, type: 'plat' },
+            { x: 610, y: 360, w: 250, h: 24, type: 'plat' },
+            { x: 1260, y: 475, w: 220, h: 24, type: 'plat' },
+            { x: 1520, y: 350, w: 240, h: 24, type: 'plat' },
+            { x: 1810, y: 465, w: 220, h: 24, type: 'plat' },
+            { x: 2195, y: 520, w: 170, h: 24, type: 'moving', moveX: 115, moveY: 0, speed: 0.025, phase: 0.5 },
+            { x: 2740, y: 465, w: 230, h: 24, type: 'plat' },
+            { x: 3020, y: 345, w: 240, h: 24, type: 'plat' },
+            { x: 3820, y: 475, w: 230, h: 24, type: 'plat' },
+            { x: 4080, y: 370, w: 220, h: 24, type: 'plat' }
+        ];
+        springs = [
+            { x: 780, y: 590, w: 90, h: 20 },
+            { x: 1410, y: 590, w: 90, h: 20 },
+            { x: 2900, y: 590, w: 90, h: 20 }
+        ];
+        spikes = [
+            { x: 520, y: 590, w: 95, h: 20 },
+            { x: 1660, y: 590, w: 100, h: 20 },
+            { x: 3720, y: 590, w: 100, h: 20 }
+        ];
+        checkpoints = [{ x: 2560, y: 610 }];
+        chests = [{ x: 1700, y: 350 }, { x: 3200, y: 345 }];
+        enemies = [
+            placeGoblin(m[0], 400, 480),
+            placeGoblin(m[1], 700, 360),
+            placeGoblin(m[2], 1220, 610),
+            placeGoblin(m[3], 1345, 475),
+            placeGoblin(m[4], 1580, 350),
+            placeGoblin(m[5], 1895, 465),
+            placeGoblin(m[6], 1920, 610),
+            placeGoblin(m[7], 2825, 465),
+            placeGoblin(m[8], 3080, 345),
+            placeGoblin(m[9], 3190, 610),
+            placeGoblin(m[10], 3910, 475),
+            placeGoblin(m[11], 4160, 370)
+        ];
+        portalX = 4430;
+    } else if (t === 'catwalk') {
+        worldWidth = 4700;
+        platforms = [
+            { x: 0, y: 610, w: 860, h: 140, type: 'ground' },
+            { x: 1580, y: 610, w: 920, h: 140, type: 'ground' },
+            { x: 2680, y: 610, w: 840, h: 140, type: 'ground' },
+            { x: 3880, y: 610, w: 820, h: 140, type: 'ground' },
+            { x: 310, y: 475, w: 220, h: 24, type: 'plat' },
+            { x: 560, y: 365, w: 230, h: 24, type: 'plat' },
+            { x: 940, y: 545, w: 160, h: 24, type: 'moving', moveX: 70, moveY: -35, speed: 0.024, phase: 0 },
+            { x: 1120, y: 515, w: 240, h: 24, type: 'plat' },
+            { x: 1390, y: 515, w: 160, h: 24, type: 'moving', moveX: 60, moveY: 0, speed: 0.025, phase: 1.5 },
+            { x: 1840, y: 470, w: 240, h: 24, type: 'plat' },
+            { x: 2120, y: 360, w: 240, h: 24, type: 'plat' },
+            { x: 2880, y: 465, w: 240, h: 24, type: 'plat' },
+            { x: 3140, y: 355, w: 240, h: 24, type: 'plat' },
+            { x: 3615, y: 520, w: 170, h: 24, type: 'moving', moveX: 100, moveY: -30, speed: 0.026, phase: 0.7 },
+            { x: 4040, y: 470, w: 230, h: 24, type: 'plat' }
+        ];
+        springs = [
+            { x: 680, y: 590, w: 90, h: 20 },
+            { x: 2960, y: 590, w: 90, h: 20 }
+        ];
+        spikes = [
+            { x: 480, y: 590, w: 90, h: 20 },
+            { x: 2060, y: 590, w: 100, h: 20 },
+            { x: 4060, y: 590, w: 100, h: 20 }
+        ];
+        checkpoints = [{ x: 1690, y: 610 }];
+        chests = [{ x: 730, y: 365 }, { x: 3310, y: 355 }];
+        enemies = [
+            placeGoblin(m[0], 390, 475),
+            placeGoblin(m[1], 605, 365),
+            placeGoblin(m[2], 1210, 515),
+            placeGoblin(m[3], 1880, 610),
+            placeGoblin(m[4], 1930, 470),
+            placeGoblin(m[5], 2200, 360),
+            placeGoblin(m[6], 2330, 610),
+            placeGoblin(m[7], 2780, 610),
+            placeGoblin(m[8], 2960, 465),
+            placeGoblin(m[9], 3190, 355),
+            placeGoblin(m[10], 4120, 470),
+            placeGoblin(m[11], 4310, 610)
+        ];
+        portalX = 4530;
+    } else if (t === 'boss_citadel') {
+        worldWidth = 4600;
+        platforms = [
+            { x: 0, y: 610, w: 940, h: 140, type: 'ground' },
+            { x: 1300, y: 610, w: 900, h: 140, type: 'ground' },
+            { x: 2380, y: 610, w: 2220, h: 140, type: 'ground' },
+            { x: 310, y: 475, w: 220, h: 24, type: 'plat' },
+            { x: 590, y: 365, w: 240, h: 24, type: 'plat' },
+            { x: 1035, y: 520, w: 170, h: 24, type: 'moving', moveX: 100, moveY: 0, speed: 0.026, phase: 0 },
+            { x: 1440, y: 475, w: 230, h: 24, type: 'plat' },
+            { x: 1760, y: 365, w: 230, h: 24, type: 'plat' },
+            { x: 2820, y: 455, w: 240, h: 24, type: 'plat' },
+            { x: 3320, y: 360, w: 260, h: 24, type: 'plat' },
+            { x: 3820, y: 455, w: 240, h: 24, type: 'plat' }
+        ];
+        springs = [
+            { x: 2700, y: 590, w: 90, h: 20 },
+            { x: 4080, y: 590, w: 90, h: 20 }
+        ];
+        spikes = [
+            { x: 500, y: 590, w: 95, h: 20 },
+            { x: 1620, y: 590, w: 100, h: 20 }
+        ];
+        checkpoints = [{ x: 2490, y: 610 }];
+        chests = [{ x: 770, y: 365 }, { x: 3500, y: 360 }];
+        enemies = [
+            placeGoblin(m[0], 395, 475),
+            placeGoblin(m[1], 645, 365),
+            placeGoblin(m[2], 1430, 610),
+            placeGoblin(m[3], 1525, 475),
+            placeGoblin(m[4], 1845, 365),
+            placeGoblin(m[5], 1950, 610),
+            placeGoblin(m[6], 2905, 455),
+            placeGoblin(m[7], 3120, 610),
+            placeGoblin(cfg.bossType, 3680, 610, cfg.bossOpts)
+        ];
+        portalX = 4410;
+    } else {
+        // final_throne (Stage 30 Mahkota Fajar Abadi)
+        worldWidth = 4900;
+        platforms = [
+            { x: 0, y: 610, w: 920, h: 140, type: 'ground' },
+            { x: 1280, y: 610, w: 920, h: 140, type: 'ground' },
+            { x: 2500, y: 610, w: 2400, h: 140, type: 'ground' },
+            { x: 310, y: 475, w: 220, h: 24, type: 'plat' },
+            { x: 590, y: 360, w: 240, h: 24, type: 'plat' },
+            { x: 1015, y: 520, w: 170, h: 24, type: 'moving', moveX: 100, moveY: 0, speed: 0.026, phase: 0 },
+            { x: 1420, y: 470, w: 240, h: 24, type: 'plat' },
+            { x: 1740, y: 355, w: 240, h: 24, type: 'plat' },
+            { x: 2265, y: 515, w: 170, h: 24, type: 'moving', moveX: 85, moveY: 0, speed: 0.027, phase: 1.1 },
+            { x: 2980, y: 450, w: 260, h: 24, type: 'plat' },
+            { x: 3520, y: 350, w: 280, h: 24, type: 'plat' },
+            { x: 4080, y: 450, w: 260, h: 24, type: 'plat' }
+        ];
+        springs = [
+            { x: 2840, y: 590, w: 90, h: 20 },
+            { x: 4360, y: 590, w: 90, h: 20 }
+        ];
+        spikes = [
+            { x: 490, y: 590, w: 95, h: 20 },
+            { x: 1620, y: 590, w: 100, h: 20 }
+        ];
+        checkpoints = [{ x: 2620, y: 610 }];
+        chests = [{ x: 770, y: 360 }, { x: 3710, y: 350 }];
+        enemies = [
+            placeGoblin(m[0], 395, 475),
+            placeGoblin(m[1], 645, 360),
+            placeGoblin(m[2], 1410, 610),
+            placeGoblin(m[3], 1510, 470),
+            placeGoblin(m[4], 1830, 355),
+            placeGoblin(m[5], 1950, 610),
+            placeGoblin(m[6], 3080, 450),
+            placeGoblin(m[7], 3250, 610),
+            placeGoblin(m[8], 4180, 450),
+            placeGoblin(cfg.bossType, 3820, 610, cfg.bossOpts)
+        ];
+        portalX = 4710;
+    }
+
+    return {
+        id: cfg.id,
+        bgStyle: cfg.bgStyle,
+        bgmPattern: cfg.bgmPattern,
+        isBossStage: Boolean(cfg.bossType),
+        name: cfg.name,
+        subtitle: cfg.subtitle,
+        desc: cfg.desc,
+        storyTitle: cfg.storyTitle,
+        storyNote: cfg.storyNote,
+        worldWidth,
+        skyTop: cfg.pal[0],
+        skyBottom: cfg.pal[1],
+        groundColor: cfg.pal[2],
+        groundTop: cfg.pal[3],
+        platColor: cfg.pal[4],
+        platTop: cfg.pal[5],
+        ambientColor: cfg.pal[6],
+        platforms,
+        springs,
+        spikes,
+        checkpoints,
+        chests,
+        enemies,
+        portalX,
+        portalY: 510
+    };
+}
+
+const EXTRA_STAGE_CFGS = [
+    // BABAK IV: RAWA BERACUN & LABIRIN KRISTAL (Stage 9 - 14)
+    {
+        id: 9, tpl: 'bridge', bgStyle: 'swamp', bgmPattern: 8,
+        name: "Rawa Beracun", subtitle: "STAGE 9 - PINGGIRAN RAWA ASAM",
+        desc: "Melintasi rawa beracun! Waspadai Dukun penyembuh dan Goblin Pengebom di balik kabut hijau.",
+        storyTitle: "JEJAK DI ANTARA JAMUR",
+        storyNote: "Udara rawa makin pekat dengan spora bercahaya—hutan jamur raksasa menanti di depan.",
+        pal: ["#06130e", "#123024", "#13211a", "#2e6f40", "#1f3529", "#4ade80", "#4ade80"],
+        squad: ['club', 'archer', 'ninja', 'bomber', 'shaman', 'brute', 'club', 'archer', 'ninja', 'bomber', 'brute']
+    },
+    {
+        id: 10, tpl: 'towers', bgStyle: 'mushroom', bgmPattern: 8,
+        name: "Hutan Jamur", subtitle: "STAGE 10 - HUTAN JAMUR BERCAHAYA",
+        desc: "Manfaatkan Batu Pegas untuk melompati kanopi jamur raksasa dan lumpuhkan penembak elit!",
+        storyTitle: "TEROWONGAN KRISTAL TIMUR",
+        storyNote: "Spora raksasa tertinggal di belakang. Di balik tebing tersembunyi tambang kristal gelap pasukan Zorgak.",
+        pal: ["#0d071c", "#261447", "#1c132d", "#7e22ce", "#2b1c42", "#c084fc", "#e879f9"],
+        squad: ['ninja', 'archer', 'club', 'bomber', 'shaman', 'ninja', 'brute', 'club', 'archer', 'ninja', 'bomber', 'shaman']
+    },
+    {
+        id: 11, tpl: 'catwalk', bgStyle: 'cave', bgmPattern: 9,
+        name: "Tambang Kristal", subtitle: "STAGE 11 - LABIRIN KRISTAL GELAP",
+        desc: "Seberangi pulau tambang gantung yang diawasi Brute bertameng dan Ninja bayangan!",
+        storyTitle: "JANTUNG TAMBANG TERBUKA",
+        storyNote: "Gema palu raksasa mengguncang gua! Panglima Tambang Zorgak bersiap menghadangmu.",
+        pal: ["#05101c", "#13294b", "#131c2e", "#0284c7", "#1e2e46", "#38bdf8", "#22d3ee"],
+        squad: ['brute', 'archer', 'ninja', 'club', 'bomber', 'shaman', 'brute', 'ninja', 'archer', 'bomber', 'shaman', 'brute']
+    },
+    {
+        id: 12, tpl: 'boss_citadel', bgStyle: 'forge', bgmPattern: 11,
+        bossType: 'boss',
+        bossOpts: {
+            bossName: 'PANGLIMA TAMBANG ZORGAK',
+            bossHp: 1100, bossDmg: 32, arenaMinX: 2450, arenaSpawnX: 3600,
+            summonPositions: [{ type: 'ninja', x: 2940, y: 540 }, { type: 'bomber', x: 3920, y: 540 }]
+        },
+        name: "Tambang Zorgak", subtitle: "STAGE 12 - SINGGASANA PANGLIMA ZORGAK",
+        desc: "BOSS STAGE! Kalahkan Panglima Tambang Zorgak beserta dua pengawal tambangnya!",
+        storyTitle: "JALUR ANGIN UTARA",
+        storyNote: "Zorgak tumbang di tambang terdalam. Jalan menuju jurang angin utara kini terbuka lebar!",
+        pal: ["#160806", "#3d160c", "#261410", "#b45309", "#382019", "#f59e0b", "#fb923c"],
+        squad: ['club', 'bomber', 'brute', 'ninja', 'shaman', 'ninja', 'archer', 'brute']
+    },
+    {
+        id: 13, tpl: 'catwalk', bgStyle: 'cliff', bgmPattern: 9,
+        name: "Jurang Angin", subtitle: "STAGE 13 - TEBING ANGIN MENDERU",
+        desc: "Jaga keseimbangan di atas jembatan kabut saat badai angin dan hujan panah goblin!",
+        storyTitle: "PERBATASAN SALJU ABADI",
+        storyNote: "Angin berangsur membeku—puncak gletser es Babak V sudah tampak di kaki langit!",
+        pal: ["#071522", "#173c54", "#152836", "#0ea5e9", "#1e3a4c", "#67e8f9", "#38bdf8"],
+        squad: ['ninja', 'archer', 'bomber', 'brute', 'club', 'shaman', 'ninja', 'brute', 'ninja', 'archer', 'shaman', 'bomber']
+    },
+    {
+        id: 14, tpl: 'bridge', bgStyle: 'glacier', bgmPattern: 10,
+        name: "Gerbang Es", subtitle: "STAGE 14 - PERBATASAN SALJU UTARA",
+        desc: "Buka jalan menuju Babak V dengan menumpas pasukan pengintai es dan Pengebom!",
+        storyTitle: "BABAK V • PUNCAK ES & LABIRIN MESIU",
+        storyNote: "Salju utara menyelimuti negeri! Jenderal Es Vrakos dan mesin perang Goblin menunggumu di Babak V.",
+        pal: ["#061626", "#163d61", "#16293d", "#38bdf8", "#233d57", "#bae6fd", "#e0f2fe"],
+        squad: ['ninja', 'shaman', 'brute', 'bomber', 'archer', 'ninja', 'club', 'bomber', 'brute', 'ninja', 'shaman']
+    },
+    // BABAK V: PUNCAK ES & LABIRIN MESIU (Stage 15 - 20)
+    {
+        id: 15, tpl: 'towers', bgStyle: 'glacier', bgmPattern: 10,
+        name: "Danau Beku", subtitle: "STAGE 15 - DANAU GLETSER BEKU",
+        desc: "Melompat tinggi di antara pilar gletser beku dan hancurkan Dukun pemulih musuh!",
+        storyTitle: "BADAI SALJU MENEBAL",
+        storyNote: "Danau beku berhasil diseberangi, kini lembah salju gelap penuh penyergapan menantimu.",
+        pal: ["#08192e", "#1b4570", "#172d42", "#0284c7", "#23415c", "#7dd3fc", "#67e8f9"],
+        squad: ['brute', 'archer', 'ninja', 'bomber', 'shaman', 'ninja', 'brute', 'ninja', 'shaman', 'brute', 'bomber', 'archer']
+    },
+    {
+        id: 16, tpl: 'catwalk', bgStyle: 'glacier', bgmPattern: 10,
+        name: "Lembah Salju", subtitle: "STAGE 16 - LEMBAH BADAI SALJU",
+        desc: "Tembus pertahanan Ninja Salju & Brute berlapis baja di tebing es curam!",
+        storyTitle: "BENTENG JENDERAL VRAKOS",
+        storyNote: "Di balik tirai salju tampak menara es Jenderal Vrakos berkilau dingin.",
+        pal: ["#0b132b", "#22345e", "#19223b", "#6366f1", "#283559", "#a5b4fc", "#93c5fd"],
+        squad: ['ninja', 'bomber', 'brute', 'ninja', 'shaman', 'archer', 'brute', 'ninja', 'brute', 'shaman', 'ninja', 'bomber']
+    },
+    {
+        id: 17, tpl: 'boss_citadel', bgStyle: 'glacier', bgmPattern: 11,
+        bossType: 'final_boss',
+        bossOpts: {
+            bossName: 'JENDERAL ES VRAKOS',
+            bossHp: 1750, bossDmg: 36, arenaMinX: 2450, arenaSpawnX: 3600,
+            summonPositions: [{ type: 'bomber', x: 2940, y: 540 }, { type: 'ninja', x: 3920, y: 540 }]
+        },
+        name: "Benteng Vrakos", subtitle: "STAGE 17 - TAHTA JENDERAL ES VRAKOS",
+        desc: "BOSS STAGE! Tumbangkan Jenderal Es Vrakos sebelum badai bolanya membekukanmu!",
+        storyTitle: "PABRIK MESIU TERUNGKAP",
+        storyNote: "Benteng es runtuh! Kini kamu turun menuju kompleks Pabrik Mesiu yang memasok bom Goblin.",
+        pal: ["#071226", "#1d3557", "#142138", "#22d3ee", "#1f3252", "#67e8f9", "#38bdf8"],
+        squad: ['ninja', 'archer', 'brute', 'bomber', 'shaman', 'ninja', 'shaman', 'brute']
+    },
+    {
+        id: 18, tpl: 'bridge', bgStyle: 'forge', bgmPattern: 11,
+        name: "Pabrik Mesiu", subtitle: "STAGE 18 - KOMPLEKS MESIU GOBLIN",
+        desc: "Tangkis rentetan bom Goblin Pengebom dengan tebasan belati untuk mengisi Fury dengan cepat!",
+        storyTitle: "JEMBATAN RANTAI PANAS",
+        storyNote: "Gudang mesiu meledak! Jembatan rantai besi menghubungkanmu ke benteng perang Dorgon.",
+        pal: ["#180907", "#45160e", "#261411", "#ea580c", "#3b1d17", "#fb923c", "#f97316"],
+        squad: ['bomber', 'bomber', 'ninja', 'brute', 'shaman', 'brute', 'ninja', 'bomber', 'ninja', 'bomber', 'brute']
+    },
+    {
+        id: 19, tpl: 'catwalk', bgStyle: 'forge', bgmPattern: 11,
+        name: "Rantai Besi", subtitle: "STAGE 19 - JEMBATAN RANTAI BESI",
+        desc: "Loncat antar lift besi di atas tungku peleburan sembari menumpas skuad penjaga elit!",
+        storyTitle: "GERBANG BENTENG DORGON",
+        storyNote: "Panglima Perang Dorgon berdiri menanti di pelataran besi sebagai benteng terakhir Babak V!",
+        pal: ["#140a0a", "#361818", "#211313", "#dc2626", "#331c1c", "#f87171", "#fb7185"],
+        squad: ['brute', 'bomber', 'ninja', 'ninja', 'shaman', 'archer', 'brute', 'bomber', 'brute', 'shaman', 'ninja', 'bomber']
+    },
+    {
+        id: 20, tpl: 'boss_citadel', bgStyle: 'fortress', bgmPattern: 7,
+        bossType: 'overlord_boss',
+        bossOpts: {
+            bossName: 'PANGLIMA PERANG DORGON',
+            bossHp: 2450, bossDmg: 40, arenaMinX: 2450, arenaSpawnX: 3600,
+            summonPositions: [{ type: 'ninja', x: 2940, y: 540 }, { type: 'bomber', x: 3920, y: 540 }]
+        },
+        name: "Benteng Dorgon", subtitle: "STAGE 20 - BENTENG BESI DORGON",
+        desc: "BOSS 3 FASE! Hadapi Panglima Perang Dorgon untuk menembus Babak Terakhir: Langit Badai!",
+        storyTitle: "BABAK VI • LANGIT BADAI & MAHKOTA FAJAR",
+        storyNote: "Babak V selesai! Menara Petir dan Kerajaan Awan menuju Tahta Kaisar Agung Azhorak kini menantimu di Babak VI!",
+        pal: ["#16060b", "#3d0f1d", "#241118", "#e11d48", "#361722", "#fb7185", "#facc15"],
+        squad: ['ninja', 'bomber', 'brute', 'ninja', 'shaman', 'brute', 'bomber', 'ninja']
+    },
+    // BABAK VI: LANGIT BADAI & MAHKOTA FAJAR ABADI (Stage 21 - 30)
+    {
+        id: 21, tpl: 'towers', bgStyle: 'storm', bgmPattern: 12,
+        name: "Menara Petir", subtitle: "STAGE 21 - MENARA PETIR BADAI",
+        desc: "Daki menara halilintar tertinggi dan sapu musuh dengan Badai Bayangan!",
+        storyTitle: "KAWAH GUNUNG BERAPI",
+        storyNote: "Puncak menara petir mengarah turun ke kawah gunung berapi aktif yang menggelegak.",
+        pal: ["#07091c", "#1c2252", "#141833", "#6366f1", "#202752", "#818cf8", "#38bdf8"],
+        squad: ['ninja', 'bomber', 'brute', 'ninja', 'shaman', 'ninja', 'brute', 'ninja', 'bomber', 'brute', 'shaman', 'bomber']
+    },
+    {
+        id: 22, tpl: 'bridge', bgStyle: 'volcano', bgmPattern: 6,
+        name: "Kawah Berapi", subtitle: "STAGE 22 - LERENG GUNUNG BERAPI",
+        desc: "Hindari jebakan lava & ledakan alkemis saat menyeberangi jembatan kawah vulkanik!",
+        storyTitle: "KUIL BAYANGAN KUNO",
+        storyNote: "Di atas kepulan asap vulkanik berdiri Kuil Bayangan Kuno yang memancarkan aura ungu gelap.",
+        pal: ["#1a0404", "#4a0e0e", "#261010", "#ef4444", "#3b1515", "#fb923c", "#fde047"],
+        squad: ['brute', 'bomber', 'ninja', 'bomber', 'shaman', 'brute', 'ninja', 'archer', 'brute', 'shaman', 'ninja']
+    },
+    {
+        id: 23, tpl: 'catwalk', bgStyle: 'temple', bgmPattern: 12,
+        name: "Kuil Bayangan", subtitle: "STAGE 23 - KUIL BAYANGAN KUNO",
+        desc: "Hadapi kombinasi ganda Dukun dan Brute di jembatan batu kuil terlarang!",
+        storyTitle: "PELATARAN ADIPATI KAELGOR",
+        storyNote: "Gerbang kuil terbuka lebar menuju takhta sang Adipati Bayangan Kaelgor.",
+        pal: ["#0d051a", "#261047", "#180d29", "#9333ea", "#261442", "#c084fc", "#e879f9"],
+        squad: ['ninja', 'shaman', 'brute', 'ninja', 'bomber', 'shaman', 'brute', 'ninja', 'brute', 'bomber', 'shaman', 'ninja']
+    },
+    {
+        id: 24, tpl: 'boss_citadel', bgStyle: 'eclipse', bgmPattern: 12,
+        bossType: 'overlord_boss',
+        bossOpts: {
+            bossName: 'ADIPATI BAYANGAN KAELGOR',
+            bossHp: 3100, bossDmg: 44, arenaMinX: 2450, arenaSpawnX: 3600,
+            summonPositions: [{ type: 'ninja', x: 2940, y: 540 }, { type: 'bomber', x: 3920, y: 540 }]
+        },
+        name: "Takhta Kaelgor", subtitle: "STAGE 24 - PELATARAN ADIPATI KAELGOR",
+        desc: "BOSS 3 FASE! Tumbangkan Adipati Kaelgor untuk naik ke Jembatan Langit Berawan!",
+        storyTitle: "MENUJU KERAJAAN AWAN",
+        storyNote: "Segel gravitasi terlepas! Kini pertarungan berlangsung di atas lautan awan.",
+        pal: ["#08051a", "#23124a", "#140e2e", "#a855f7", "#211647", "#f59e0b", "#c084fc"],
+        squad: ['ninja', 'bomber', 'brute', 'ninja', 'shaman', 'brute', 'shaman', 'ninja']
+    },
+    {
+        id: 25, tpl: 'catwalk', bgStyle: 'sky', bgmPattern: 9,
+        name: "Jembatan Langit", subtitle: "STAGE 25 - KERAJAAN AWAN TERAPUNG",
+        desc: "Melayang melintasi platform langit sambil menghancurkan patroli elite di awan!",
+        storyTitle: "BENTENG AWAN HALILINTAR",
+        storyNote: "Guruh bergema di benteng tertinggi di atas awan sebelum ruang waktu terbalik!",
+        pal: ["#07182b", "#18466e", "#152b40", "#38bdf8", "#1f3e59", "#fde047", "#bae6fd"],
+        squad: ['ninja', 'archer', 'bomber', 'brute', 'ninja', 'shaman', 'brute', 'ninja', 'shaman', 'bomber', 'ninja', 'brute']
+    },
+    {
+        id: 26, tpl: 'towers', bgStyle: 'sky', bgmPattern: 12,
+        name: "Benteng Awan", subtitle: "STAGE 26 - BENTENG AWAN HALILINTAR",
+        desc: "Manfaatkan 3 Batu Pegas di menara awan untuk backstab tepat di punggung para Brute!",
+        storyTitle: "KORIDOR WAKTU TERBUKA",
+        storyNote: "Langit terbelah menyingkap Koridor Waktu Terbalik menuju Penjaga Waktu Xylar!",
+        pal: ["#091326", "#1d2f5e", "#16213d", "#0ea5e9", "#21325c", "#fbbf24", "#67e8f9"],
+        squad: ['brute', 'shaman', 'ninja', 'bomber', 'shaman', 'ninja', 'brute', 'ninja', 'bomber', 'brute', 'shaman', 'ninja']
+    },
+    {
+        id: 27, tpl: 'bridge', bgStyle: 'astral', bgmPattern: 12,
+        name: "Koridor Waktu", subtitle: "STAGE 27 - KORIDOR WAKTU TERBALIK",
+        desc: "Terobos gelombang terakhir pasukan astral sebelum menghadapi Penjaga Waktu!",
+        storyTitle: "SINGGASANA PENJAGA WAKTU",
+        storyNote: "Detak waktu melambat—Penjaga Waktu Xylar menantimu di penghujung koridor!",
+        pal: ["#07051a", "#26124f", "#140f2e", "#818cf8", "#20174a", "#e879f9", "#facc15"],
+        squad: ['ninja', 'bomber', 'brute', 'ninja', 'shaman', 'brute', 'ninja', 'shaman', 'brute', 'bomber', 'ninja']
+    },
+    {
+        id: 28, tpl: 'boss_citadel', bgStyle: 'astral', bgmPattern: 13,
+        bossType: 'overlord_boss',
+        bossOpts: {
+            bossName: 'PENJAGA WAKTU XYLAR',
+            bossHp: 3800, bossDmg: 48, arenaMinX: 2450, arenaSpawnX: 3600,
+            summonPositions: [{ type: 'ninja', x: 2940, y: 540 }, { type: 'bomber', x: 3920, y: 540 }]
+        },
+        name: "Tahta Xylar", subtitle: "STAGE 28 - SINGGASANA PENJAGA WAKTU",
+        desc: "BOSS 3 FASE! Taklukkan Penjaga Waktu Xylar untuk membuka Gerbang Astral Fajar!",
+        storyTitle: "GERBANG FAJAR ABADI",
+        storyNote: "Waktu kembali berjalan maju! Tinggal dua tahap menuju Mahkota Fajar Abadi.",
+        pal: ["#060417", "#210e45", "#120c29", "#c084fc", "#211647", "#38bdf8", "#facc15"],
+        squad: ['brute', 'bomber', 'ninja', 'ninja', 'shaman', 'brute', 'shaman', 'bomber']
+    },
+    {
+        id: 29, tpl: 'towers', bgStyle: 'dawn', bgmPattern: 13,
+        name: "Gerbang Astral", subtitle: "STAGE 29 - GERBANG ASTRAL FAJAR",
+        desc: "Medan uji terakhir sebelum tahta tertinggi! Hancurkan seluruh pengawal inti Kaisar Agung!",
+        storyTitle: "PERTEMPURAN AKHIR MENANTI",
+        storyNote: "Di balik gerbang emas berdiri Kaisar Agung Azhorak di Mahkota Fajar Abadi!",
+        pal: ["#17091e", "#4d1a38", "#221124", "#f59e0b", "#381c2e", "#fde047", "#fb923c"],
+        squad: ['ninja', 'bomber', 'brute', 'ninja', 'shaman', 'ninja', 'brute', 'ninja', 'bomber', 'brute', 'shaman', 'bomber']
+    },
+    {
+        id: 30, tpl: 'final_throne', bgStyle: 'astral', bgmPattern: 13,
+        bossType: 'supreme_boss',
+        bossOpts: {
+            bossName: 'KAISAR AGUNG AZHORAK',
+            bossHp: 4800, bossDmg: 54, arenaMinX: 2560, arenaSpawnX: 3780,
+            summonPositions: [{ type: 'ninja', x: 3060, y: 540 }, { type: 'bomber', x: 4160, y: 540 }]
+        },
+        name: "Mahkota Fajar", subtitle: "STAGE 30 - MAHKOTA FAJAR ABADI",
+        desc: "FINAL BOSS SEJATI! Tumbangkan Kaisar Agung Azhorak demi fajar kedamaian abadi!",
+        storyTitle: "FAJAR KEDAMAIAN SEJATI",
+        storyNote: "Kaisar Agung Azhorak telah tumbang dan cahaya fajar menyinari seluruh negeri!",
+        pal: ["#040314", "#280f42", "#110a26", "#facc15", "#241345", "#fb923c", "#fde047"],
+        squad: ['ninja', 'bomber', 'brute', 'ninja', 'shaman', 'brute', 'ninja', 'shaman', 'bomber']
+    }
+];
+
+EXTRA_STAGE_CFGS.forEach(cfg => STAGES.push(buildCampaignStage(cfg)));
+
 
 // Cache posisi awal platform bergerak, pegas & sky gradient per stage
 STAGES.forEach(st => {
@@ -1920,9 +2473,11 @@ class Assassin {
             this.hp = Math.min(this.maxHp, this.hp);
         }
         this.attackDamage = 25 + (game.upgrades.atkLevel - 1) * 8;
-        this.moveSpeed = 5.4 + (game.upgrades.spdLevel - 1) * 0.55;
-        this.dashMaxCooldown = Math.max(45, 95 - (game.upgrades.spdLevel - 1) * 10);
-        this.kunaiMaxCooldown = Math.max(28, 50 - (game.upgrades.spdLevel - 1) * 4);
+        const effSpd = Math.min(7, game.upgrades.spdLevel) - 1;
+        const extraSpd = Math.max(0, game.upgrades.spdLevel - 7);
+        this.moveSpeed = Math.min(9.0, 5.4 + effSpd * 0.55 + extraSpd * 0.12);
+        this.dashMaxCooldown = Math.max(32, 95 - (game.upgrades.spdLevel - 1) * 9);
+        this.kunaiMaxCooldown = Math.max(18, 50 - (game.upgrades.spdLevel - 1) * 3);
     }
 
     addFury(amount) {
@@ -2229,10 +2784,11 @@ class Assassin {
         this.scaleX += (1 - this.scaleX) * 0.24;
         this.scaleY += (1 - this.scaleY) * 0.24;
 
-        // Simpan posisi pijakan aman terakhir (bebas duri & bukan di platform bergerak)
+        // Simpan posisi pijakan aman terakhir (bebas duri, pegas & bukan di platform bergerak)
         if (this.onGround && landedPlat && landedPlat.type !== 'moving' && landedPlat.w >= this.w + 20) {
             const onSpike = stage.spikes.some(sp => rectOverlap(this, sp));
-            if (!onSpike) {
+            const onSpring = stage.springs && stage.springs.some(sp => rectOverlap({ x: this.x - 6, y: this.y, w: this.w + 12, h: this.h + 4 }, sp));
+            if (!onSpike && !onSpring) {
                 this.lastSafeX = Math.max(landedPlat.x + 12, Math.min(this.x, landedPlat.x + landedPlat.w - this.w - 12));
                 this.lastSafeY = landedPlat.y - this.h;
             }
@@ -2665,10 +3221,15 @@ function updateBossHUD(boss) {
         uiState.bossVisible = true;
         uiDom.bossHud.classList.remove('hidden');
     }
-    let title = 'RAJA GOBLIN GROMMASH';
-    if (boss.type === 'final_boss') title = 'KAISAR GOBLIN KRAVEN';
-    else if (boss.type === 'overlord_boss') title = 'OVERLORD GOBLIN MALAKOR';
-    const suffix = boss.phase3 ? ' (GERHANA)' : (boss.enraged ? ' (MURKA)' : '');
+    let title = boss.bossName || 'RAJA GOBLIN GROMMASH';
+    if (!boss.bossName) {
+        if (boss.type === 'final_boss') title = 'KAISAR GOBLIN KRAVEN';
+        else if (boss.type === 'overlord_boss') title = 'OVERLORD GOBLIN MALAKOR';
+        else if (boss.type === 'supreme_boss') title = 'KAISAR AGUNG AZHORAK';
+    }
+    const suffix = boss.phase3
+        ? (boss.type === 'supreme_boss' ? ' (ASTRAL)' : ' (GERHANA)')
+        : (boss.enraged ? ' (MURKA)' : '');
     setUiText(uiDom.bossName, 'bossName', title);
     setUiText(uiDom.bossHpText, 'bossHpText', `${boss.hp} / ${boss.maxHp}${suffix}`);
     setUiStyle(uiDom.bossHpBar, 'width', 'bossHpWidth', `${Math.max(0, (boss.hp / boss.maxHp) * 100)}%`);
@@ -2676,8 +3237,8 @@ function updateBossHUD(boss) {
 
 // --- 6. KELAS MUSUH: GOBLIN (GADA, PEMANAH, PENGEBOM, BRUTE, NINJA, DUKUN, & BOSS) ---
 class Goblin {
-    constructor(type, x, y, stageMultiplier = 1) {
-        this.type = type; // 'club', 'archer', 'bomber', 'brute', 'ninja', 'shaman', 'boss', 'final_boss', 'overlord_boss'
+    constructor(type, x, y, stageMultiplier = 1, bossOpts = null) {
+        this.type = type; // 'club', 'archer', 'bomber', 'brute', 'ninja', 'shaman', 'boss', 'final_boss', 'overlord_boss', 'supreme_boss'
         this.x = x;
         this.y = y;
         this.startX = x;
@@ -2693,72 +3254,86 @@ class Goblin {
         this.enraged = false;
         this.phase3 = false;
         this.summonedGuards = false;
+        this.summonedPhase3 = false;
         this.castCount = 0;
         this.orbTimer = 90;
+        this.stageMult = stageMultiplier;
+        this.bossOpts = bossOpts;
+        this.bossName = (bossOpts && bossOpts.bossName) ? bossOpts.bossName : '';
+        this.arenaMinX = (bossOpts && typeof bossOpts.arenaMinX === 'number')
+            ? bossOpts.arenaMinX
+            : (type === 'overlord_boss' ? 2480 : (type === 'final_boss' ? 2520 : (type === 'supreme_boss' ? 2560 : 2130)));
+        this.arenaSpawnX = (bossOpts && typeof bossOpts.arenaSpawnX === 'number')
+            ? bossOpts.arenaSpawnX
+            : (type === 'overlord_boss' ? 3550 : (type === 'final_boss' ? 3400 : (type === 'supreme_boss' ? 3780 : 2750)));
+
+        const hpMult = stageMultiplier;
+        const dmgMult = stageMultiplier <= 3.45 ? stageMultiplier : (3.45 + (stageMultiplier - 3.45) * 0.14);
+        const spdMult = Math.min(4.2, stageMultiplier);
 
         if (type === 'club') {
             this.w = 38;
             this.h = 50;
-            this.maxHp = Math.round(55 * stageMultiplier);
-            this.speed = 2.2 + (stageMultiplier - 1) * 0.3;
-            this.damage = Math.round(14 * stageMultiplier);
+            this.maxHp = Math.round(55 * hpMult);
+            this.speed = 2.2 + (spdMult - 1) * 0.3;
+            this.damage = Math.round(14 * dmgMult);
             this.goldDrop = [2, 3];
             this.patrolRange = 130;
         } else if (type === 'archer') {
             this.w = 36;
             this.h = 48;
-            this.maxHp = Math.round(42 * stageMultiplier);
+            this.maxHp = Math.round(42 * hpMult);
             this.speed = 1.6;
-            this.damage = Math.round(12 * stageMultiplier);
+            this.damage = Math.round(12 * dmgMult);
             this.goldDrop = [2, 4];
             this.patrolRange = 80;
         } else if (type === 'bomber') {
             this.w = 38;
             this.h = 50;
-            this.maxHp = Math.round(58 * stageMultiplier);
+            this.maxHp = Math.round(58 * hpMult);
             this.speed = 1.65;
-            this.damage = Math.round(20 * stageMultiplier);
+            this.damage = Math.round(20 * dmgMult);
             this.goldDrop = [3, 5];
             this.patrolRange = 110;
         } else if (type === 'brute') {
             this.w = 46;
             this.h = 58;
-            this.maxHp = Math.round(105 * stageMultiplier);
-            this.speed = 1.55 + (stageMultiplier - 1) * 0.12;
-            this.damage = Math.round(22 * stageMultiplier);
+            this.maxHp = Math.round(105 * hpMult);
+            this.speed = 1.55 + (spdMult - 1) * 0.12;
+            this.damage = Math.round(22 * dmgMult);
             this.goldDrop = [4, 6];
             this.patrolRange = 100;
         } else if (type === 'ninja') {
             this.w = 34;
             this.h = 46;
-            this.maxHp = Math.round(48 * stageMultiplier);
-            this.speed = 3.15 + (stageMultiplier - 1) * 0.2;
-            this.damage = Math.round(16 * stageMultiplier);
+            this.maxHp = Math.round(48 * hpMult);
+            this.speed = 3.15 + (spdMult - 1) * 0.2;
+            this.damage = Math.round(16 * dmgMult);
             this.goldDrop = [3, 5];
             this.patrolRange = 140;
         } else if (type === 'shaman') {
             this.w = 36;
             this.h = 52;
-            this.maxHp = Math.round(52 * stageMultiplier);
+            this.maxHp = Math.round(52 * hpMult);
             this.speed = 1.45;
-            this.damage = Math.round(15 * stageMultiplier);
+            this.damage = Math.round(15 * dmgMult);
             this.goldDrop = [3, 5];
             this.patrolRange = 80;
         } else if (type === 'boss') {
             this.w = 78;
             this.h = 96;
-            this.maxHp = 550;
+            this.maxHp = (bossOpts && bossOpts.bossHp) || 550;
             this.speed = 2.6;
-            this.damage = 26;
+            this.damage = (bossOpts && bossOpts.bossDmg) || 26;
             this.goldDrop = [12, 16];
             this.patrolRange = 260;
             this.bossSkillTimer = 140;
         } else if (type === 'final_boss') {
             this.w = 84;
             this.h = 102;
-            this.maxHp = 950;
+            this.maxHp = (bossOpts && bossOpts.bossHp) || 950;
             this.speed = 2.75;
-            this.damage = 30;
+            this.damage = (bossOpts && bossOpts.bossDmg) || 30;
             this.goldDrop = [22, 30];
             this.patrolRange = 300;
             this.bossSkillTimer = 115;
@@ -2766,20 +3341,30 @@ class Goblin {
         } else if (type === 'overlord_boss') {
             this.w = 92;
             this.h = 110;
-            this.maxHp = 1350;
+            this.maxHp = (bossOpts && bossOpts.bossHp) || 1350;
             this.speed = 2.9;
-            this.damage = 34;
+            this.damage = (bossOpts && bossOpts.bossDmg) || 34;
             this.goldDrop = [28, 36];
             this.patrolRange = 360;
             this.bossSkillTimer = 105;
             this.orbTimer = 80;
+        } else if (type === 'supreme_boss') {
+            this.w = 98;
+            this.h = 118;
+            this.maxHp = (bossOpts && bossOpts.bossHp) || 4800;
+            this.speed = 3.1;
+            this.damage = (bossOpts && bossOpts.bossDmg) || 54;
+            this.goldDrop = [40, 52];
+            this.patrolRange = 420;
+            this.bossSkillTimer = 95;
+            this.orbTimer = 72;
         }
 
         this.hp = this.maxHp;
     }
 
     isBossType() {
-        return this.type === 'boss' || this.type === 'final_boss' || this.type === 'overlord_boss';
+        return this.type === 'boss' || this.type === 'final_boss' || this.type === 'overlord_boss' || this.type === 'supreme_boss';
     }
 
     update(stage) {
@@ -3011,8 +3596,19 @@ class Goblin {
                 this.bossSkillTimer = Math.min(this.bossSkillTimer, 45);
                 game.screenShake = 12;
                 sfx.play('slam');
-                addFloatingText("RAJA GOBLIN MURKA!", this.x + this.w / 2, this.y - 26, '#f43f5e', true);
+                addFloatingText(this.bossName ? `${this.bossName} MURKA!` : "RAJA GOBLIN MURKA!", this.x + this.w / 2, this.y - 26, '#f43f5e', true);
                 spawnParticles(this.x + this.w / 2, this.y + this.h / 2, '#f43f5e', 24);
+
+                if (this.bossOpts && Array.isArray(this.bossOpts.summonPositions) && !this.summonedGuards) {
+                    this.summonedGuards = true;
+                    const mult = Math.max(1.75, this.stageMult * 0.72);
+                    this.bossOpts.summonPositions.forEach(sp => {
+                        enemies.push(new Goblin(sp.type, sp.x, sp.y, mult));
+                        spawnParticles(sp.x, sp.y + 20, '#a855f7', 16);
+                    });
+                    addFloatingText("PENGAWAL TAMBANG DIPANGGIL!", this.x + this.w / 2, this.y - 54, '#c084fc', true);
+                    updateHUD();
+                }
             }
 
             if (absDistX < 850) {
@@ -3070,7 +3666,7 @@ class Goblin {
                 }
             }
         } else if (this.type === 'final_boss') {
-            // Fase 2 Kaisar Kraven + Pemanggilan 2 Pengawal Elit sekali saja
+            // Fase 2 Boss + Pemanggilan 2 Pengawal Elit sekali saja
             if (!this.enraged && this.hp <= this.maxHp * 0.5) {
                 this.enraged = true;
                 this.speed *= 1.25;
@@ -3078,17 +3674,19 @@ class Goblin {
                 this.orbTimer = 35;
                 game.screenShake = 14;
                 sfx.play('slam');
-                addFloatingText("KAISAR KRAVEN MURKA!", this.x + this.w / 2, this.y - 28, '#f43f5e', true);
+                addFloatingText(this.bossName ? `${this.bossName} MURKA!` : "KAISAR KRAVEN MURKA!", this.x + this.w / 2, this.y - 28, '#f43f5e', true);
                 spawnParticles(this.x + this.w / 2, this.y + this.h / 2, '#f97316', 28);
 
                 if (!this.summonedGuards) {
                     this.summonedGuards = true;
-                    const mult = 1.75;
-                    const g1 = new Goblin('ninja', 2800, 540, mult);
-                    const g2 = new Goblin('club', 3750, 540, mult);
-                    enemies.push(g1, g2);
-                    spawnParticles(2800, 560, '#a855f7', 16);
-                    spawnParticles(3750, 560, '#a855f7', 16);
+                    const mult = this.bossOpts ? Math.max(1.75, this.stageMult * 0.72) : 1.75;
+                    const guardList = (this.bossOpts && Array.isArray(this.bossOpts.summonPositions))
+                        ? this.bossOpts.summonPositions
+                        : [{ type: 'ninja', x: 2800, y: 540 }, { type: 'club', x: 3750, y: 540 }];
+                    guardList.forEach(sp => {
+                        enemies.push(new Goblin(sp.type, sp.x, sp.y, mult));
+                        spawnParticles(sp.x, sp.y + 20, '#a855f7', 16);
+                    });
                     addFloatingText("PENGAWAL KAISAR MUNCUL!", this.x + this.w / 2, this.y - 54, '#c084fc', true);
                     updateHUD();
                 }
@@ -3191,17 +3789,19 @@ class Goblin {
                 this.orbTimer = 30;
                 game.screenShake = 14;
                 sfx.play('slam');
-                addFloatingText("OVERLORD MALAKOR MURKA!", this.x + this.w / 2, this.y - 30, '#f43f5e', true);
+                addFloatingText(this.bossName ? `${this.bossName} MURKA!` : "OVERLORD MALAKOR MURKA!", this.x + this.w / 2, this.y - 30, '#f43f5e', true);
                 spawnParticles(this.x + this.w / 2, this.y + this.h / 2, '#c084fc', 28);
 
                 if (!this.summonedGuards) {
                     this.summonedGuards = true;
-                    const mult = 1.9;
-                    const g1 = new Goblin('ninja', 2820, 540, mult);
-                    const g2 = new Goblin('bomber', 3820, 540, mult);
-                    enemies.push(g1, g2);
-                    spawnParticles(2820, 560, '#a855f7', 16);
-                    spawnParticles(3820, 560, '#fb7185', 16);
+                    const mult = this.bossOpts ? Math.max(1.9, this.stageMult * 0.72) : 1.9;
+                    const guardList = (this.bossOpts && Array.isArray(this.bossOpts.summonPositions))
+                        ? this.bossOpts.summonPositions
+                        : [{ type: 'ninja', x: 2820, y: 540 }, { type: 'bomber', x: 3820, y: 540 }];
+                    guardList.forEach(sp => {
+                        enemies.push(new Goblin(sp.type, sp.x, sp.y, mult));
+                        spawnParticles(sp.x, sp.y + 20, sp.type === 'bomber' ? '#fb7185' : '#a855f7', 16);
+                    });
                     addFloatingText("GARDA GERHANA DIPANGGIL!", this.x + this.w / 2, this.y - 56, '#c084fc', true);
                     updateHUD();
                 }
@@ -3306,6 +3906,138 @@ class Goblin {
                     }
                 }
             }
+        } else if (this.type === 'supreme_boss') {
+            // Fase 2 (<= 60% HP): Murka + Pengawal Astral
+            if (!this.enraged && this.hp <= this.maxHp * 0.6) {
+                this.enraged = true;
+                this.speed *= 1.2;
+                this.bossSkillTimer = Math.min(this.bossSkillTimer, 30);
+                this.orbTimer = 26;
+                game.screenShake = 16;
+                sfx.play('slam');
+                addFloatingText(`${this.bossName || 'KAISAR AGUNG AZHORAK'} MURKA!`, this.x + this.w / 2, this.y - 32, '#f43f5e', true);
+                spawnParticles(this.x + this.w / 2, this.y + this.h / 2, '#e879f9', 30);
+
+                if (!this.summonedGuards && this.bossOpts && Array.isArray(this.bossOpts.summonPositions)) {
+                    this.summonedGuards = true;
+                    const mult = Math.max(2.2, this.stageMult * 0.72);
+                    this.bossOpts.summonPositions.forEach(sp => {
+                        enemies.push(new Goblin(sp.type, sp.x, sp.y, mult));
+                        spawnParticles(sp.x, sp.y + 20, '#e879f9', 16);
+                    });
+                    addFloatingText("PENGAWAL ASTRAL DIPANGGIL!", this.x + this.w / 2, this.y - 58, '#e879f9', true);
+                    updateHUD();
+                }
+            }
+
+            // Fase 3 (<= 30% HP): Mahkota Astral + Dukun Agung Elit
+            if (!this.phase3 && this.hp <= this.maxHp * 0.3) {
+                this.phase3 = true;
+                this.speed *= 1.15;
+                this.bossSkillTimer = Math.min(this.bossSkillTimer, 20);
+                this.orbTimer = 18;
+                game.screenShake = 18;
+                sfx.play('bomb');
+                addFloatingText("FASE AKHIR • MAHKOTA ASTRAL!", this.x + this.w / 2, this.y - 36, '#fde047', true);
+                spawnParticles(this.x + this.w / 2, this.y + this.h / 2, '#fde047', 34);
+
+                if (!this.summonedPhase3) {
+                    this.summonedPhase3 = true;
+                    const shamanMult = Math.max(2.2, this.stageMult * 0.72);
+                    const sx = Math.max(this.arenaMinX + 40, this.arenaSpawnX - 240);
+                    enemies.push(new Goblin('shaman', sx, 540, shamanMult));
+                    spawnParticles(sx, 560, '#e879f9', 20);
+                    updateHUD();
+                }
+            }
+
+            if (absDistX < 1050) {
+                updateBossHUD(this);
+            }
+
+            if (absDistX < 960) {
+                this.facing = distX >= 0 ? 1 : -1;
+                this.bossSkillTimer--;
+                this.orbTimer--;
+
+                if (this.bossSkillTimer <= 0 && this.onGround) {
+                    this.vy = -13.6;
+                    this.vx = this.facing * (this.phase3 ? 9.4 : (this.enraged ? 8.5 : 7.3));
+                    this.onGround = false;
+                    this.bossSkillTimer = this.phase3 ? 85 : (this.enraged ? 105 : 135);
+                    this.windupTimer = this.enraged ? 24 : 30;
+                    addFloatingText("METEOR MAHKOTA FAJAR!", this.x + this.w / 2, this.y - 26, '#fde047', true);
+                } else if (this.orbTimer <= 0 && absDistX > 110 && this.windupTimer === 0) {
+                    this.orbTimer = this.phase3 ? 66 : (this.enraged ? 86 : 112);
+                    const baseAng = Math.atan2(distY, distX);
+                    const fan = this.phase3 ? [-0.36, -0.18, 0, 0.18, 0.36] : [-0.22, 0, 0.22];
+                    fan.forEach(offset => {
+                        const a = baseAng + offset;
+                        projectiles.push({
+                            x: this.x + this.w / 2 + this.facing * 28,
+                            y: this.y + 38,
+                            vx: Math.cos(a) * (this.phase3 ? 9.4 : 8.2),
+                            vy: Math.sin(a) * (this.phase3 ? 9.4 : 8.2),
+                            damage: this.phase3 ? 28 : 22,
+                            color: this.phase3 ? '#fde047' : '#e879f9',
+                            isWave: false,
+                            isOrb: true,
+                            dead: false
+                        });
+                    });
+                    spawnParticles(this.x + this.w / 2, this.y + 38, '#fde047', 12);
+                } else if (absDistX > 88) {
+                    this.vx = this.facing * this.speed;
+                } else {
+                    this.vx = 0;
+                    if (this.attackCooldown <= 0 && this.windupTimer === 0) {
+                        this.windupTimer = this.phase3 ? 15 : 21;
+                    }
+                }
+
+                if (this.windupTimer > 0) {
+                    if (this.windupTimer === 1 && !this.onGround && Math.abs(this.vy) > 0) {
+                        // Tunggu hingga menyentuh arena
+                    } else {
+                        this.windupTimer--;
+                    }
+                    if (this.windupTimer === 0) {
+                        this.attackCooldown = this.phase3 ? 32 : (this.enraged ? 40 : 48);
+                        game.screenShake = 15;
+                        sfx.play('slam');
+                        if (absDistX < 130 && Math.abs(distY) < 110) {
+                            player.takeDamage(this.damage, this.facing * 12);
+                        }
+                        const waveSpeed = this.phase3 ? 10.2 : (this.enraged ? 9.0 : 7.5);
+                        [-1, 1].forEach(dir => {
+                            projectiles.push({
+                                x: this.x + this.w / 2 + dir * 36,
+                                y: this.y + this.h - 16,
+                                vx: dir * waveSpeed,
+                                vy: 0,
+                                damage: this.phase3 ? 30 : 24,
+                                color: '#fde047',
+                                isWave: true,
+                                dead: false
+                            });
+                            if (this.enraged) {
+                                projectiles.push({
+                                    x: this.x + this.w / 2 + dir * 26,
+                                    y: this.y + 24,
+                                    vx: dir * 6.8,
+                                    vy: -3.6,
+                                    damage: 22,
+                                    color: '#e879f9',
+                                    isWave: false,
+                                    isOrb: true,
+                                    dead: false
+                                });
+                            }
+                        });
+                        spawnParticles(this.x + this.w / 2, this.y + this.h, '#fde047', 26);
+                    }
+                }
+            }
         }
 
         // Gravitasi & Platform Musuh
@@ -3333,7 +4065,7 @@ class Goblin {
 
         // Batasi area gerak Boss di dalam Arena & cegah goblin keluar batas dunia
         if (this.isBossType()) {
-            const minBossX = this.type === 'overlord_boss' ? 2480 : (this.type === 'final_boss' ? 2520 : 2130);
+            const minBossX = this.arenaMinX;
             const maxBossX = stage.worldWidth - this.w - 20;
             if (this.x < minBossX) {
                 this.x = minBossX;
@@ -3369,7 +4101,7 @@ class Goblin {
         // Anti-softlock: jika goblin terjatuh ke jurang, anggap gugur (Boss kembali ke tengah arena)
         if (this.y > VIEW_HEIGHT + 80) {
             if (this.isBossType()) {
-                this.x = this.type === 'overlord_boss' ? 3550 : (this.type === 'final_boss' ? 3400 : 2750);
+                this.x = this.arenaSpawnX;
                 this.y = 480;
                 this.vx = 0;
                 this.vy = 0;
@@ -3446,7 +4178,9 @@ class Goblin {
         const stage = STAGES[game.stageIndex];
         let count = Math.floor(Math.random() * (this.goldDrop[1] - this.goldDrop[0] + 1)) + this.goldDrop[0];
         if (!droppedInVoid && game.comboCount >= 5) count += 1;
-        const coinValue = this.isBossType() ? 15 : (10 + game.stageIndex * 4);
+        const coinValue = this.isBossType()
+            ? (game.stageIndex < 8 ? 15 : 24 + (game.stageIndex - 7) * 3)
+            : (game.stageIndex < 8 ? 10 + game.stageIndex * 4 : 38 + (game.stageIndex - 7) * 3);
 
         if (droppedInVoid) {
             const bonusGold = count * coinValue;
@@ -3471,12 +4205,13 @@ class Goblin {
             }
 
             if (Math.random() < 0.35 || this.isBossType()) {
+                const orbHeal = Math.max(22, Math.round((player ? player.maxHp : 100) * 0.16));
                 coins.push({
                     x: this.x + this.w / 2,
                     y: this.y + this.h / 2,
                     vx: (Math.random() - 0.5) * 4,
                     vy: -6,
-                    value: 22,
+                    value: orbHeal,
                     type: 'heal',
                     life: 0
                 });
@@ -3516,11 +4251,14 @@ class Goblin {
         if (this.windupTimer > 0) {
             if (this.isBossType()) {
                 ctx.save();
-                ctx.fillStyle = this.type === 'overlord_boss' ? 'rgba(192, 132, 252, 0.25)' : (this.type === 'final_boss' ? 'rgba(249, 115, 22, 0.22)' : 'rgba(244, 63, 94, 0.18)');
+                ctx.fillStyle = this.type === 'supreme_boss'
+                    ? 'rgba(250, 204, 21, 0.28)'
+                    : (this.type === 'overlord_boss' ? 'rgba(192, 132, 252, 0.25)' : (this.type === 'final_boss' ? 'rgba(249, 115, 22, 0.22)' : 'rgba(244, 63, 94, 0.18)'));
                 ctx.strokeStyle = 'rgba(251, 191, 36, 0.78)';
                 ctx.lineWidth = 2;
                 ctx.beginPath();
-                ctx.ellipse(cx, this.y + this.h, this.type === 'overlord_boss' ? 112 : (this.type === 'final_boss' ? 98 : 88), 12, 0, 0, Math.PI * 2);
+                const teleRx = this.type === 'supreme_boss' ? 128 : (this.type === 'overlord_boss' ? 112 : (this.type === 'final_boss' ? 98 : 88));
+                ctx.ellipse(cx, this.y + this.h, teleRx, 12, 0, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.stroke();
                 ctx.restore();
@@ -3757,6 +4495,96 @@ class Goblin {
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
                 ctx.beginPath();
                 ctx.roundRect(-40, -58, 82, 110, 14);
+                ctx.fill();
+            }
+        } else if (this.type === 'supreme_boss') {
+            // --- VISUAL TRUE FINAL BOSS KAISAR AGUNG AZHORAK ---
+            if (this.enraged) {
+                ctx.fillStyle = this.phase3 ? 'rgba(253, 224, 71, 0.28)' : 'rgba(232, 121, 249, 0.24)';
+                ctx.beginPath();
+                ctx.arc(0, -6, 74 + Math.sin(this.animTime * 2.4) * 6, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Cincin Astral Ganda di belakang Mahkota Kaisar
+            ctx.strokeStyle = this.phase3 ? '#fde047' : '#e879f9';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(-2, -42, 38, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.72)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(-2, -42, 46, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Jubah Agung Ungu-Crimson Kaisar
+            ctx.fillStyle = '#3b0764';
+            ctx.beginPath();
+            ctx.moveTo(-42, -28);
+            ctx.lineTo(-60, 56);
+            ctx.lineTo(30, 56);
+            ctx.closePath();
+            ctx.fill();
+
+            // Armor Astral Emas & Obsidian
+            ctx.fillStyle = '#070a14';
+            ctx.beginPath();
+            ctx.roundRect(-36, -30, 72, 68, 16);
+            ctx.fill();
+            ctx.strokeStyle = '#fde047';
+            ctx.lineWidth = 3.2;
+            ctx.strokeRect(-32, -14, 64, 34);
+
+            // Inti Mahkota Fajar di Dada
+            ctx.fillStyle = this.phase3 ? '#fde047' : '#e879f9';
+            ctx.beginPath();
+            ctx.arc(0, 3, 11, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#22d3ee';
+            ctx.beginPath();
+            ctx.arc(0, 3, 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Kepala Kaisar Agung & Mahkota Fajar 3 Puncak
+            ctx.fillStyle = '#065f46';
+            ctx.beginPath();
+            ctx.arc(0, -42, 23, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#fde047';
+            ctx.beginPath();
+            ctx.moveTo(-20, -56);
+            ctx.lineTo(-28, -82);
+            ctx.lineTo(-8, -62);
+            ctx.lineTo(0, -88);
+            ctx.lineTo(8, -62);
+            ctx.lineTo(28, -82);
+            ctx.lineTo(20, -56);
+            ctx.closePath();
+            ctx.fill();
+
+            // Mata Kaisar Agung Menyala
+            ctx.fillStyle = this.phase3 ? '#fde047' : '#67e8f9';
+            ctx.fillRect(6, -46, 11, 5.5);
+
+            // Pedang Raksasa Astral Kaisar Agung
+            ctx.save();
+            if (this.windupTimer > 0) ctx.rotate(-0.74);
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(20, -58, 8, 96);
+            ctx.fillStyle = this.phase3 ? '#fde047' : '#e879f9';
+            ctx.beginPath();
+            ctx.moveTo(22, -60);
+            ctx.quadraticCurveTo(68, -52, 54, -8);
+            ctx.quadraticCurveTo(44, -38, 22, -40);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+
+            if (this.hitFlash > 0) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.48)';
+                ctx.beginPath();
+                ctx.roundRect(-44, -64, 90, 118, 16);
                 ctx.fill();
             }
         } else if (this.type === 'bomber') {
@@ -4118,8 +4946,8 @@ function loadStage(index, fullHeal = false, restoreSnapshot = false) {
         player.recalcStats(fullHeal);
     }
 
-    const mult = 1 + index * 0.35;
-    enemies = stage.enemies.map(e => new Goblin(e.type, e.x, e.y, mult));
+    const mult = index < 8 ? (1 + index * 0.35) : (3.45 + (index - 7) * 0.22);
+    enemies = stage.enemies.map(e => new Goblin(e.type, e.x, e.y, mult, e.bossOpts || null));
     chests = (stage.chests || []).map(c => ({ x: c.x, y: c.y, opened: false }));
     checkpoints = (stage.checkpoints || []).map(cp => ({ x: cp.x, y: cp.y, activated: false }));
     coins = [];
@@ -4218,7 +5046,9 @@ function updateShopUI() {
     // Speed
     const costSpd = getUpgradeCost('spd');
     document.getElementById('lvl-spd').textContent = `Lv.${game.upgrades.spdLevel}`;
-    document.getElementById('stat-spd').textContent = `Kecepatan: ${100 + (game.upgrades.spdLevel - 1) * 10}%`;
+    const spdPct = Math.round((player.moveSpeed / 5.4) * 100);
+    const dashCdSec = (player.dashMaxCooldown / 60).toFixed(2);
+    document.getElementById('stat-spd').textContent = `Gerak ${spdPct}% • CD ${dashCdSec}s`;
     document.getElementById('cost-spd').textContent = `${costSpd} Emas`;
 
     // Heal
@@ -4381,9 +5211,9 @@ function updateEndingCG() {
     endingCG.frame++;
 
     const captions = [
-        'Overlord Goblin telah tumbang. Gerhana Abadi sirna di bawah kilauan belati bayangan...',
-        'Untuk pertama kalinya, langit fajar menyambut sang Shadow Assassin...',
-        'Fajar kedamaian tiba. Negeri ini kembali hangat di bawah sinar matahari.'
+        'Kaisar Agung Azhorak telah tumbang. Mahkota Fajar bersinar dan tirai kegelapan pun sirna...',
+        'Dari rimba gelap hingga angkasa badai, langkah sang Shadow Assassin menuntaskan sumpahnya...',
+        'Fajar kedamaian sejati tiba. Negeri ini kembali hangat di bawah sinar matahari abadi.'
     ];
 
     let step = 0;
@@ -4810,10 +5640,13 @@ function triggerVictory() {
     const mm = String(Math.floor(timeSec / 60)).padStart(2, '0');
     const ss = String(timeSec % 60).padStart(2, '0');
     const maxChests = STAGES.reduce((acc, s) => acc + (s.chests ? s.chests.length : 0), 0);
+    const parTimeSec = Math.max(720, STAGES.length * 60);
+    const dmgDivisor = Math.max(24, STAGES.length * 10);
+    const chestWeight = STAGES.length > 10 ? 2 : 3;
     const rankScore = 100
-        - Math.min(48, Math.floor(game.damageTaken / 24))
-        - Math.max(0, Math.floor((timeSec - 720) / 30)) * 3
-        + game.secretsFound * 3
+        - Math.min(48, Math.floor(game.damageTaken / dmgDivisor))
+        - Math.max(0, Math.floor((timeSec - parTimeSec) / 45)) * 3
+        + game.secretsFound * chestWeight
         + (game.maxCombo >= 8 ? 8 : (game.maxCombo >= 4 ? 4 : 0));
 
     let rank = 'C';
@@ -4845,7 +5678,7 @@ function triggerVictory() {
     icon.className = 'fa-solid fa-trophy';
     document.getElementById('end-sub').textContent = `SELURUH ${STAGES.length} STAGE DITAKLUKKAN`;
     document.getElementById('end-title').textContent = 'SANG MASTER ASSASSIN!';
-    document.getElementById('end-desc').textContent = 'Selamat! Dari Hutan Gelap hingga Tahta Gerhana, kamu telah menumbangkan Grommash, Kraven, dan Overlord Malakor!';
+    document.getElementById('end-desc').textContent = 'Selamat! Lintas 6 Babak penuh rintangan, kamu telah menumbangkan para Panglima Goblin hingga Kaisar Agung Azhorak!';
     document.getElementById('end-kills').textContent = game.totalKills;
     document.getElementById('end-gold').textContent = game.totalGoldEarned;
 
@@ -4869,8 +5702,8 @@ function triggerVictory() {
 function openChest(ch) {
     if (ch.opened) return;
     ch.opened = true;
-    const goldBonus = 35 + game.stageIndex * 10;
-    const healBonus = 25;
+    const goldBonus = 35 + game.stageIndex * (game.stageIndex < 8 ? 10 : 12);
+    const healBonus = Math.max(25, Math.round((player ? player.maxHp : 100) * 0.25));
     game.gold += goldBonus;
     game.totalGoldEarned += goldBonus;
     game.secretsFound++;
@@ -5208,23 +6041,32 @@ function drawGame() {
     ctx.fillStyle = skyGradientCache[game.stageIndex];
     ctx.fillRect(0, 0, VIEW_WIDTH, VIEW_HEIGHT);
 
-    // Bulan Purnama / Aura Kristal / Gerhana Abadi
+    // Bulan Purnama / Aura Kristal / Gerhana Abadi / Matahari Astral
+    const theme = stage.bgStyle || 'forest';
+    const isEclipseTheme = theme === 'eclipse' || theme === 'astral';
     ctx.save();
     ctx.fillStyle = stage.ambientColor;
-    ctx.globalAlpha = game.stageIndex === 7 ? 0.2 : 0.15;
+    ctx.globalAlpha = isEclipseTheme ? 0.2 : 0.15;
     ctx.beginPath();
-    ctx.arc(VIEW_WIDTH - 220, 150, game.stageIndex === 7 ? 102 : 95, 0, Math.PI * 2);
+    ctx.arc(VIEW_WIDTH - 220, 150, isEclipseTheme ? 102 : 95, 0, Math.PI * 2);
     ctx.fill();
-    ctx.globalAlpha = game.stageIndex === 7 ? 0.72 : 0.35;
+    ctx.globalAlpha = isEclipseTheme ? 0.72 : 0.35;
     ctx.beginPath();
-    ctx.arc(VIEW_WIDTH - 220, 150, game.stageIndex === 7 ? 54 : 52, 0, Math.PI * 2);
+    ctx.arc(VIEW_WIDTH - 220, 150, isEclipseTheme ? 54 : 52, 0, Math.PI * 2);
     ctx.fill();
-    if (game.stageIndex === 7) {
+    if (isEclipseTheme) {
         ctx.globalAlpha = 1;
         ctx.fillStyle = '#050312';
         ctx.beginPath();
         ctx.arc(VIEW_WIDTH - 220, 150, 44, 0, Math.PI * 2);
         ctx.fill();
+        if (theme === 'astral') {
+            ctx.strokeStyle = 'rgba(250, 204, 21, 0.55)';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.arc(VIEW_WIDTH - 220, 150, 47, 0, Math.PI * 2);
+            ctx.stroke();
+        }
     }
     ctx.restore();
 
@@ -5234,38 +6076,42 @@ function drawGame() {
         ctx.translate((Math.random() - 0.5) * game.screenShake * 2, (Math.random() - 0.5) * game.screenShake * 2);
     }
 
-    // 2. Siluet Parallax Sesuai Tema 8 Stage
+    // 2. Siluet Parallax Sesuai 15 Bioma (Stages 1 - 30)
     ctx.save();
     ctx.fillStyle = 'rgba(8, 10, 20, 0.55)';
     bgProps.forEach((prop, idx) => {
         const px = prop.x - game.cameraX * 0.45;
         if (px > -120 && px < VIEW_WIDTH + 120) {
-            if (game.stageIndex === 0) {
+            if (theme === 'forest') {
                 // Siluet Pohon Hutan Gelap
+                ctx.fillStyle = 'rgba(8, 10, 20, 0.55)';
                 ctx.fillRect(px, 610 - prop.h, prop.w * 0.4, prop.h);
                 ctx.beginPath();
                 ctx.arc(px + prop.w * 0.2, 610 - prop.h, prop.w, 0, Math.PI * 2);
                 ctx.fill();
-            } else if (game.stageIndex === 1) {
+            } else if (theme === 'cave') {
                 // Stalaktit Gua Goblin
+                ctx.fillStyle = 'rgba(8, 10, 20, 0.55)';
                 ctx.beginPath();
                 ctx.moveTo(px, 0);
                 ctx.lineTo(px + prop.w, 0);
                 ctx.lineTo(px + prop.w / 2, prop.h * 1.3);
                 ctx.closePath();
                 ctx.fill();
-            } else if (game.stageIndex === 2) {
+            } else if (theme === 'fortress') {
                 // Pilar Benteng Goblin
+                ctx.fillStyle = 'rgba(8, 10, 20, 0.55)';
                 ctx.fillRect(px, 610 - prop.h * 1.5, prop.w * 0.8, prop.h * 1.5);
-            } else if (game.stageIndex === 3) {
+            } else if (theme === 'cliff') {
                 // Puncak Tebing Jurang Kabut
+                ctx.fillStyle = 'rgba(8, 10, 20, 0.55)';
                 ctx.beginPath();
                 ctx.moveTo(px - 20, 620);
                 ctx.lineTo(px + prop.w * 0.9, 610 - prop.h * 1.4);
                 ctx.lineTo(px + prop.w * 2.0, 620);
                 ctx.closePath();
                 ctx.fill();
-            } else if (game.stageIndex === 4) {
+            } else if (theme === 'temple') {
                 // Obelisk Kuil Obsidian + Rune Ungu
                 const oh = prop.h * 1.45;
                 const ow = prop.w * 0.72;
@@ -5274,9 +6120,8 @@ function drawGame() {
                 if (idx % 2 === 0) {
                     ctx.fillStyle = 'rgba(192, 132, 252, 0.28)';
                     ctx.fillRect(px + ow * 0.42, 610 - oh * 0.75, ow * 0.16, oh * 0.45);
-                    ctx.fillStyle = 'rgba(8, 10, 20, 0.55)';
                 }
-            } else if (game.stageIndex === 5) {
+            } else if (theme === 'dawn') {
                 // Siluet Pegunungan Puncak Fajar
                 ctx.fillStyle = 'rgba(22, 10, 24, 0.65)';
                 ctx.beginPath();
@@ -5285,8 +6130,8 @@ function drawGame() {
                 ctx.lineTo(px + prop.w * 2.4, 620);
                 ctx.closePath();
                 ctx.fill();
-            } else if (game.stageIndex === 6) {
-                // Puncak Vulkanik & Rekahan Lava (Jembatan Magma)
+            } else if (theme === 'volcano') {
+                // Puncak Vulkanik & Rekahan Lava
                 ctx.fillStyle = 'rgba(30, 8, 8, 0.72)';
                 ctx.beginPath();
                 ctx.moveTo(px - 30, 620);
@@ -5298,8 +6143,92 @@ function drawGame() {
                     ctx.fillStyle = 'rgba(249, 115, 22, 0.28)';
                     ctx.fillRect(px + prop.w * 0.9, 610 - prop.h * 0.85, 4, prop.h * 0.85);
                 }
+            } else if (theme === 'swamp') {
+                // Pohon Rawa Beracun & Kabut Asam Hijau
+                ctx.fillStyle = 'rgba(6, 20, 14, 0.68)';
+                ctx.fillRect(px, 610 - prop.h * 0.95, prop.w * 0.36, prop.h * 0.95);
+                ctx.fillRect(px - prop.w * 0.35, 610 - prop.h * 0.65, prop.w * 0.95, prop.w * 0.14);
+                if (idx % 2 === 0) {
+                    ctx.fillStyle = 'rgba(74, 222, 128, 0.16)';
+                    ctx.beginPath();
+                    ctx.ellipse(px + prop.w * 0.4, 595, prop.w * 1.5, 16, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } else if (theme === 'mushroom') {
+                // Jamur Raksasa Bercahaya
+                const mh = prop.h * 0.9;
+                ctx.fillStyle = 'rgba(18, 10, 32, 0.68)';
+                ctx.fillRect(px + prop.w * 0.3, 610 - mh, prop.w * 0.4, mh);
+                ctx.fillStyle = idx % 2 === 0 ? 'rgba(168, 85, 247, 0.32)' : 'rgba(56, 189, 248, 0.28)';
+                ctx.beginPath();
+                ctx.arc(px + prop.w * 0.5, 610 - mh, prop.w * 0.9, Math.PI, 0);
+                ctx.closePath();
+                ctx.fill();
+            } else if (theme === 'forge') {
+                // Cerobong Tungku Mesiu & Bara Api
+                const fh = prop.h * 1.35;
+                const fw = prop.w * 0.78;
+                ctx.fillStyle = 'rgba(22, 10, 8, 0.74)';
+                ctx.fillRect(px, 610 - fh, fw, fh);
+                if (idx % 2 === 0) {
+                    ctx.fillStyle = 'rgba(251, 146, 60, 0.32)';
+                    ctx.fillRect(px + fw * 0.25, 610 - fh * 0.5, fw * 0.5, fh * 0.25);
+                }
+            } else if (theme === 'glacier') {
+                // Puncak Kristal Gletser Es
+                ctx.fillStyle = 'rgba(10, 28, 48, 0.68)';
+                ctx.beginPath();
+                ctx.moveTo(px - 18, 620);
+                ctx.lineTo(px + prop.w * 0.55, 610 - prop.h * 1.55);
+                ctx.lineTo(px + prop.w * 1.3, 620);
+                ctx.closePath();
+                ctx.fill();
+                if (idx % 2 === 0) {
+                    ctx.fillStyle = 'rgba(125, 211, 252, 0.24)';
+                    ctx.beginPath();
+                    ctx.moveTo(px + prop.w * 0.55, 610 - prop.h * 1.55);
+                    ctx.lineTo(px + prop.w * 0.9, 620);
+                    ctx.lineTo(px + prop.w * 0.55, 620);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            } else if (theme === 'storm') {
+                // Menara Petir & Kilat Langit
+                const sh = prop.h * 1.5;
+                const sw = prop.w * 0.65;
+                ctx.fillStyle = 'rgba(12, 14, 34, 0.72)';
+                ctx.fillRect(px, 610 - sh, sw, sh);
+                if (idx % 2 === 0) {
+                    ctx.fillStyle = 'rgba(56, 189, 248, 0.34)';
+                    ctx.fillRect(px + sw * 0.45, 80, 3, 530 - sh);
+                }
+            } else if (theme === 'sky') {
+                // Pilar Langit & Gumpalan Awan Melayang
+                ctx.fillStyle = 'rgba(186, 230, 253, 0.14)';
+                ctx.beginPath();
+                ctx.ellipse(px + prop.w * 0.5, 420 - (idx % 3) * 45, prop.w * 1.8, 22, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = 'rgba(15, 32, 54, 0.58)';
+                ctx.fillRect(px + prop.w * 0.2, 610 - prop.h * 1.15, prop.w * 0.6, prop.h * 1.15);
+            } else if (theme === 'astral') {
+                // Obelisk Astral Melayang + Rune Fajar Emas
+                const oh = prop.h * 1.25;
+                const ow = prop.w * 0.68;
+                const lift = 65 + (idx % 3) * 20;
+                ctx.fillStyle = 'rgba(14, 8, 32, 0.75)';
+                ctx.beginPath();
+                ctx.moveTo(px + ow * 0.5, 610 - lift - oh);
+                ctx.lineTo(px + ow, 610 - lift - oh * 0.25);
+                ctx.lineTo(px + ow * 0.5, 610 - lift);
+                ctx.lineTo(px, 610 - lift - oh * 0.25);
+                ctx.closePath();
+                ctx.fill();
+                if (idx % 2 === 0) {
+                    ctx.fillStyle = 'rgba(250, 204, 21, 0.28)';
+                    ctx.fillRect(px + ow * 0.43, 610 - lift - oh * 0.65, ow * 0.14, oh * 0.36);
+                }
             } else {
-                // Pilar Benteng Tahta Gerhana + Rune Emas
+                // 'eclipse': Pilar Benteng Tahta Gerhana + Rune Emas
                 const oh = prop.h * 1.6;
                 const ow = prop.w * 0.76;
                 ctx.fillStyle = 'rgba(10, 6, 22, 0.76)';
@@ -5929,7 +6858,7 @@ function startFromStage(stageIdx = 0) {
     game.upgrades = {
         atkLevel: 1 + Math.floor(safeIdx * 0.6),
         hpLevel: 1 + Math.floor(safeIdx * 0.6),
-        spdLevel: 1 + Math.floor(safeIdx * 0.4)
+        spdLevel: Math.min(10, 1 + Math.floor(safeIdx * 0.32))
     };
     document.getElementById('start-modal').classList.add('hidden');
     game.state = 'playing';
@@ -5937,20 +6866,73 @@ function startFromStage(stageIdx = 0) {
     sfx.startBGM(safeIdx);
 }
 
-function renderStageSelect() {
+let stageSelectPage = -1;
+let lastMaxUnlockedPage = -1;
+
+function renderStageSelect(preferredPage = null) {
     const bar = document.getElementById('stage-select-bar');
+    const tabsEl = document.getElementById('stage-select-tabs');
     const pills = document.getElementById('stage-select-pills');
     if (!bar || !pills) return;
     const record = loadBestRecord();
     const maxUnlocked = Math.min(STAGES.length - 1, Math.max(0, record.maxStageReached || 0));
     if (maxUnlocked < 1) {
         bar.classList.add('hidden');
+        if (tabsEl) {
+            tabsEl.classList.add('hidden');
+            tabsEl.innerHTML = '';
+        }
         pills.innerHTML = '';
         return;
     }
     bar.classList.remove('hidden');
     pills.innerHTML = '';
-    for (let idx = 0; idx <= maxUnlocked; idx++) {
+
+    if (maxUnlocked < 8 || !tabsEl) {
+        if (tabsEl) {
+            tabsEl.classList.add('hidden');
+            tabsEl.innerHTML = '';
+        }
+        for (let idx = 0; idx <= maxUnlocked; idx++) {
+            const st = STAGES[idx];
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'px-2.5 py-1 rounded-lg bg-slate-800/90 hover:bg-purple-600/80 border border-purple-400/40 text-[11px] font-bold text-slate-100 transition active:scale-95';
+            btn.textContent = `${idx + 1}. ${st.name}`;
+            btn.addEventListener('click', () => startFromStage(idx));
+            pills.appendChild(btn);
+        }
+        return;
+    }
+
+    const PAGE_SIZE = 6;
+    const maxPage = Math.floor(maxUnlocked / PAGE_SIZE);
+    if (preferredPage !== null) {
+        stageSelectPage = Math.max(0, Math.min(maxPage, preferredPage));
+    } else if (stageSelectPage < 0 || stageSelectPage > maxPage || maxPage > lastMaxUnlockedPage) {
+        stageSelectPage = maxPage;
+    }
+    lastMaxUnlockedPage = maxPage;
+
+    tabsEl.classList.remove('hidden');
+    tabsEl.innerHTML = '';
+    for (let p = 0; p <= maxPage; p++) {
+        const startNum = p * PAGE_SIZE + 1;
+        const endNum = Math.min(maxUnlocked + 1, (p + 1) * PAGE_SIZE);
+        const tabBtn = document.createElement('button');
+        tabBtn.type = 'button';
+        const isActive = p === stageSelectPage;
+        tabBtn.className = isActive
+            ? 'px-2 py-0.5 rounded-md bg-purple-600/90 border border-purple-300 text-[10px] font-extrabold text-white transition'
+            : 'px-2 py-0.5 rounded-md bg-slate-800/80 hover:bg-slate-700 border border-slate-600/60 text-[10px] font-bold text-slate-300 transition';
+        tabBtn.textContent = `Stage ${startNum}-${endNum}`;
+        tabBtn.addEventListener('click', () => renderStageSelect(p));
+        tabsEl.appendChild(tabBtn);
+    }
+
+    const rangeStart = stageSelectPage * PAGE_SIZE;
+    const rangeEnd = Math.min(maxUnlocked, rangeStart + PAGE_SIZE - 1);
+    for (let idx = rangeStart; idx <= rangeEnd; idx++) {
         const st = STAGES[idx];
         const btn = document.createElement('button');
         btn.type = 'button';
